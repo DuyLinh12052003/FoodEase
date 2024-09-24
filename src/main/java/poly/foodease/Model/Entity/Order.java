@@ -10,12 +10,13 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @Builder
 public class Order {
     @Id
@@ -65,4 +66,8 @@ public class Order {
     @ManyToOne
     @JoinColumn(name ="coupon_id")
     private Coupon coupon;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "order")
+    private List<OrderDetails> orderDetails;
 }
