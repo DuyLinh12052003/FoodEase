@@ -22,7 +22,9 @@ public class OrderResponse {
     private LocalDateTime updateAt;
     private Double totalPrice;
     private Integer totalQuantity;
-    private ShipMethodResponse ship;
+    private LocalDate paymentDate;
+    private LocalTime paymentTime;
+    private ShipMethodResponse shipMethod;
     private PaymentMethodResponse paymentMethod;
     private UserResponse user;
     private OrderStatusResponse orderStatus;

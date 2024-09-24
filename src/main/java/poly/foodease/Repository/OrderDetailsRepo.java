@@ -1,7 +1,14 @@
 package poly.foodease.Repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import poly.foodease.Model.Entity.OrderDetails;
 import poly.foodease.Model.Entity.OrderStatus;
 
-public interface OrderDetailsRepo extends JpaRepository<OrderStatus, Integer> {
+public interface OrderDetailsRepo extends JpaRepository<OrderDetails, Integer> {
+    @Query("SELECT od FROM OrderDetails od JOIN od.order o WHERE o.orderId = :orderId")
+    Page<OrderDetails> getOrderDetaisByOrderId(@Param("orderId") Integer orderId, Pageable pageable);
 }

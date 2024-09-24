@@ -28,7 +28,7 @@ public class User {
     private String fullname;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "user")
     private List<Order> order;
 
 }

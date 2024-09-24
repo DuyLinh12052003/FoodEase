@@ -19,7 +19,7 @@ import java.util.List;
 public class PaymentMethod {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="payment_method")
+    @Column(name="payment_id")
     private Integer paymentMethodId;
 
     @Column(name="payment_name")
