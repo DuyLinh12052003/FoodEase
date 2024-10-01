@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import poly.foodease.Model.Entity.foodVariations;
+import poly.foodease.Model.Entity.FoodVariations;
 import poly.foodease.Repository.FoodVariationsDao;
 import poly.foodease.Service.FoodVariationsService;
 
@@ -15,25 +15,31 @@ public class FoodVariationsImplement implements FoodVariationsService {
 @Autowired
 FoodVariationsDao foodVariationsDao;
 	@Override
-	public List<foodVariations> findByCategoryMainDishes() {
+	public List<FoodVariations> findByCategoryMainDishes() {
 		// TODO Auto-generated method stub
 		return foodVariationsDao.findByCategoryMainDishes();
 	}
 	@Override
-	public List<foodVariations> findByCategoryDrink() {
+	public List<FoodVariations> findByCategoryDrink() {
 		// TODO Auto-generated method stub
 		return foodVariationsDao.findByCategoryDrink();
 	}
 	@Override
-	public Optional<foodVariations> findById(Integer Id) {
+	public Optional<FoodVariations> findById(Integer Id) {
 		// TODO Auto-generated method stub
 		return foodVariationsDao.findById(Id);
 	}
 	@Override
-	public foodVariations findFoodVariationBySize(Integer id, String sizeName) {
+	public FoodVariations findFoodVariationBySize(Integer id, String sizeName) {
 		// TODO Auto-generated method stub
 		return foodVariationsDao.findFoodVariationBySize(id, sizeName);
 	}
+//	@Override
+//	public List<FoodVariationDTO> findByCategoryMainDishesDTO() {
+//		// TODO Auto-generated method stub
+//		List<FoodVariations> List=foodVariationsDao.findAll();
+//		return FoodvariationMapper.INSTANCE.toDTOList(List);
+//	}
 	
 
 

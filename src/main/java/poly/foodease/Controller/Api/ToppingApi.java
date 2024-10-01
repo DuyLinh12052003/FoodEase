@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import poly.foodease.Model.Entity.toppings;
+import poly.foodease.Model.Entity.Toppings;
 import poly.foodease.Service.ToppingService;
 
 
@@ -19,7 +19,7 @@ public class ToppingApi {
 @Autowired
 ToppingService toppingService;
 	@GetMapping("/findAllTopping") 
-	public ResponseEntity<List<toppings>> findAllTopping ()
+	public ResponseEntity<List<Toppings>> findAllTopping ()
 	{
 		return ResponseEntity.ok(toppingService.findAll());
 	}

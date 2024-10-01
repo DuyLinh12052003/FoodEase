@@ -8,6 +8,7 @@ import poly.foodease.Model.Entity.Foods;
 import poly.foodease.Repository.FoodsDao;
 import poly.foodease.Service.FoodsService;
 
+
 @Service
 public class FoodImplement implements FoodsService {
 	

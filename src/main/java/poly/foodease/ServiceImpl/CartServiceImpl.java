@@ -3,11 +3,12 @@ package poly.foodease.ServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import poly.foodease.Model.Entity.FoodVariations;
 import poly.foodease.Model.Response.Cart;
 import poly.foodease.Model.Response.CartItem;
 import poly.foodease.Service.CartService;
 import poly.foodease.Service.FoodVariationsService;
-import poly.foodease.Model.Entity.foodVariations;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ public class CartServiceImpl implements CartService {
         Cart cart = cartStore.getOrDefault(cartId, new Cart());
         CartItem cartItem = cart.getItems().getOrDefault(foodVaId, new CartItem());
         // Sau này thay bằng foodService
-        foodVariations foodVariation = foodVariationsService.findById(foodVaId)
+        FoodVariations foodVariation = foodVariationsService.findById(foodVaId)
                 .orElseThrow(() -> new EntityNotFoundException("not found FoodVariation"));
         Double priceVa = foodVariation.getFood().getBasePrice()
                 + foodVariation.getFoodSize().getPrice();

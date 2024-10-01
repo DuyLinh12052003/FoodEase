@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.List;
 
 @Data
@@ -30,5 +29,13 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Order> order;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<CouponStorage> couponStorages;
+
+    @OneToMany (mappedBy = "user")
+    @JsonIgnore
+    private List<FoodReview> foodReviews;
 
 }

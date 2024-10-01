@@ -25,8 +25,14 @@ public class Coupon {
     @Column(name="code")
     private String code;
 
+    @Column(name="description")
+    private String description;
+
     @Column(name="discountpercent")
     private Double discountpercent;
+
+    @Column(name="max_discount_amount")
+    private Double maxDiscountAmount;
 
     @Column(name ="start_date")
     private LocalDate startDate;
@@ -35,12 +41,20 @@ public class Coupon {
     private LocalDate endDate;
 
     @Column(name ="use_limit")
-    private Integer userLimit;
+    private Integer useLimit;
 
     @Column(name="used_count")
     private Integer usedCount;
 
+    @Column(name="image_url")
+    private String imageUrl;
+
     @JsonIgnore
     @OneToMany(mappedBy = "coupon")
     private List<Order> orders;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "coupon")
+    private List<CouponStorage> couponStorages;
+
 }
