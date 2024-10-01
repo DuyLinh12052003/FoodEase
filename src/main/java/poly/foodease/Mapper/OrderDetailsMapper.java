@@ -7,7 +7,6 @@ import poly.foodease.Model.Entity.OrderDetails;
 import poly.foodease.Model.Request.OrderDetailsRequest;
 import poly.foodease.Model.Response.OrderDetailsResponse;
 import poly.foodease.Repository.FoodVariationsDao;
-import poly.foodease.Repository.OrderDetailsRepo;
 import poly.foodease.Repository.OrderRepo;
 
 @Mapper(componentModel = "spring")

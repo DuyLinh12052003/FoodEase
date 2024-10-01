@@ -14,10 +14,13 @@ import java.time.LocalDate;
 public class CouponResponse {
     private Integer couponId;
     private String code;
+    private String description;
     private LocalDate startDate;
     private LocalDate endDate;
-    private Integer userLimit;
+    private Integer useLimit;
     private Integer usedCount;
     private Double discountPercent;
+    private Double maxDiscountAmount;
+    private String imageUrl;
 
 }

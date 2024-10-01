@@ -1,15 +1,15 @@
 package poly.foodease.Model.Response;
-import poly.foodease.Model.Entity.foodVariations;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import poly.foodease.Model.Entity.FoodVariations;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CartItem {
     private Integer quantity;
-    private foodVariations foodVariation;
+    private FoodVariations foodVariation;
     private Double price;
 }

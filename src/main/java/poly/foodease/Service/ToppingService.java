@@ -1,12 +1,12 @@
 package poly.foodease.Service;
 
-import poly.foodease.Model.Entity.toppings;
+import poly.foodease.Model.Entity.Toppings;
 
 import java.util.List;
 
 
 public interface ToppingService {
 
-	List<toppings> findAll();
+	List<Toppings> findAll();
 
 }
