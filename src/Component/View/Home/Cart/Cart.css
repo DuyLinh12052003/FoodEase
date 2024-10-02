@@ -1,0 +1,15 @@
+@media (min-width: 500px) {
+    .h-custom {
+        margin-top: 150px;
+    height: 100vh !important;
+    margin-bottom: 50px;
+    }
+    }
+    
+input.formCart-control{
+    width: 60px;
+    font-size: 20px;
+}
+    .card-registration .select-arrow {
+    top: 13px;
+    }
