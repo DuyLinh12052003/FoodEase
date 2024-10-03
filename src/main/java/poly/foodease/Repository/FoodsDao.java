@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import poly.foodease.Model.Entity.Foods;
 
+
 public interface FoodsDao extends JpaRepository<Foods, Integer>{
 
 	@Query("SELECT f FROM Foods f where f.category.categoryId = 1")

@@ -33,6 +33,6 @@ public class OrderDetails {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name="food_variation_id")
-    private foodVariations foodVariations;
+    private FoodVariations foodVariations;
 
 }

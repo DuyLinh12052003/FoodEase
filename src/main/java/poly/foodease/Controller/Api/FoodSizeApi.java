@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import poly.foodease.Model.Entity.foodSize;
+import poly.foodease.Model.Entity.FoodSize;
 import poly.foodease.Service.FoodSizeService;
 
 
@@ -21,13 +21,13 @@ public class FoodSizeApi {
 	@Autowired
 	FoodSizeService foodSizeService;
 	@GetMapping("/findFoodSizeBySize")
-	public ResponseEntity<foodSize> findFoodSizeBySize(@RequestParam String sizeName)
+	public ResponseEntity<FoodSize> findFoodSizeBySize(@RequestParam String sizeName)
 	{
-		foodSize foodSize = foodSizeService.findFoodSizeBySize(sizeName);
+		FoodSize foodSize = foodSizeService.findFoodSizeBySize(sizeName);
 		return ResponseEntity.ok(foodSize);
 	}
 	@GetMapping("/findAllFoodSize")
-	public ResponseEntity<List<foodSize>> findAllFoodSize()
+	public ResponseEntity<List<FoodSize>> findAllFoodSize()
 	{
 		return ResponseEntity.ok(foodSizeService.findAll());
 	}

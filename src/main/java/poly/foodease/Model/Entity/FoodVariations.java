@@ -7,7 +7,14 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,11 +24,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name="food_variations")
-public class foodVariations implements Serializable{
+public class FoodVariations implements Serializable{
 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "food_variation_id")
 	private int foodVariationId;
 	private String imageUrl;
 	private Date createdAt;
@@ -33,14 +39,10 @@ public class foodVariations implements Serializable{
 	private Foods food;
 	
 	@ManyToOne @JoinColumn(name="foodSizeId",insertable = false,updatable = false)
-	private foodSize foodSize;
+	private FoodSize foodSize;
 	
 	@OneToMany (mappedBy = "foodVariations")
 	@JsonIgnore
-	private Set<foodVariationToppings> foodVariationToppings;
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "foodVariations")
-	private List<OrderDetails> orderDetails;
+	private List<FoodVariationToppings> foodVariationToppings;
 
 }
