@@ -26,15 +26,14 @@ public class CartServiceImpl implements CartService {
     }
 
     public Cart addCart(Integer cartId, Integer foodVaId, Integer quantity){
-        System.out.println("Cart Id" + cartId);
-        System.out.println("foodVaId " + foodVaId);
-        System.out.println("quantity" + quantity);
         Cart cart = cartStore.getOrDefault(cartId, new Cart());
         CartItem cartItem = cart.getItems().getOrDefault(foodVaId, new CartItem());
-        // Sau này thay bằng foodService
+       // System.out.println("Cart Item : " + cartItem.getFoodVariation().getFoodVariationId());
         FoodVariations foodVariation = foodVariationsService.findById(foodVaId)
                 .orElseThrow(() -> new EntityNotFoundException("not found FoodVariation"));
-        Double priceVa = foodVariation.getFood().getBasePrice()
+        System.out.println("Food VariationId  :  " + foodVariation.getFoodVariationId());
+        Double priceVa = (foodVariation.getFood().getBasePrice()
+                - (double) foodVariation.getFood().getDiscount() / 100 *foodVariation.getFood().getBasePrice())
                 + foodVariation.getFoodSize().getPrice();
 //                + foodVariation.getFoodVariationToppings().stream()
 //                .mapToDouble(topping -> topping.getToppings().getPrice())
@@ -61,7 +60,7 @@ public class CartServiceImpl implements CartService {
         Double totalPrice = 0.0;
         Cart cart = cartStore.getOrDefault(cartId, new Cart());
         for(Map.Entry<Integer,CartItem> cartItem : cart.getItems().entrySet()){
-            totalPrice = cartItem.getValue().getPrice();
+            totalPrice += cartItem.getValue().getPrice();
         }
         return totalPrice;
     }

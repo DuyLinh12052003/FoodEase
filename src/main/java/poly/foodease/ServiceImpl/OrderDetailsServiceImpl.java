@@ -46,14 +46,11 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
     }
 
     @Override
-    public Page<OrderDetailsResponse> getOrderDetailsByOrderId(Integer orderId, Integer pageCurrent, Integer pageSize, String sortOrder, String sortBy) {
-        Sort sort = Sort.by(new Sort.Order(Objects.equals(sortOrder, "sortOrder") ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy));
-        Pageable pageable = PageRequest.of(pageCurrent, pageSize, sort);
-        Page<OrderDetails> pageOrderDetails = orderDetailsRepo.getOrderDetaisByOrderId(orderId, pageable);
-        List<OrderDetailsResponse> orderDetails = pageOrderDetails.getContent().stream()
+    public List<OrderDetailsResponse> getOrderDetailsByOrderId(Integer orderId) {
+        List<OrderDetailsResponse> orderDetails = orderDetailsRepo.getOrderDetailsByOrderId(orderId).stream()
                 .map(orderDetailsMapper :: convertEnToRes)
                 .collect(Collectors.toList());
-        return new PageImpl<>(orderDetails,pageable,pageOrderDetails.getTotalElements());
+        return orderDetails;
     }
 
     @Override

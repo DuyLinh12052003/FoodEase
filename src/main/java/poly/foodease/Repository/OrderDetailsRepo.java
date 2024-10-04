@@ -8,7 +8,9 @@ import org.springframework.data.repository.query.Param;
 import poly.foodease.Model.Entity.OrderDetails;
 import poly.foodease.Model.Entity.OrderStatus;
 
+import java.util.List;
+
 public interface OrderDetailsRepo extends JpaRepository<OrderDetails, Integer> {
     @Query("SELECT od FROM OrderDetails od JOIN od.order o WHERE o.orderId = :orderId")
-    Page<OrderDetails> getOrderDetaisByOrderId(@Param("orderId") Integer orderId, Pageable pageable);
+    List<OrderDetails> getOrderDetailsByOrderId(@Param("orderId") Integer orderId);
 }

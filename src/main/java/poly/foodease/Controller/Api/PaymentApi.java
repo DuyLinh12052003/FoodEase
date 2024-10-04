@@ -38,6 +38,8 @@ public class PaymentApi {
     ){
         orderInfo = orderInfo + "|couponId:" + couponId;
         Map<String,Object> result = new HashMap<>();
+        System.out.println(orderInfo);
+        System.out.println(totalPrice);
         try {
             result.put("success",true);
             result.put("message","Create Url Payment With VnPay");
