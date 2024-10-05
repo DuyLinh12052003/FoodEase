@@ -1,10 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form"; // Import useForm
 import "./ReservationList.css";
 
-const ReservationAcceptList = () => {
-  const { register, handleSubmit, setValue } = useForm(); // Khởi tạo useForm
+const ReservationAcceptedList = () => {
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -16,7 +14,7 @@ const ReservationAcceptList = () => {
         const response = await axios.get(
           "http://localhost:8080/api/reservations"
         );
-        console.log(response.data);
+        console.log(response.data); // Kiểm tra dữ liệu
         setReservations(response.data);
       } catch (err) {
         setError(err.message);
@@ -30,12 +28,26 @@ const ReservationAcceptList = () => {
 
   const handleUpdateStatus = async (id, newStatus) => {
     try {
-      console.log("Updating status for ID:", id, "to", newStatus);
+      const reservationToUpdate = reservations.find(
+        (reservation) => reservation.reservationId === id
+      );
+
+      // Kiểm tra nếu bàn đã được chấp nhận
+      if (
+        reservationToUpdate.status === "Accepted" &&
+        newStatus === "Accepted"
+      ) {
+        alert(
+          "This reservation has already been accepted and cannot be accepted again."
+        );
+        return; // Dừng hành động nếu bàn đã được chấp nhận
+      }
+
       const response = await axios.patch(
         `http://localhost:8080/api/reservations/${id}/status`,
         { status: newStatus }
       );
-      console.log(response.data); // Kiểm tra dữ liệu trả về
+
       setReservations((prev) =>
         prev.map((reservation) =>
           reservation.reservationId === id
@@ -43,26 +55,19 @@ const ReservationAcceptList = () => {
             : reservation
         )
       );
-      setMessage(`Status updated to ${newStatus}`); // Thông báo thành công
+
+      setMessage(`Status updated to ${newStatus}`);
     } catch (error) {
-      console.error(
-        "Error updating reservation status",
-        error.response || error
-      );
-      setMessage(
-        "Failed to update status: " +
-          (error.response ? error.response.data.message : error.message)
-      );
+      setMessage("Failed to update status");
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const sortedReservations = reservations
+    .filter((reservation) => reservation.status === "Accepted")
+    .sort((a, b) => b.reservationId - a.reservationId);
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="col-12 tm-block-col">
@@ -84,35 +89,22 @@ const ReservationAcceptList = () => {
             </tr>
           </thead>
           <tbody>
-            {reservations
-              .filter((reservation) => reservation.status == "Accepted") // Lọc các reservation đã được accepted
+            {sortedReservations
+              .filter((reservation) => reservation.status == "Accepted")
               .slice()
-              .sort((a, b) => b.reservationId - a.reservationId) // Sắp xếp theo reservationId mới nhất lên trên
-              .map((reservation, index) => (
+              .sort((a, b) => b.reservation - a.reservation)
+              .map((reservation, index, acceptedArray) => (
                 <tr key={reservation.reservationId}>
-                  <th scope="row">
-                    <b>#{index + 1}</b> {/* Sử dụng chỉ số của mảng làm NO. */}
-                  </th>
+                  <th scope="row">#{acceptedArray.length - index}</th>
                   <td>
                     <div
-                      className={`tm-status-circle ${
-                        reservation.status.toLowerCase() === "accepted"
-                          ? "accepted"
-                          : reservation.status.toLowerCase()
-                      }`}
-                    ></div>{" "}
+                      className={`tm-status-circle ${reservation.status.toLowerCase()}`}
+                    ></div>
                     {reservation.status}
                   </td>
-
-                  <td>
-                    <b>{reservation.name}</b>
-                  </td>
-                  <td>
-                    <b>{reservation.email}</b>
-                  </td>
-                  <td>
-                    <b>{reservation.phone}</b>
-                  </td>
+                  <td>{reservation.name}</td>
+                  <td>{reservation.email}</td>
+                  <td>{reservation.phone}</td>
                   <td>{reservation.reservationDate}</td>
                   <td>{reservation.reservationTime}</td>
                   <td>
@@ -120,7 +112,6 @@ const ReservationAcceptList = () => {
                     {reservation.guests === 1 ? "Person" : "Persons"}
                   </td>
                   <td>{reservation.tableName || "N/A"}</td>
-
                   <td>
                     <button
                       onClick={() =>
@@ -132,7 +123,6 @@ const ReservationAcceptList = () => {
                     >
                       Accept
                     </button>
-
                     <button
                       onClick={() =>
                         handleUpdateStatus(
@@ -154,4 +144,4 @@ const ReservationAcceptList = () => {
   );
 };
 
-export default ReservationAcceptList;
+export default ReservationAcceptedList;

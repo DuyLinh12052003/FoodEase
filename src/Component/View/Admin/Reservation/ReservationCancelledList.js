@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "./ReservationList.css";
 
-const ReservationList = () => {
+const ReservationCancelledList = () => {
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -27,53 +27,34 @@ const ReservationList = () => {
   }, []);
 
   const handleUpdateStatus = async (id, newStatus) => {
-    // Tìm kiếm đơn đặt bàn
-    const reservationToUpdate = reservations.find(
-      (reservation) => reservation.reservationId === id
-    );
-
-    // Kiểm tra nếu bàn đã được chấp nhận
-    if (newStatus === "Accepted") {
-      const hasSameReservation = reservations.some(
-        (reservation) =>
-          reservation.status === "Accepted" &&
-          reservation.name === reservationToUpdate.name &&
-          reservation.reservationDate === reservationToUpdate.reservationDate &&
-          reservation.reservationTime === reservationToUpdate.reservationTime
+    try {
+      const reservationToUpdate = reservations.find(
+        (reservation) => reservation.reservationId === id
       );
 
-      if (hasSameReservation) {
+      // Kiểm tra nếu bàn đã được chấp nhận
+      if (
+        reservationToUpdate.status === "Accepted" &&
+        newStatus === "Accepted"
+      ) {
         alert(
-          "This reservation has already been accepted and cannot be accepted again for the same name, date, and time."
+          "This reservation has already been accepted and cannot be accepted again."
         );
         return; // Dừng hành động nếu bàn đã được chấp nhận
       }
-    }
 
-    // Cập nhật trạng thái mới
-    try {
       const response = await axios.patch(
         `http://localhost:8080/api/reservations/${id}/status`,
         { status: newStatus }
       );
 
-      // Cập nhật trạng thái trong state
-      setReservations((prev) => {
-        // Cập nhật đơn với trạng thái mới
-        const updatedReservations = prev.map((reservation) =>
+      setReservations((prev) =>
+        prev.map((reservation) =>
           reservation.reservationId === id
             ? { ...reservation, status: response.data.status }
             : reservation
-        );
-
-        // Loại bỏ đơn nếu đã được chấp nhận hoặc hủy
-        if (newStatus === "Accepted" || newStatus === "Cancelled") {
-          return updatedReservations.filter(
-            (reservation) => reservation.reservationId !== id
-          );
-        }
-        return updatedReservations;
-      });
+        )
+      );
 
       setMessage(`Status updated to ${newStatus}`);
     } catch (error) {
@@ -81,9 +62,8 @@ const ReservationList = () => {
     }
   };
 
-  // Sort reservation list by ID in descending order
   const sortedReservations = reservations
-    .filter((reservation) => reservation.status === "Pending")
+    .filter((reservation) => reservation.status === "Cancelled")
     .sort((a, b) => b.reservationId - a.reservationId);
 
   if (loading) return <div>Loading...</div>;
@@ -92,7 +72,7 @@ const ReservationList = () => {
   return (
     <div className="col-12 tm-block-col">
       <div className="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
-        <h2 className="tm-block-title">Reservation List</h2>
+        <h2 className="tm-block-title">Reservation Cancelled List</h2>
         <table className="table-ReservationList">
           <thead>
             <tr>
@@ -110,12 +90,12 @@ const ReservationList = () => {
           </thead>
           <tbody>
             {sortedReservations
-              .filter((reservation) => reservation.status == "Pending")
+              .filter((reservation) => reservation.status == "Cancelled")
               .slice()
               .sort((a, b) => b.reservation - a.reservation)
-              .map((reservation, index, pendingArray) => (
+              .map((reservation, index, cancelledArray) => (
                 <tr key={reservation.reservationId}>
-                  <th scope="row">#{pendingArray.length - index}</th>
+                  <th scope="row">#{cancelledArray.length - index}</th>
                   <td>
                     <div
                       className={`tm-status-circle ${reservation.status.toLowerCase()}`}
@@ -164,4 +144,4 @@ const ReservationList = () => {
   );
 };
 
-export default ReservationList;
+export default ReservationCancelledList;

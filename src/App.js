@@ -7,7 +7,8 @@ import CouponFormPage from "./Component/View/Admin/Coupon/CouponFormPage";
 import CouponPage from "./Component/View/Admin/Coupon/CouponPage";
 import OrderPage from "./Component/View/Admin/Order/OrderPage";
 import FoodPage from "./Component/View/Admin/Product/FoodPage";
-import ReservationAcceptList from "./Component/View/Admin/Reservation/ReservationAcceptList";
+import ReservationAcceptedList from "./Component/View/Admin/Reservation/ReservationAcceptedList";
+import ReservationCancelledList from "./Component/View/Admin/Reservation/ReservationCancelledList";
 import ReservationList from "./Component/View/Admin/Reservation/ReservationList";
 import UserFormPage from "./Component/View/Admin/User/UserFormPage";
 import UserPage from "./Component/View/Admin/User/UserPage";
@@ -45,8 +46,12 @@ function App() {
             <Route path="users" element={<UserPage />} />
             <Route path="reservation-list" element={<ReservationList />} />
             <Route
+              path="reservation-cancelled-list"
+              element={<ReservationCancelledList />}
+            />
+            <Route
               path="reservation-accepted-list"
-              element={<ReservationAcceptList />}
+              element={<ReservationAcceptedList />}
             />
             <Route path="user/create" element={<UserFormPage />} />
             <Route path="user/update/:userId" element={<UserFormPage />} />

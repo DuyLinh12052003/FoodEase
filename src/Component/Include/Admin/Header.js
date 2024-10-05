@@ -49,6 +49,14 @@ const Header = () => {
                       Reservation Accepted List
                     </NavLink>
                   </li>
+                  <li>
+                    <NavLink
+                      className="dropdown-item"
+                      to="/admin/reservation-cancelled-list"
+                    >
+                      Reservation Cancelled List
+                    </NavLink>
+                  </li>
                 </ul>
               </li>
               <li className="nav-item">
