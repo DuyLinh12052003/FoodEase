@@ -13,6 +13,8 @@ public abstract class ShipMethodMapper {
                 .shipDuration(shipMethod.getShipDuration())
                 .shipFee(shipMethod.getShipFee())
                 .shipDescription(shipMethod.getShipDescription())
+                .shipName(shipMethod.getShipName())
+                .shipStatus(shipMethod.getShipStatus())
                 .build();
     }
 }

@@ -22,6 +22,7 @@ public abstract class OrderDetailsMapper {
                 .orderDetailsId(orderDetails.getOrderDetailsId())
                 .price(orderDetails.getPrice())
                 .quantity(orderDetails.getQuantity())
+                .foodVariations(orderDetails.getFoodVariations())
                 .build();
     }
     public OrderDetails convertReqToEn(OrderDetailsRequest orderDetailsRequest){

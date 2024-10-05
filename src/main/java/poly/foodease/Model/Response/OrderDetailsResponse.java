@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import poly.foodease.Model.Entity.FoodVariations;
 
 @Data
 @AllArgsConstructor
@@ -13,6 +14,6 @@ public class OrderDetailsResponse {
     private Integer orderDetailsId;
     private Double price;
     private Integer quantity;
-   // private FoodVariationRepsonse;
+    private FoodVariations foodVariations;
 
 }

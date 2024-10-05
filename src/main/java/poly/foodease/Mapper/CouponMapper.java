@@ -20,7 +20,7 @@ public abstract class CouponMapper {
                 .maxDiscountAmount(coupon.getMaxDiscountAmount())
                 .description(coupon.getDescription())
                 .discountPercent(coupon.getDiscountpercent())
-                .imageUrl(coupon.getImageUrl())
+                .imageUrl(coupon.getImageUrl() != null ?coupon.getImageUrl() : "" )
                 .build();
     }
 

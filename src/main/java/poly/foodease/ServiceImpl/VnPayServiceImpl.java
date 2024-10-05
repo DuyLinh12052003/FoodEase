@@ -43,6 +43,7 @@ public class VnPayServiceImpl {
         // tao dto paymentInfo de lay du lieu payment cho font-end ;
         request.setCharacterEncoding("UTF-8");
         String totalPrice =request.getParameter("vnp_Amount");
+        System.out.println("Total Price Vn Pay : "+ totalPrice);
         String vnp_PayDate = request.getParameter("vnp_PayDate");
         String vnp_OrderInfo= request.getParameter("vnp_OrderInfo");
         String vnp_TransactionId = request.getParameter("vnp_TransactionId");
@@ -76,7 +77,7 @@ public class VnPayServiceImpl {
             // Xử lý Coupon usedCount và CouponStorage
 //           paymentService.updateCouponStorageAndUsedCount(username,couponId);
 //            // Gửi Email
-//            paymentService.sendEmail(username,orderResponse ,orderDetailResponse );
+            paymentService.sendEmail("huongpham",orderResponse ,orderDetailResponse );
             System.out.println("Payment Success1");
             cartService.removeCart(Integer.valueOf(orderInfo));
         }else{

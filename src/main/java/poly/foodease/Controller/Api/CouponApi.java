@@ -1,13 +1,18 @@
 package poly.foodease.Controller.Api;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.hibernate.Remove;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import poly.foodease.Model.Request.CouponRequest;
+import poly.foodease.Model.Response.CouponResponse;
 import poly.foodease.Repository.CouponRepo;
 import poly.foodease.Service.CouponService;
+import poly.foodease.Utils.FileManageUtils;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +24,8 @@ public class CouponApi {
     CouponService couponService;
     @Autowired
     private CouponRepo couponRepo;
+    @Autowired
+    private FileManageUtils fileManageUtils;
 
     @GetMapping
     public ResponseEntity<Object> getAllCoupon(
@@ -27,7 +34,7 @@ public class CouponApi {
             @RequestParam("sortOrder") String sortOrder,
             @RequestParam("sortBy") String sortBy
     ){
-        System.out.println("Get All Coupon" + couponService.getAllCoupon(pageCurrent,pageSize,sortOrder,sortBy));
+        //System.out.println("Get All Coupon" + couponService.getAllCoupon(pageCurrent,pageSize,sortOrder,sortBy));
         Map<String,Object> result = new HashMap<>();
         try {
             result.put("success",true);
@@ -56,11 +63,23 @@ public class CouponApi {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping
-    public ResponseEntity<Object> createCoupon(@RequestPart("couponRequest")CouponRequest couponRequest){
+    @PostMapping("/{folder}")
+    public ResponseEntity<Object> createCoupon(
+            @PathVariable("folder") String folder,
+            @RequestPart("couponRequest")CouponRequest couponRequest,
+            @RequestPart(value = "couponImage",required = false)MultipartFile[] files) throws IOException {
         Map<String,Object> result = new HashMap<>();
         System.out.println(couponRequest);
+        System.out.println(files);
+
         couponRequest.setImageUrl("123");
+        if(files != null){
+
+           couponRequest.setImageUrl(fileManageUtils.save(folder,files).get(0));
+        }else{
+            System.out.println("file null");
+            couponRequest.setImageUrl(" ");
+        }
         try {
             result.put("success",true);
             result.put("message","Create Coupon");
@@ -73,11 +92,23 @@ public class CouponApi {
         return ResponseEntity.ok(result);
     }
 
-    @PutMapping("/{couponId}")
+    @PutMapping("/{folder}/{couponId}")
     public ResponseEntity<Object> updateCoupon(
+            @PathVariable("folder") String folder,
             @PathVariable("couponId") Integer couponId,
-            @RequestPart("couponRequest") CouponRequest couponRequest){
+            @RequestPart("couponRequest") CouponRequest couponRequest,
+            @RequestPart(value = "couponImage",required = false) MultipartFile[] files
+    ) throws IOException {
         Map<String,Object> result = new HashMap<>();
+
+        if(files == null){
+            System.out.println("file null");
+            CouponResponse couponResponse = couponService.getCouponResponseById(couponId)
+                    .orElseThrow(() -> new EntityNotFoundException("Not Found Coupon"));
+            couponRequest.setImageUrl(couponResponse.getImageUrl());
+        }else{
+            couponRequest.setImageUrl(fileManageUtils.save(folder, files).get(0));
+        }
         System.out.println(couponRequest);
         try {
             result.put("success",true);
@@ -85,7 +116,7 @@ public class CouponApi {
             result.put("data",couponService.updateCoupon(couponId , couponRequest));
         }catch (Exception e ){
             result.put("success",false);
-            result.put("messgae",e.getMessage());
+            result.put("message",e.getMessage());
             result.put("data", null);
         }
         return ResponseEntity.ok(result);

@@ -51,8 +51,8 @@ public class CartApi {
 
     @GetMapping("/{cartId}/totalQuantity")
     public ResponseEntity<Object> getToTalQuantityByCartId(@PathVariable("cartId") Integer cartId){
-        System.out.println(cartService.getTotalQuantity( cartId));
         Map<String,Object> result = new HashMap<>();
+        System.out.println("ToTal Quantity : " + cartService.getTotalQuantity(cartId));
         try {
             result.put("success",true);
             result.put("message", "Get Total Quantity By CartId");
@@ -66,12 +66,12 @@ public class CartApi {
     }
     @GetMapping("/{cartId}/totalPrice")
     public ResponseEntity<Object> getToTalPriceByCartId(@PathVariable("cartId") Integer cartId){
-        System.out.println(cartService.getTotalPrice( cartId));
         Map<String,Object> result = new HashMap<>();
+        System.out.println("ToTal Price : " + cartService.getTotalPrice(cartId));
         try {
             result.put("success",true);
             result.put("message", "Get TotalPrice By CartId ");
-            result.put("data",cartService.getTotalPrice( cartId));
+            result.put("data",cartService.getTotalPrice(cartId));
         }catch (Exception e){
             result.put("success",false);
             result.put("message",e.getMessage());

@@ -58,6 +58,9 @@ public abstract class OrderMapper {
                                     .collect(Collectors.toList()) : null)
                     .paymentMethod(paymentMethodMapper.convertEnToRes(order.getPaymentMethod()))
                     .user(userMapper.convertEnToRes(order.getUser()))
+                    .totalPrice(order.getTotalPrice())
+                    .totalQuantity(order.getTotalQuantity())
+                    .updateAt(order.getUpdateAt())
                     .build();
         }
         public Order convertReqToEn(OrderRequest orderRequest){
