@@ -73,7 +73,7 @@ public class ReservationServiceImpl implements ReservationService {
     public List<ReservationResponse> getUserReservationHistory(Long userId) {
 
         // Lấy tất cả các bàn đã đặt của user dựa trên userId
-        List<Reservation> reservations = reservationRepository.findByUserId(userId);
+        List<Reservation> reservations = reservationRepository.findByUserUserId(userId);
 
         // Chuyển đổi danh sách entity sang danh sachs DTO để trả về
         return reservations.stream()

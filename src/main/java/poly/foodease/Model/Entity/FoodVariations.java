@@ -16,6 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,6 +25,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name="food_variations")
+@Builder
 public class FoodVariations implements Serializable{
 
 	@Id 
@@ -44,5 +46,9 @@ public class FoodVariations implements Serializable{
 	@OneToMany (mappedBy = "foodVariations")
 	@JsonIgnore
 	private List<FoodVariationToppings> foodVariationToppings;
+
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
 }

@@ -16,6 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 @Data
@@ -23,11 +24,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name="foods")
+@Builder
 public class Foods implements Serializable{
 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int foodId ;
+	
 	private String foodName;
 	private String description;
 	private double basePrice;
@@ -36,14 +39,18 @@ public class Foods implements Serializable{
 	private Date updatedAt;
 	private int discount;
 	private int categoryId;
+
 	@ManyToOne @JoinColumn(name="categoryId",insertable = false,updatable = false)
 	private FoodCategories category;
+
 	@OneToMany(mappedBy = "food")
 	@JsonIgnore
 	private List<FoodVariations> foodVariations;
 	
-	@ManyToOne @JoinColumn(name ="foodId",insertable = false,updatable = false)
+	@ManyToOne
+	@JoinColumn(name ="foodId",insertable = false,updatable = false)
 	private	FoodImage foodImage;
+
 	@OneToMany(mappedBy = "food")
 	@JsonIgnore
 	private List<FoodReview> foodReviews;

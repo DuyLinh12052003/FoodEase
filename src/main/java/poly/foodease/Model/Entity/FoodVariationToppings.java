@@ -24,7 +24,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="food_variation_toppings")
 public class FoodVariationToppings implements Serializable{
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int foodVariationToppingsId ;	
 	
 	private int foodVariationId;		

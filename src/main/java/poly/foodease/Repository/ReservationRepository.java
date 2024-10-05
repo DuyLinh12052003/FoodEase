@@ -6,5 +6,6 @@ import poly.foodease.Model.Entity.Reservation;
 import java.util.List;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
-    List<Reservation> findByUserId(Long userId);
+    List<Reservation> findByUserUserId(Long userId);
+
 }
