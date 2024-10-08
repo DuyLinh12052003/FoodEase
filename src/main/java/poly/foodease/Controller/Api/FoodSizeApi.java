@@ -11,25 +11,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import poly.foodease.Model.Entity.FoodSize;
+import poly.foodease.Model.Response.FoodSizeResponse;
 import poly.foodease.Service.FoodSizeService;
 
-
-@RestController
 @CrossOrigin("*")
-@RequestMapping("/user")
+@RestController
+@RequestMapping("/api/user/foodSize")
 public class FoodSizeApi {
 	@Autowired
 	FoodSizeService foodSizeService;
 	@GetMapping("/findFoodSizeBySize")
-	public ResponseEntity<FoodSize> findFoodSizeBySize(@RequestParam String sizeName)
+	public ResponseEntity<FoodSizeResponse> findFoodSizeBySize(@RequestParam String sizeName)
 	{
-		FoodSize foodSize = foodSizeService.findFoodSizeBySize(sizeName);
+		FoodSizeResponse foodSize = foodSizeService.findFoodSizeBySize(sizeName);
 		return ResponseEntity.ok(foodSize);
 	}
 	@GetMapping("/findAllFoodSize")
-	public ResponseEntity<List<FoodSize>> findAllFoodSize()
+	public ResponseEntity<List<FoodSizeResponse>> findAllFoodSize()
 	{
 		return ResponseEntity.ok(foodSizeService.findAll());
+	}
+	@GetMapping("/findFoodSizeByFoodId/{foodId}")
+	public ResponseEntity<List<FoodSizeResponse>> findFoodSizeByFoodId( @PathVariable("foodId") Integer foodId)
+	{
+		List<FoodSizeResponse> list =foodSizeService.findFoodSizeByFoodId(foodId);
+		return ResponseEntity.ok(list);
 	}
 	
 

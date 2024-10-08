@@ -8,7 +8,6 @@ import poly.foodease.Service.CouponStorageService;
 
 import java.util.HashMap;
 import java.util.Map;
-
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/couponStorage")

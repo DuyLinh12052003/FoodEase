@@ -15,22 +15,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import poly.foodease.Model.Entity.FoodReview;
+import poly.foodease.Model.Response.FoodReviewResponse;
 import poly.foodease.Service.FoodReviewService;
 import poly.foodease.Service.UploadFileService;
 
-
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user/foodReview")
 public class FoodReviewApi {
 	@Autowired
 	FoodReviewService foodReviewService;
 	@Autowired
 	UploadFileService uploadFileService;
 	@GetMapping("/findfoodReviewByFoodId/{id}")
-	public ResponseEntity<List<FoodReview>> findfoodReviewByFoodId(@PathVariable ("id") Integer id)
+	public ResponseEntity<List<FoodReviewResponse>> findfoodReviewByFoodId(@PathVariable ("id") Integer id)
 	{
-		List<FoodReview> list=foodReviewService.findFoodReviewByFoodId(id);
+		List<FoodReviewResponse> list=foodReviewService.findFoodReviewByFoodId(id);
 		return ResponseEntity.ok(list);
 	}
 	
@@ -39,29 +39,16 @@ public class FoodReviewApi {
 			@RequestParam("foodId") Integer foodId)
 	{
 		try {
-			FoodReview foodReview =new FoodReview();
-			foodReview.setRating(rating);
-			foodReview.setReview(review);
-			foodReview.setReviewDate(new Date());
-			 if(!file.isEmpty())
-			    {
-			    	 String fileName=uploadFileService.uploadFile(file);
-			    	 foodReview.setImageUrl(fileName);
-			 		System.out.println("tên file là:"+fileName);
-			    }
-			 foodReview.setUserId(2);
-			 foodReview.setFoodId(foodId);
-			 foodReviewService.save(foodReview);
-			 System.out.println("đã thực hiện comment");
-				return ResponseEntity.ok("đã comment thành công");
+			FoodReviewResponse foodReviewResponse =foodReviewService.save(file, rating, review, foodId);
+			return ResponseEntity.ok(foodReviewResponse);
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("không thành công comment");
 			
 			e.printStackTrace();
-			
+			return null;
 		}
-		return null;
+	
 		
 	
 	}

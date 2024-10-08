@@ -10,19 +10,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import poly.foodease.Model.Entity.FoodVariationToppings;
+import poly.foodease.Model.Response.FoodVariationToppingResponse;
 import poly.foodease.Repository.FoodVariatonToppingDao;
-
+import poly.foodease.Service.FoodVariationToppingService;
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user/topping")
 public class FoodVariationToppingApi {
-@Autowired
-FoodVariatonToppingDao foodVariatonToppingDao;
 
+@Autowired FoodVariationToppingService foodVariationToppingService;
 @GetMapping("/findVariationTopping/{id}")
-public ResponseEntity<List<FoodVariationToppings>> findVariationTopping(@PathVariable("id") Integer id)
+public ResponseEntity<List<FoodVariationToppingResponse>> findVariationTopping(@PathVariable("id") Integer id)
 {
-	return ResponseEntity.ok(foodVariatonToppingDao.findFoodVariationToppingById(id));
+	List<FoodVariationToppingResponse> list=foodVariationToppingService.findFoodVariationToppingById(id);
+	return ResponseEntity.ok(list);
 }
 	
 

@@ -1,19 +1,14 @@
 package poly.foodease.ServiceImpl;
 
-import com.mservice.pay.Pay;
+import com.google.zxing.WriterException;
 import jakarta.mail.MessagingException;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import poly.foodease.Mapper.OrderMapper;
 import poly.foodease.Model.Entity.MailInfo;
-import poly.foodease.Model.Entity.Order;
-import poly.foodease.Model.Request.CouponRequest;
 import poly.foodease.Model.Request.OrderDetailsRequest;
 import poly.foodease.Model.Request.OrderRequest;
 import poly.foodease.Model.Response.*;
-import poly.foodease.Repository.OrderRepo;
 import poly.foodease.Service.*;
 
 import java.io.File;
@@ -21,7 +16,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
@@ -35,6 +29,8 @@ public class PaymentServiceImpl implements PaymentService {
     private OrderDetailsService orderDetailsService;
     @Autowired
     private MailService mailService;
+    @Autowired
+    private QrCodeService qrCodeService;
 
     public PaymentInfo createPaymentInfo(String orderInfo, Integer paymentStatus, String totalPrice, String paymentDateTime, String transactionId){
         PaymentInfo paymentInfo = new PaymentInfo(orderInfo,paymentStatus,paymentDateTime,totalPrice,transactionId);
@@ -140,7 +136,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     // Xử Lý nghiệp vụ liên quan đến coupon
     @Override
-    public void sendEmail (String username , OrderResponse orderResponse, List<OrderDetailsResponse> orderDetailResponses ) throws IOException {
+    public void sendEmail (String username , OrderResponse orderResponse, List<OrderDetailsResponse> orderDetailResponses ) throws IOException, WriterException {
         MailInfo mail= new MailInfo();
 //        UserResponse user = userService.getUserByUsername(username)
 //                .orElseThrow(()-> new EntityNotFoundException("not foud user"));
@@ -174,9 +170,10 @@ public class PaymentServiceImpl implements PaymentService {
 
         mail.setBody(bodyBuilder.toString());
         List<File> files = new ArrayList<>();
-//        File qrCodeFile= qrCodeService.createQrCodeWithFileTemp(user.getUsername(), 360, 360);
-//        files.add(qrCodeFile);
-//        mail.setFiles(files);
+        //File qrCodeFile= qrCodeService.createQrCodeWithFileTemp(user.getUsername(), 360, 360);
+        File qrCodeFile= qrCodeService.createQrCodeWithFileTemp("huongpham", 360, 360);
+        files.add(qrCodeFile);
+        mail.setFiles(files);
         try {
             mailService.send(mail);
         } catch (MessagingException e) {

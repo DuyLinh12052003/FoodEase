@@ -1,6 +1,7 @@
 package poly.foodease.ServiceImpl;
 
 
+import com.google.zxing.WriterException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class VnPayServiceImpl {
         return paymentUrl;
     }
 
-    public PaymentInfo returnPayment(HttpServletRequest request) throws IOException, ParseException {
+    public PaymentInfo returnPayment(HttpServletRequest request) throws IOException, ParseException, WriterException {
         PaymentInfo  paymentInfo = new PaymentInfo();
         // request chứa thông tin sẽ được đưa vào hàm orderReturn để kiếm tra bảo mật và cập nhật trạng thái
         // Sau đó trả về trạng thái thanh toán và các thông tin liên quan .
