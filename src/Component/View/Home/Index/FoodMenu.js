@@ -1,28 +1,45 @@
 
-import React,{useState,useEffect} from "react";
-import "./FoodMenu.css";
-import axios from 'axios'
-import {Link} from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
+import axiosConfig from "../../../Config/AxiosConfig";
 import Order from "../Details/Order";
+import "./FoodMenu.css";
 
 const FoodMenu = () => {
 const [mainDishes,setMainDishes] = useState([]);
+const [page,setPage] = useState(0);
+const [TotalPage,setTotalPage] = useState();
 const fetchMaindDishes = async ()=>{
   try{
-     await axios.get('http://localhost:8080/user/findFoodVariationByMainDishes')
+     await axiosConfig.get(`/user/foodvariation/findFoodVariationByMainDishes?page=${page}`)
     .then(response =>{
-      setMainDishes(response.data);
+      setMainDishes(response.data.content);
       console.log(response.data);
+ 
+      setTotalPage(response.data.totalPages);
     })
   }
   catch(err){
     console.log(err ,'Lỗi không nhận dữ liệu');
   }
 };
-
+const Next = () => {
+  setPage(prevPage => {
+    if (prevPage >= TotalPage -1) {
+      return 0; // Đặt lại page về 0 nếu prevPage lớn hơn hoặc bằng totalPages
+    }
+    return prevPage + 1; // Tăng page lên 1 nếu chưa quá totalPages
+  });
+};
+  const Previous = () => {
+    if (page > 0) {
+      setPage(prevPage => prevPage - 1);
+    }
+  }
 useEffect(()=>{
   fetchMaindDishes();
-},[]);
+  console.log(mainDishes)
+},[page]);
 const [selectedProduct, setSelectedProduct] = useState(null);
 
   const openModal = (Food) => {
@@ -36,11 +53,15 @@ const [selectedProduct, setSelectedProduct] = useState(null);
     
   };
   
-    
+    if(mainDishes == null ){
+      return null;
+    }
 
 
   return (
+    <div>
     <div className="menu-container ">
+     
     {mainDishes.map((item) => (
       <div key={item.foodVariationId} className="menu-item">
         <div className="image-discount">
@@ -68,10 +89,10 @@ const [selectedProduct, setSelectedProduct] = useState(null);
         </div>
           <div className="row d-flex justify-content-center ">
           <button  onClick={() => openModal(item)} className="col-sm-4 me-3" disabled={!item.quantityStock}>
-            {item.quantityStock ? "order" : "out of stock"}
+            {item.quantityStock ? "Order" : "Out of stock"}
           </button>
           <button className="col-sm-4 ">
-          add to cart
+          Add to cart
           </button>
           </div>
           
@@ -79,6 +100,10 @@ const [selectedProduct, setSelectedProduct] = useState(null);
       </div>
     ))}
       <Order  product={selectedProduct} onClose={closeModal} />
+  </div>
+  <h6>{page + 1}/{TotalPage }</h6>
+  <button className="Button-Previous" onClick={Previous}>Previous</button>
+      <button className="Button-next" onClick={Next}>Next</button>
   </div>
   );
 };

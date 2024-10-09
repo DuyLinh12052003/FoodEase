@@ -1,6 +1,6 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form"; // Import useForm từ react-hook-form
+import axiosConfig from "../../../Config/AxiosConfig";
 import "./TableReservation.css";
 
 const TableReservation = () => {
@@ -18,7 +18,7 @@ const TableReservation = () => {
     // Fetch danh sách đặt bàn
     const fetchReservations = async () => {
         try {
-            const response = await axios.get(
+            const response = await axiosConfig.get(
                 "http://localhost:8080/api/reservations"
             );
             setReservations(response.data); // Cập nhật danh sách đặt bàn
@@ -31,7 +31,7 @@ const TableReservation = () => {
     const fetchAvailableTables = async (capacity) => {
         if (!capacity) return; // Tránh gọi API nếu không có số lượng khách
         try {
-            const response = await axios.get(
+            const response = await axiosConfig.get(
                 `http://localhost:8080/api/tables/available/${capacity}`
             );
             console.log(response.data); // Kiểm tra dữ liệu trả về
@@ -76,7 +76,7 @@ const TableReservation = () => {
         };
 
         try {
-            const response = await axios.post(
+            const response = await axiosConfig.post(
                 "http://localhost:8080/api/reservations",
                 reservationData
             );

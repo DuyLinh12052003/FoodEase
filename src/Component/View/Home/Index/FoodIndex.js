@@ -1,6 +1,7 @@
 import React from 'react';
-import FoodMenu from './FoodMenu';
 import Drink from './Drink';
+import FoodMenu from './FoodMenu';
+import Search from './Search';
 const FoodIndex =()=>{
     
     return (
@@ -92,9 +93,11 @@ const FoodIndex =()=>{
              </div>
          </div>
      </section>
- 
+     
                 <section>
+                <Search/>
                     <h2>Main dishes</h2>
+                    
                     <hr></hr>
                 <FoodMenu />
                 </section>
@@ -311,19 +314,7 @@ const FoodIndex =()=>{
              </div>
          </div>
      </section>
- 
- 
- 
-
- 
-    
-   
-   
- 
-  
 </section>
-
-
     );
 };
 export default FoodIndex;

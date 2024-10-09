@@ -17,6 +17,10 @@ const CouponPopup = ({isOpenCoupon,handleCouponPopUp,coupons,handleUseCoupon}) =
                                                                     <th>STT</th>
                                                                     <th>CODE</th>
                                                                     <th>DISCOUNT PERCENT</th>
+<<<<<<< HEAD
+=======
+                                                                    <th>MAX DISCOUNT AMOUNT</th>
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
                                                                     <th>START DATE </th>
                                                                     <th>END DATE </th>
                                                                     <th>USE LIMIT</th>
@@ -29,6 +33,10 @@ const CouponPopup = ({isOpenCoupon,handleCouponPopUp,coupons,handleUseCoupon}) =
                                                                         <th scope="row"><b>{index + 1}</b></th>
                                                                         <td>#{item.coupon.code}</td>
                                                                         <td>{item.coupon.discountPercent * 100}%</td>
+<<<<<<< HEAD
+=======
+                                                                        <td>{item.coupon.maxDiscountAmount.toLocaleString('vi-VN')}đ</td>
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
                                                                         <td>{item.coupon.startDate}</td>
                                                                         <td>{item.coupon.endDate}</td>
                                                                         <td>{item.coupon.useLimit}</td>

@@ -1,7 +1,11 @@
 
 import React,{useState,useEffect} from 'react';
 import './Comment.css'; // Để thêm CSS cho component
+<<<<<<< HEAD
 import axios from 'axios';
+=======
+import axiosConfig from '../../../Config/AxiosConfig';
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
 const Comment = (foodDetail) => {
 const [comment,setComment ] =useState([]);
 const [rating, setRating] = useState(0);
@@ -9,7 +13,11 @@ const [review, setReview] = useState('');
 const [file, setFile] = useState(null);
 
   const fetchCommnet = async ()=>{
+<<<<<<< HEAD
            await axios.get(`http://localhost:8080/user/findfoodReviewByFoodId/${foodDetail.foodDetail.foodId}`)
+=======
+           await axiosConfig.get(`/user/foodReview/findfoodReviewByFoodId/${foodDetail.foodDetail.foodId}`)
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
         .then(response =>{
           setComment(response.data)
         
@@ -29,7 +37,11 @@ const [file, setFile] = useState(null);
         formData.append('foodId',foodDetail.foodDetail.foodId);
         
         try {
+<<<<<<< HEAD
             const response = await axios.post('http://localhost:8080/user/comment',formData,
+=======
+            const response = await axiosConfig.post('/user/foodReview/comment',formData,
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
                { headers: {
                 'Content-Type': 'multipart/form-data'
             }}

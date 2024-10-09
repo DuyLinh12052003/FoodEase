@@ -2,7 +2,11 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 
+<<<<<<< HEAD
 const CartList = ({handlePaymentPopup,handleCouponPopup, cartItem, totalQuantity,totalPrice , handleAddCartItem ,checkCoupon , discountAmount}) => {
+=======
+const CartList = ({handlePaymentPopup,handleCouponPopup, cartItem, totalQuantity,totalPrice , handleAddCartItem ,checkCoupon , discountAmount, handleDeliveryAddress}) => {
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
     return (
         <div >
              <section className="h-100 h-custom" style={{ backgroundColor: '#d2c9ff' }}>
@@ -16,7 +20,11 @@ const CartList = ({handlePaymentPopup,handleCouponPopup, cartItem, totalQuantity
                                     <div className="p-5">
                                         <div className="d-flex justify-content-between align-items-center mb-5">
                                             <h1 className="fw-bold mb-0">Shopping Cart</h1>
+<<<<<<< HEAD
                                             <h6 className="mb-0 text-muted">11 items</h6>
+=======
+                                            <h6 className="mb-0 text-muted">{totalQuantity} items</h6>
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
                                         </div>
                                         <hr className="my-4" />
                                          {cartItem.map((item) => (
@@ -54,7 +62,11 @@ const CartList = ({handlePaymentPopup,handleCouponPopup, cartItem, totalQuantity
                                             </button>
                                             </div>
                                             <div className="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+<<<<<<< HEAD
                                                 <h6 className="mb-0">{item.price.toLocaleString('vi-VN')} VNĐ</h6>
+=======
+                                                <h6 className="mb-0">{item.price.toLocaleString('vi-VN')} đ</h6>
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
                                             </div>
                                             <div className="col-md-1 col-lg-1 col-xl-1 text-end">
                                                 <div 
@@ -78,18 +90,30 @@ const CartList = ({handlePaymentPopup,handleCouponPopup, cartItem, totalQuantity
 
                                         <div className="d-flex justify-content-between mb-4">
                                             <h5 className="text-uppercase">items : {totalQuantity}</h5>
+<<<<<<< HEAD
                                             <h5> {totalPrice?.toLocaleString('vi-VN')} VNĐ</h5>
+=======
+                                            <h5> {totalPrice?.toLocaleString('vi-VN')} đ</h5>
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
                                         </div>
 
                                         <h5 className="text-uppercase mb-3">Shipping</h5>
 
                                         <div className="mb-4 pb-2">
                                             <select>
+<<<<<<< HEAD
                                                 <option value="1">Standard-Delivery- €5.00</option>
+=======
+                                                <option value="1">Standard-Delivery- đ5.00</option>
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
                                                 <option value="2">Two</option>
                                                 <option value="3">Three</option>
                                                 <option value="4">Four</option>
                                             </select>
+<<<<<<< HEAD
+=======
+                                            <button onClick={handleDeliveryAddress} > Choose DeliveryAddress</button>
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
                                         </div>
 
                                         <h5 className="text-uppercase mb-3">Give code</h5>
@@ -114,12 +138,17 @@ const CartList = ({handlePaymentPopup,handleCouponPopup, cartItem, totalQuantity
                                          {checkCoupon === null ? (
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                             <span>TotalPrice: </span>
+<<<<<<< HEAD
                                             <span style={{ fontWeight: 'bold' }}>{totalPrice?.toLocaleString('vi-VN')} VNĐ</span>
+=======
+                                            <span style={{ fontWeight: 'bold' }}>{totalPrice?.toLocaleString('vi-VN')} đ</span>
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
                                             </div>
                                         ) : (
                                             <div >
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                 <span>TotalPrice:</span>
+<<<<<<< HEAD
                                                 <span style={{ fontWeight: 'bold' }} >{totalPrice.toLocaleString('vi-VN')} VNĐ</span>
                                             </div>
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -129,6 +158,17 @@ const CartList = ({handlePaymentPopup,handleCouponPopup, cartItem, totalQuantity
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                 <span>Final Price:</span>
                                                 <span style={{ fontWeight: 'bold' }} >{(totalPrice-discountAmount).toLocaleString('vi-VN')} VNĐ</span>
+=======
+                                                <span style={{ fontWeight: 'bold' }} >{totalPrice.toLocaleString('vi-VN')} đ</span>
+                                            </div>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                <span>Discount :</span>
+                                                <span style={{ fontWeight: 'bold' }}> {  (discountAmount).toLocaleString('vi-VN')} đ</span>
+                                            </div>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                <span>Final Price:</span>
+                                                <span style={{ fontWeight: 'bold' }} >{(totalPrice-discountAmount).toLocaleString('vi-VN')} đ</span>
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
                                             </div>
                                             </div>
                                         )} 

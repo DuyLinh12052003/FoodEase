@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import axiosConfig from '../../../Config/AxiosConfig';
-import './Thanks.css'
+import './Thanks.css';
 
 const Thanks = () => {
     const [paymentInfo, setPaymentInfo] = useState({});
@@ -105,14 +105,11 @@ const Thanks = () => {
                     </div>
                 )
             }
- 
-                   
             </div> 
-          
             <div className="row" style={{marginTop : '50px'}}>
             <p><strong>Mã đơn hàng:</strong> {paymentInfo?.orderInfo || 'Chưa có dữ liệu'}</p>
             <p><strong>Mã giao dịch:</strong> {paymentInfo?.transactionId || 'Chưa có dữ liệu'}</p>
-            <p><strong>Tổng số tiền:</strong> {paymentInfo?.totalPrice ? `${paymentInfo.totalPrice} VNĐ` : 'Chưa có dữ liệu'}</p>
+            <p><strong>Tổng số tiền:</strong> {paymentInfo?.totalPrice ? Number(paymentInfo.totalPrice).toLocaleString('vi-VN') + ' VNĐ' : 'Chưa có dữ liệu'}</p>
             <p><strong>Ngày thanh toán:</strong> {paymentInfo?.paymentDateTime || 'Chưa có dữ liệu'}</p>
             </div>
         </div> 

@@ -1,15 +1,15 @@
 
-import React,{useState,useEffect} from "react";
-import "./FoodMenu.css";
-import axios from 'axios'
-import {Link} from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
+import axiosConfig from "../../../Config/AxiosConfig";
 import Order from "../Details/Order";
+import "./FoodMenu.css";
 
 const FoodMenu = () => {
   const [mainDishes,setMainDishes] = useState([]);
   const fetchMaindDishes = async ()=>{
     try{
-      await axios.get('http://localhost:8080/user/findFoodVariationByDrink')
+      await axiosConfig.get('/user/foodvariation/findFoodVariationByDrink')
       .then(response =>{
         setMainDishes(response.data);
         console.log(response.data);
@@ -52,8 +52,8 @@ const FoodMenu = () => {
             <h3>{item.food.foodName}</h3>
             <div >
   
-            <b className="price"> {item.food.basePrice - item.food.basePrice * item.food.discount / 100}đ</b>
-            <del className="price">{item.food.basePrice}đ</del>
+            <b className="price"> {(item.food.basePrice - item.food.basePrice * item.food.discount / 100).toLocaleString('vi-VN')}đ</b>
+            <del className="price">{item.food.basePrice.toLocaleString('vi-VN')}đ</del>
             </div>
               <h5 className="description">{item.food.description}</h5>
               <div className="menu-footer">
@@ -63,10 +63,10 @@ const FoodMenu = () => {
             </div>
               <div className="row d-flex justify-content-center ">
               <button  onClick={() => openModal(item)} className="col-sm-4 me-3" disabled={!item.quantityStock}>
-                {item.quantityStock ? "order" : "out of stock"}
+                {item.quantityStock ? "Order" : "Out of stock"}
               </button>
               <button className="col-sm-4 ">
-              add to cart
+              Add to cart
               </button>
               </div>
               

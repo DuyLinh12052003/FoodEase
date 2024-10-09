@@ -35,7 +35,11 @@ const CouponStorage = ({coupons,handleSortBy,handleSortOrder,handlePageCurrent,h
                      />
                    </div>
             <h2 className="tm-block-title">Coupon List</h2>
+<<<<<<< HEAD
             <NavLink className="btn btn-primary " to="/claimCoupon" style={{display : 'flex' , width: '150px'}}>New Coupon</NavLink>
+=======
+            <NavLink className="btn btn-primary " to="/claimCoupon" style={{display : 'flex' , width: '150px'}}>Claim Coupon</NavLink>
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
             <table className="table">
               <thead>
                 <tr>

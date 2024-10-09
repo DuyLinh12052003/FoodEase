@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './Order.css';
+<<<<<<< HEAD
 
 import axios  from 'axios';
+=======
+import axiosConfig from '../../../Config/AxiosConfig';
+
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
 const Order  = ({ product, onClose }) => {
 //  dử liệu size Name
   const [selectedSize, setSelectedSize] = useState(null);
@@ -20,7 +25,11 @@ const Order  = ({ product, onClose }) => {
   const [FoodVariationgTopping,setFoodVariationTopping]  = useState([]);
   // lấy dử liệu từ bảng topping
   const fetchToppings = async  ()=>{
+<<<<<<< HEAD
     axios.get('http://localhost:8080/user/findAllTopping')
+=======
+    axiosConfig.get('/user/topping/findAllTopping')
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
     .then(response=>{
       setTableToppings(response.data)
       
@@ -28,7 +37,11 @@ const Order  = ({ product, onClose }) => {
   }
   
     const fetchFoodVariationTopping = async ()=>{
+<<<<<<< HEAD
       axios.get(`http://localhost:8080/user/findVariationTopping/${product.foodVariationId}`)
+=======
+      axiosConfig.get(`/user/topping/findVariationTopping/${product.foodVariationId}`)
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
       .then(response=>{
         setFoodVariationTopping(response.data)
         console.log('dử liệu của foodVariationTopping',response.data)
@@ -39,6 +52,7 @@ const Order  = ({ product, onClose }) => {
 
  
   // lấy giá trị bảng foodSize theo tên size
+<<<<<<< HEAD
 const fetchFoodSize = async ()=>{
   axios.get('http://localhost:8080/user/findAllFoodSize')
   .then(response=>{
@@ -47,6 +61,23 @@ const fetchFoodSize = async ()=>{
   })
 }
 
+=======
+// const fetchFoodSize = async ()=>{
+//   axios.get('http://localhost:8080/user/findAllFoodSize')
+//   .then(response=>{
+//     setTableFoodSize(response.data)
+    
+//   })
+// }
+
+const fetchFoodSize = async ()=>{
+  axiosConfig.get(`/user/foodSize/findFoodSizeByFoodId/${product.foodId}`)
+  .then(response=>{
+    setTableFoodSize(response.data)
+    console.log('dử liệu size',response.data)
+  })
+}
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
 // tính tổng tiền topping 
 const fetchTopping = async ()=>{
   console.log(SelectedTopping)
@@ -87,6 +118,7 @@ const fetchToTal = async ()=>{
 }
 // sử dụng useEffect để tiến hành chạy và cập nhật giá trị mới nhất
   useEffect(() => {
+<<<<<<< HEAD
     fetchFoodSize();
     fetchToppings();
     fetchToTal();
@@ -96,11 +128,29 @@ const fetchToTal = async ()=>{
     {
       fetchFoodVariationTopping();
       
+=======
+    
+    fetchToppings();
+    fetchToTal();
+    fetchTopping();
+ 
+    // nếu có dử liệu product mới được gọi
+    if(product)
+    {
+      fetchFoodSize();
+      fetchFoodVariationTopping();
+      
+      
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
     }
   
       console.log(product,'dử liệu product')
       console.log('dử liệu topping id',SelectedTopping)
+<<<<<<< HEAD
   }, [foodVariation,SelectedTopping,totalToppingPrice]);
+=======
+  }, [foodVariation,SelectedTopping,totalToppingPrice,product]);
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
   
   if (!product) return <div></div>;
 
@@ -108,7 +158,11 @@ const fetchToTal = async ()=>{
     const newSize = event.target.value; // Lưu giá trị mới
     setSelectedSize(newSize); // Cập nhật kích thước được chọn   
     console.log('size name là',newSize)  
+<<<<<<< HEAD
     axios.get(`http://localhost:8080/user/findFoodVariationBySize?id=${product.foodId}&sizeName=${newSize}`)
+=======
+    axiosConfig.get(`/user/foodvariation/findFoodVariationBySize?id=${product.foodId}&sizeName=${newSize}`)
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
     .then(response =>{    
       setFoodVariation(response.data);
       console.log(response.data,'dử liệu cảu foodSize')   
@@ -138,7 +192,11 @@ const fetchToTal = async ()=>{
     const quantity =1;
     const cartId =1;
       try {
+<<<<<<< HEAD
         const resCart = await axios.post(`http://localhost:8080/api/cart/addCartItem/${cartId}/${foodVaId}/${quantity}`);
+=======
+        const resCart = await axiosConfig.post(`/cart/addCartItem/${cartId}/${foodVaId}/${quantity}`);
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
         onClose();
         alert('Add Food To Cart Success');
         console.log(resCart.data);

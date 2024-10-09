@@ -83,3 +83,9 @@ h3{
   font-size: 20px !important; 
   color: rgb(147, 32, 32);
 }
+.Button-Previous , .Button-next{
+  width: 200px;
+  height: 40px;
+  margin: 10px;
+  background-color: rgb(98, 181, 181);
+}

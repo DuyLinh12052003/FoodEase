@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "./ReservationList.css";
+=======
+import React, { useEffect, useState } from "react";
+import "./ReservationList.css";
+import axiosConfig from "../../../Config/AxiosConfig";
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
 
 const ReservationList = () => {
   const [reservations, setReservations] = useState([]);
@@ -11,7 +17,11 @@ const ReservationList = () => {
   useEffect(() => {
     const fetchReservations = async () => {
       try {
+<<<<<<< HEAD
         const response = await axios.get(
+=======
+        const response = await axiosConfig.get(
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
           "http://localhost:8080/api/reservations"
         );
         console.log(response.data); // Kiểm tra dữ liệu
@@ -52,7 +62,11 @@ const ReservationList = () => {
 
     // Cập nhật trạng thái mới
     try {
+<<<<<<< HEAD
       const response = await axios.patch(
+=======
+      const response = await axiosConfig.patch(
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
         `http://localhost:8080/api/reservations/${id}/status`,
         { status: newStatus }
       );
@@ -110,7 +124,11 @@ const ReservationList = () => {
           </thead>
           <tbody>
             {sortedReservations
+<<<<<<< HEAD
               .filter((reservation) => reservation.status == "Pending")
+=======
+              .filter((reservation) => reservation.status === "Pending")
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
               .slice()
               .sort((a, b) => b.reservation - a.reservation)
               .map((reservation, index, pendingArray) => (
@@ -164,4 +182,8 @@ const ReservationList = () => {
   );
 };
 
+<<<<<<< HEAD
 export default ReservationList;
+=======
+export default ReservationList;
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62

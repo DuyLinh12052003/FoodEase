@@ -1,6 +1,10 @@
 import React from 'react';
 
+<<<<<<< HEAD
 const CouponForm = ({register, handleSubmit , reset , submitCoupon ,couponId , errors}) => {
+=======
+const CouponForm = ({register, handleSubmit,handleImage, fileInputRef , reset , submitCoupon ,couponId , errors , imageCoupon }) => {
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
     return (
         <>
          <div className="body">
@@ -26,14 +30,22 @@ const CouponForm = ({register, handleSubmit , reset , submitCoupon ,couponId , e
               <h2 className="tm-block-title">Change Image</h2>
               <div className="tm-avatar-container">
                 <img
+<<<<<<< HEAD
                   src="img/avatar.png"
+=======
+                  src={imageCoupon}
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
                   alt="Avatar"
                   className="tm-avatar img-fluid mb-4"
                 />
               </div>
+<<<<<<< HEAD
               <button className="btn btn-primary btn-block text-uppercase">
                 Upload New Photo
               </button>
+=======
+              <input type="file" ref={fileInputRef}/>
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
             </div>
           </div>
           <div className="tm-block-col tm-col-account-settings">
@@ -45,7 +57,11 @@ const CouponForm = ({register, handleSubmit , reset , submitCoupon ,couponId , e
                   <input
                     type="text"
                     className="form-control validate"
+<<<<<<< HEAD
                     {...register('description',{required :true})}
+=======
+                    {...register('description',{required :'Description is required'})}
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
                   />
                 </div>
                 <div className="form-group col-lg-6">
@@ -77,7 +93,11 @@ const CouponForm = ({register, handleSubmit , reset , submitCoupon ,couponId , e
                   type='number'
                     className="form-control validate"
                     {...register('maxDiscountAmount',{
+<<<<<<< HEAD
                       required :true,
+=======
+                      required :'MaxDiscountAmount is required',
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
                       min : {value : 0 , message : 'Min discount amount must be at least 0'}
                       })}
                   />
@@ -107,7 +127,11 @@ const CouponForm = ({register, handleSubmit , reset , submitCoupon ,couponId , e
                     type='number'
                     className="form-control validate"
                     {...register('useLimit',{
+<<<<<<< HEAD
                       required :true,
+=======
+                      required :'Use Limit is required',
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
                       min : {value : 0 , message : 'Use Limit must be least 0'}
                       })}
                   />
@@ -121,7 +145,11 @@ const CouponForm = ({register, handleSubmit , reset , submitCoupon ,couponId , e
                   <label >UsedCount</label>
                   <input
                     className="form-control validate"
+<<<<<<< HEAD
                     {...register('usedCount',{required :true})}
+=======
+                    {...register('usedCount',{required :'Used Count is required'})}
+>>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
                   />
                 </div>
                 <div className="form-group col-lg-6">
