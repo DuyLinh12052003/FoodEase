@@ -1,9 +1,12 @@
-import React,{useState,useEffect} from 'react';
-import "./Search.css";
-import {useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { customTranslate } from '../../../../i18n';
 import axiosConfig from '../../../Config/AxiosConfig';
+import "./Search.css";
 
 const Search =()=>{
+    const { t } = useTranslation();
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const navigate = useNavigate();
@@ -31,9 +34,9 @@ return (
                     type="text"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Search for food..."
+                    placeholder={customTranslate("Search for food...")}
                 />
-                <button className="search-button" type="submit">Search</button>
+                <button className="search-button" type="submit">{customTranslate("Search")}</button>
             </form>
    
   </div>

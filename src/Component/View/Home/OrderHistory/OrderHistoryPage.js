@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import OrderHistoryList from './OrderHistoryList';
 import { useParams } from 'react-router-dom';
 import axiosConfig from '../../../Config/AxiosConfig';
-import OrderDetailsPopup from './OrderDetailsPopup';
 import './OrderDetails.css';
+import OrderDetailsPopup from './OrderDetailsPopup';
+import OrderHistoryList from './OrderHistoryList';
 
 const OrderHistoryPage = () => {
 

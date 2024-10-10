@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import CartList from './CartList';
-import PaymentPopup from './PaymentPopup';
-import './Payment.css';
-import CouponPopup from './CouponPopup';
+import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import axiosConfig from '../../../Config/AxiosConfig';
-import { useForm } from 'react-hook-form';
-<<<<<<< HEAD
-=======
+import CartList from './CartList';
+import CouponPopup from './CouponPopup';
 import DeliveryAddressPopup from './DeliveryAddressPopup';
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
+import './Payment.css';
+import PaymentPopup from './PaymentPopup';
 const CartPage = () => {
     const {cartId} = useParams();
 
@@ -26,8 +23,6 @@ const CartPage = () => {
     const [checkCoupon,setCheckCoupon] = useState(null);
     const [finalToTalPrice,setFinalToTalPrice] = useState(0);
     const [discountAmount,setDiscountAmount] = useState(0);
-<<<<<<< HEAD
-=======
     const [isOpenDelivery,setIsOpentDelivery] = useState(false);
     const [provinceData,setProvinceData] = useState([]);
     const [districtData,setDistrictData] = useState([]);
@@ -37,7 +32,6 @@ const CartPage = () => {
     const [districtIdChoose,setDistrictIdChoose] = useState();
     const [fee,setFee] = useState([]);
     const [wardIdChoose,setWardIdChoose] = useState();
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
 
     const baseReturnUrl = window.location.origin;
 
@@ -109,11 +103,7 @@ const CartPage = () => {
             }else if(paymethod === "stripe"){
                 const data = cartItem.map((item) => {
                     return {
-<<<<<<< HEAD
-                        idPrice: item.foodVariation.food.idPrice,
-=======
                         idPrice: item.foodVariation.food.priceId,
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
                         quantity:item.quantity
                     }
                 })
@@ -154,15 +144,8 @@ const CartPage = () => {
         } catch (error) {
             console.error("Error in Fetch Payment ", error);
         }
-<<<<<<< HEAD
-
     }
 
-
-=======
-    }
-
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
     const handlePaymentPopup = async () => {
         setIsOpentPayment(!isOpenPayment);
     }
@@ -182,16 +165,10 @@ const CartPage = () => {
         console.log(code);
         try {
             const resCheckCouponByCode = await axiosConfig.get(`/coupon/checkCoupon/${code}`);
-<<<<<<< HEAD
-            console.log(resCheckCouponByCode.data);
-            setIsOpentCoupon(!isOpenCoupon);
-            setCheckCoupon(resCheckCouponByCode.data.data);
-=======
             console.log(resCheckCouponByCode.data.data.data.couponId);
             setIsOpentCoupon(!isOpenCoupon);
             setCheckCoupon(resCheckCouponByCode.data.data);
             setCouponId(resCheckCouponByCode.data.data.data.couponId);
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
             let discountAmount = resCheckCouponByCode?.data.data.data.discountPercent * totalPrice;
             if(discountAmount > resCheckCouponByCode?.data.data.data.maxDiscountAmount){
                 discountAmount = resCheckCouponByCode?.data.data.data.maxDiscountAmount;
@@ -203,9 +180,6 @@ const CartPage = () => {
             console.error('error in handleUseCoupon',error);
         }
     }
-<<<<<<< HEAD
-
-=======
     const handleDeliveryAddress = async () => {
         setIsOpentDelivery(!isOpenDelivery);
         try {
@@ -306,7 +280,6 @@ const CartPage = () => {
         }
     };
     
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
     return (
         <div>
             <CartList
@@ -319,10 +292,7 @@ const CartPage = () => {
             checkCoupon = {checkCoupon}
             handleUseCoupon = {handleUseCoupon}
             discountAmount = {discountAmount}
-<<<<<<< HEAD
-=======
             handleDeliveryAddress = {handleDeliveryAddress}
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
              />
 
             <PaymentPopup
@@ -336,9 +306,6 @@ const CartPage = () => {
              handleCouponPopUp={handleCouponPopup}
              coupons = {coupons}
              handleUseCoupon = {handleUseCoupon}
-<<<<<<< HEAD
-            
-=======
               />
               <DeliveryAddressPopup 
               isOpenDelivery={isOpenDelivery}
@@ -353,7 +320,6 @@ const CartPage = () => {
               handleCalculateFee = {handleCalculateFee}
               fee = {fee}
               handleChooseWardId = {handleChooseWardId}
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
               />
         </div>
     );

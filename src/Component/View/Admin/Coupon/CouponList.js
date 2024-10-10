@@ -2,11 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Pagination from '../Common/Pagination/Pagination';
 
-<<<<<<< HEAD
-const CouponList = ({coupons,handleSortBy,handleSortOrder, handlePageCurrent,handlePageSize , pageCurrent, totalPage}) => {
-=======
 const CouponList = ({coupons,handleSortBy,handleSortOrder, handlePageCurrent,handlePageSize , pageCurrent, totalPage, imageCoupons}) => {
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
     return (
         <>
             <div className="body" >
@@ -32,11 +28,7 @@ const CouponList = ({coupons,handleSortBy,handleSortOrder, handlePageCurrent,han
                         </div>
                         <div className="pagination-container">
                         <Pagination
-<<<<<<< HEAD
-                           handlePageCurrent={handlePageSize}
-=======
                            handlePageCurrent={handlePageCurrent}
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
                           handlePageSize={handlePageSize}
                           pageCurrent={pageCurrent}
                           totalPage={totalPage}
@@ -49,10 +41,7 @@ const CouponList = ({coupons,handleSortBy,handleSortOrder, handlePageCurrent,han
                     <tr>
                       <th scope="col">Coupon NO.</th>
                       <th scope="col">Code</th>
-<<<<<<< HEAD
-=======
                       <th>Image</th>
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
                       <th scope="col">Description</th>
                       <th scope="col">DiscountPercent</th>
                       <th scope="col">Max Discount Amount</th>
@@ -70,16 +59,10 @@ const CouponList = ({coupons,handleSortBy,handleSortOrder, handlePageCurrent,han
                       <tr>
                       <th key={index} scope="row"><b>#{item.couponId}</b></th>
                       <td><b>{item.code}</b></td>
-<<<<<<< HEAD
-                      <td><b>{item.description}</b></td>
-                      <td><b>{item.discountPercent * 100}%</b></td>
-                      <td>{item.maxDiscountAmount.toLocaleString('vi-VN')} VNĐ</td>
-=======
                       <td><img src={imageCoupons[item.couponId]} alt='userphoto' style={{width :'70px',height:'70px'}}/></td>
                       <td><b>{item.description}</b></td>
                       <td><b>{item.discountPercent * 100}%</b></td>
                       <td>{item.maxDiscountAmount.toLocaleString('vi-VN')} đ</td>
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
                       <td>{item.startDate}</td>
                       <td>{item.endDate}</td>
                       <td>{item.usedCount}</td>

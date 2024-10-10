@@ -1,29 +1,17 @@
-<<<<<<< HEAD
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
-import axiosConfig from '../../../Config/AxiosConfig';
-import CouponForm from './CouponForm';
-=======
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import CouponForm from './CouponForm';
-import axiosConfig from '../../../Config/AxiosConfig';
 import { useNavigate, useParams } from 'react-router-dom';
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
+import axiosConfig from '../../../Config/AxiosConfig';
+import CouponForm from './CouponForm';
 
 const CouponFormPage = () => {
 
     const {couponId} = useParams();
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const [couponById,setCouponById] = useState();
-<<<<<<< HEAD
-    const navigate = useNavigate();
-=======
     const [imageCoupon,setImageCoupon] = useState([]);
     const navigate = useNavigate();
     const fileInputRef = useRef(null);
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
 
     useEffect (() => {
         if(couponId ){
@@ -47,13 +35,10 @@ const CouponFormPage = () => {
                 discountPercent: couponById?.discountPercent ? couponById.discountPercent * 100 : 0 ,
                 maxDiscountAmount : couponById.maxDiscountAmount
             })
-<<<<<<< HEAD
-=======
             const copponData = resCouponByCouponId.data.data;
             const resImage = await axiosConfig.get(`/files/coupon/${copponData.imageUrl}`,{responseType : 'blob'});
             setImageCoupon(URL.createObjectURL(resImage.data));
 
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
         } catch (error) {
             console.error('error in Coupons')
         }
@@ -72,11 +57,6 @@ const CouponFormPage = () => {
             ...data
         }
         formData.append('couponRequest',new Blob([JSON.stringify(payload)], {type : 'application/json'}));
-<<<<<<< HEAD
-        try {
-            if(couponId){
-                const resCouponUpdate= await axiosConfig.put(`/coupon/${couponId}`,formData,{headers : {'Content-Type' : 'multipart/form-data'}});
-=======
 
         const files= await handleImage();
         if(files.length > 0){
@@ -88,17 +68,12 @@ const CouponFormPage = () => {
         try {
             if(couponId){
                 const resCouponUpdate= await axiosConfig.put(`/coupon/coupon/${couponId}`,formData,{headers : {'Content-Type' : 'multipart/form-data'}});
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
                 if(resCouponUpdate.data.data !== null){
                     alert('Update Coupon Success');
                 }
                 console.log(resCouponUpdate.data.data);
             }else{
-<<<<<<< HEAD
-                const resCouponCreate = await axiosConfig.post(`/coupon`,formData,{headers : {'Content-Type' : 'multipart/form-data'}});
-=======
                 const resCouponCreate = await axiosConfig.post(`/coupon/coupon`,formData,{headers : {'Content-Type' : 'multipart/form-data'}});
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
                 if(resCouponCreate.data.data !== null){
                     alert('Create Coupon Success');
                 }
@@ -109,8 +84,6 @@ const CouponFormPage = () => {
             console.error('error in submitCoupon',error);
         }
     }
-<<<<<<< HEAD
-=======
 
     const handleImage = async () =>{
         // Khi liên kết useRef với input file , truy cập vào current.files để lấy ra files
@@ -124,26 +97,19 @@ const CouponFormPage = () => {
         // Nếu files được chọn, chuyển files thành mảng và trả về 
           return Array.from(files);
       }
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
     
     return (
         <div>
             <CouponForm
             register ={register}
             handleSubmit = {handleSubmit}
-<<<<<<< HEAD
-=======
             handleImage = {handleImage}
             fileInputRef = {fileInputRef}
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
             reset = {reset}
             submitCoupon = {submitCoupon}
             couponId = {couponId}
             errors = {errors}
-<<<<<<< HEAD
-=======
             imageCoupon = {imageCoupon}
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
              /> 
         </div>
     );

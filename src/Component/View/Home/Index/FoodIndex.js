@@ -1,20 +1,22 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { customTranslate } from '../../../../i18n';
 import Drink from './Drink';
 import FoodMenu from './FoodMenu';
 import Search from './Search';
 const FoodIndex =()=>{
-    
+    const { t } = useTranslation(); // Khai báo useTranslation
     return (
         <section className="bg-white " >
      <section className="banner">
          <div className="container">
              <div className="row">
                  <div className="col-md-6 col-md-offset-3">
-                     <h4>Here you can find delecious foods</h4>
-                     <h2>Asian Restaurant</h2>
-                     <p>Quisque nec nibh id lacus fringilla eleifend sed sit amet sem. Donec lectus odio, mollis a nisl non, tempor interdum nisl.</p>
+                     <h4>{customTranslate("Here you can find delecious foods")}</h4>
+                     <h2>{customTranslate("Asian Restaurant")}</h2>
+                     {/* <p>Quisque nec nibh id lacus fringilla eleifend sed sit amet sem. Donec lectus odio, mollis a nisl non, tempor interdum nisl.</p> */}
                      <div className="primary-button">
-                         <a href="#" className="scroll-link" data-id="book-table">Order Right Now</a>
+                         <a href="#" className="scroll-link" data-id="book-table">{customTranslate("Order Right Now")}</a>
                      </div>
                  </div>
              </div>
@@ -33,14 +35,14 @@ const FoodIndex =()=>{
                  </div>
                  <div className="col-md-4">
                      <div className="cook-content">
-                         <h4>We cook delecious</h4>
+                         <h4>{customTranslate("We cook delecious")}</h4>
                          <div className="contact-content">
-                             <span>You can call us on:</span>
+                             <span>{customTranslate("You can call us on")}:</span>
                              <h6>+ 1234 567 8910</h6>
                          </div>
-                         <span>or</span>
+                         <span>{customTranslate("or")}</span>
                          <div className="primary-white-button">
-                             <a href="#" className="scroll-link" data-id="book-table">Order Now</a>
+                             <a href="#" className="scroll-link" data-id="book-table">{customTranslate("Order Now")}</a>
                          </div>
                      </div>
                  </div>
@@ -62,7 +64,7 @@ const FoodIndex =()=>{
                      <div className="service-item">
                          <a href="menu.html">
                          <img src="assets/images/cook_breakfast.png" alt="Breakfast"/>
-                         <h4>Breakfast</h4>
+                         <h4>{customTranslate("Breakfast")}</h4>
                          </a>
                      </div>
                  </div>
@@ -70,7 +72,7 @@ const FoodIndex =()=>{
                      <div className="service-item">
                          <a href="menu.html">
                          <img src="assets/images/cook_lunch.png" alt="Lunch"/>
-                         <h4>Lunch</h4>
+                         <h4>{customTranslate("Lunch")}</h4>
                          </a>
                      </div>
                  </div>
@@ -78,7 +80,7 @@ const FoodIndex =()=>{
                      <div className="service-item">
                          <a href="menu.html">
                          <img src="assets/images/cook_dinner.png" alt="Dinner"/>
-                         <h4>Dinner</h4>
+                         <h4>{customTranslate("Dinner")}</h4>
                          </a>
                      </div>
                  </div>
@@ -86,7 +88,7 @@ const FoodIndex =()=>{
                      <div className="service-item">
                          <a href="menu.html">
                          <img src="assets/images/cook_dessert.png" alt="Desserts"/>
-                         <h4>Desserts</h4>
+                         <h4>{customTranslate("Desserts")}</h4>
                          </a>
                      </div>
                  </div>
@@ -96,7 +98,7 @@ const FoodIndex =()=>{
      
                 <section>
                 <Search/>
-                    <h2>Main dishes</h2>
+                    <h2>{customTranslate("Main dishes")}</h2>
                     
                     <hr></hr>
                 <FoodMenu />
@@ -105,12 +107,12 @@ const FoodIndex =()=>{
                 <br/>
                 <hr/>
                 <section>
-                    <h2>Drinks</h2>
+                    <h2>{customTranslate("Drinks")}</h2>
                     <hr></hr>
                 <Drink />
                 </section>
 
-     <section id="book-table">
+     {/* <section id="book-table">
          <div className="container">
              <div className="row">
                  <div className="col-md-12">
@@ -191,7 +193,7 @@ const FoodIndex =()=>{
              </div>
          </div>
      </section>
- 
+  */}
         
  
    
@@ -202,13 +204,13 @@ const FoodIndex =()=>{
          <div className="container">
              <div className="row">
                  <div className="heading">
-                     <h2>Weekly Featured Food</h2>
+                     <h2>{customTranslate("Weekly Featured Food")}</h2>
                  </div>
              </div>
              <div className="row">
                  <div className="col-md-4">
                      <div className="food-item">
-                         <h2>Breakfast</h2>
+                         <h2>{customTranslate("Breakfast")}</h2>
                          <img src="assets/images/breakfast_item.jpg" alt=""/>
                          <div className="price">$4.50</div>
                          <div className="text-content">
@@ -219,7 +221,7 @@ const FoodIndex =()=>{
                  </div>
                  <div className="col-md-4">
                      <div className="food-item">
-                         <h2>Lunch</h2>
+                         <h2>{customTranslate("Lunch")}</h2>
                          <img src="assets/images/lunch_item.jpg" alt=""/>
                          <div className="price">$7.50</div>
                          <div className="text-content">
@@ -230,7 +232,7 @@ const FoodIndex =()=>{
                  </div>
                  <div className="col-md-4">
                      <div className="food-item">
-                         <h2>Dinner</h2>
+                         <h2>{customTranslate("Dinner")}</h2>
                          <img src="assets/images/dinner_item.jpg" alt=""/>
                          <div className="price">$12.50</div>
                          <div className="text-content">
@@ -250,7 +252,7 @@ const FoodIndex =()=>{
              <div className="row">
                  <div className="col-md-12">
                      <div className="heading">
-                         <h2>Our blog post</h2>
+                         <h2>{customTranslate("Our blog post")}</h2>
                      </div>
                  </div>
              </div>

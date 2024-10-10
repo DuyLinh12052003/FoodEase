@@ -1,12 +1,6 @@
-<<<<<<< HEAD
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import "./ReservationList.css";
-=======
-import React, { useEffect, useState } from "react";
-import "./ReservationList.css";
 import axiosConfig from "../../../Config/AxiosConfig";
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
+import "./ReservationList.css";
 
 const ReservationCancelledList = () => {
   const [reservations, setReservations] = useState([]);
@@ -17,11 +11,7 @@ const ReservationCancelledList = () => {
   useEffect(() => {
     const fetchReservations = async () => {
       try {
-<<<<<<< HEAD
-        const response = await axios.get(
-=======
         const response = await axiosConfig.get(
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
           "http://localhost:8080/api/reservations"
         );
         console.log(response.data); // Kiểm tra dữ liệu
@@ -53,11 +43,7 @@ const ReservationCancelledList = () => {
         return; // Dừng hành động nếu bàn đã được chấp nhận
       }
 
-<<<<<<< HEAD
-      const response = await axios.patch(
-=======
       const response = await axiosConfig.patch(
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
         `http://localhost:8080/api/reservations/${id}/status`,
         { status: newStatus }
       );
@@ -158,8 +144,4 @@ const ReservationCancelledList = () => {
   );
 };
 
-<<<<<<< HEAD
 export default ReservationCancelledList;
-=======
-export default ReservationCancelledList;
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62

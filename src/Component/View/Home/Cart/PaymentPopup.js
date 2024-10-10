@@ -69,10 +69,6 @@ const PaymentPopup = ({isOpenPayment,handlePaymentPopup,totalPrice,hanldePayment
 		</div>   
             )
         }
-<<<<<<< HEAD
-       
-=======
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
         </>
     );
 };

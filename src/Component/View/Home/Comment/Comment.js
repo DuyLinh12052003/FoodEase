@@ -1,23 +1,17 @@
 
-import React,{useState,useEffect} from 'react';
-import './Comment.css'; // Để thêm CSS cho component
-<<<<<<< HEAD
-import axios from 'axios';
-=======
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { customTranslate } from '../../../../i18n';
 import axiosConfig from '../../../Config/AxiosConfig';
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
+import './Comment.css'; // Để thêm CSS cho component
 const Comment = (foodDetail) => {
 const [comment,setComment ] =useState([]);
 const [rating, setRating] = useState(0);
 const [review, setReview] = useState('');
 const [file, setFile] = useState(null);
-
+const { t } = useTranslation();
   const fetchCommnet = async ()=>{
-<<<<<<< HEAD
-           await axios.get(`http://localhost:8080/user/findfoodReviewByFoodId/${foodDetail.foodDetail.foodId}`)
-=======
            await axiosConfig.get(`/user/foodReview/findfoodReviewByFoodId/${foodDetail.foodDetail.foodId}`)
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
         .then(response =>{
           setComment(response.data)
         
@@ -37,11 +31,7 @@ const [file, setFile] = useState(null);
         formData.append('foodId',foodDetail.foodDetail.foodId);
         
         try {
-<<<<<<< HEAD
-            const response = await axios.post('http://localhost:8080/user/comment',formData,
-=======
             const response = await axiosConfig.post('/user/foodReview/comment',formData,
->>>>>>> bd03a3a14265b165c67ca1ce5c3e9557eff8be62
                { headers: {
                 'Content-Type': 'multipart/form-data'
             }}
@@ -91,7 +81,7 @@ const [file, setFile] = useState(null);
           &#9733;
         </span>
       ))}
-      <span className="rating-value">{rating} sao</span>
+      <span className="rating-value">{rating} star</span>
     </div>
     <div className="comment">
      
@@ -101,7 +91,7 @@ const [file, setFile] = useState(null);
         value={review}
         onChange={(e) => setReview(e.target.value)}
         className="styled-input"
-        placeholder="Comment..."
+        placeholder={customTranslate("Comment")}
       />
       <input
         type="file"
@@ -110,7 +100,7 @@ const [file, setFile] = useState(null);
         
         
       />
-      <button onClick={handleAdd}>send</button>
+      <button onClick={handleAdd}>{customTranslate("send")}</button>
     </div>
   </form>
 

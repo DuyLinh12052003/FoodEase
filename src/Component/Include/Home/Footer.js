@@ -1,6 +1,9 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { customTranslate } from '../../../i18n';
 
 const Footer = () => {
+    const { t } = useTranslation(); // Khai báo useTranslation
     return (
         <>
                 <section className="sign-up">
@@ -8,7 +11,7 @@ const Footer = () => {
              <div className="row">
                  <div className="col-md-12">
                      <div className="heading">
-                         <h2>Signup for our newsletters</h2>
+                         <h2>{customTranslate("Signup for our newsletters")}</h2>
                      </div>
                  </div>
              </div>
@@ -16,12 +19,12 @@ const Footer = () => {
                  <div className="row">
                      <div className="col-md-4 col-md-offset-3">
                          <fieldset>
-                             <input name="email" type="text" className="form-control" id="email" placeholder="Enter your email here..." required=""/>
+                             <input name="email" type="text" className="form-control" id="email" placeholder={customTranslate("Enter your email here")} required=""/>
                          </fieldset>
                      </div>
                      <div className="col-md-2">
                          <fieldset>
-                             <button type="submit" id="form-submit" className="btn">Send Message</button>
+                             <button type="submit" id="form-submit" className="btn">{customTranslate("Send Message")}</button>
                          </fieldset>
                      </div>
                  </div>
