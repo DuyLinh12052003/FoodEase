@@ -33,7 +33,7 @@ const OrderDetailsPopup = ({isOpentOrderDetails , orderDetailsByOrderId, openOrd
                                  <td>{item.foodVariations.foodSize.foodSizeName}</td>
                                  <img  src={`/assets/images/${item.foodVariations.food.imageUrl}`}
                                     style={{width : '80px', height : '80px'}}
-                                  alt={item.name} className="menu-image" />
+                                  alt={item.name}  />
                                  <td>{item.price}</td> 
                                  <td>{item.quantity}</td> 
                             </tr>

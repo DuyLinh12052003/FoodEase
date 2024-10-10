@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import './Header.css';
 import { Link, NavLink } from 'react-router-dom';
+import axiosConfig from '../../Config/AxiosConfig';
 
 const Header = () => {
   const [userName,setUserName] = useState(null);
-  const fetchData = async () => {
-  const usernameLogin = localStorage.getItem('userNameLogin');
-  setUserName(usernameLogin);
-  console.log(usernameLogin);
-  }
+  
   useEffect(() => {
     fetchData();
   },[])
+
+  const fetchData = async () => {
+    const usernameLogin = localStorage.getItem('userNameLogin');
+    setUserName(usernameLogin);
+    console.log(usernameLogin);
+   // const resUser = await axiosConfig.get()
+    }
   return (
     <header className="header">
       <h1 className="logo">Victory</h1>
@@ -19,7 +23,7 @@ const Header = () => {
         <ul className="nav-links">
           <li><NavLink to="/">Home</NavLink></li>
           <li><NavLink to="/menu">Our Menus</NavLink></li>
-          <li><NavLink to="/blog">Blog Entries</NavLink></li>
+          <li><NavLink to="/myOrder">My Order</NavLink></li>
           
           <li className="dropdown" >
             <NavLink to="#">My Account</NavLink>

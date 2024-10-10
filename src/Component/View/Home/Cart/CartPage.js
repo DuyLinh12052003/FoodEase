@@ -32,6 +32,7 @@ const CartPage = () => {
     const [districtIdChoose,setDistrictIdChoose] = useState();
     const [fee,setFee] = useState([]);
     const [wardIdChoose,setWardIdChoose] = useState();
+    const [leadTime,setLeadTime] = useState();
 
     const baseReturnUrl = window.location.origin;
 
@@ -113,7 +114,9 @@ const CartPage = () => {
                     params : 
                     {
                         baseReturnUrl : baseReturnUrl ,
-                        couponId : couponId                  
+                        couponId : couponId,
+                        leadTime : leadTime,
+                        shipFee : fee           
                     }
                 }
                 )
@@ -270,7 +273,9 @@ const CartPage = () => {
             console.log('District ID:', districtIdChoose);
             console.log('Ward ID:', wardIdChoose);
             const resFee = await axiosConfig.post(`/ship/getFee/${districtIdChoose}/${serviceId}/${wardIdChoose}`);
-            const feeData = JSON.parse(resFee.data.data);
+            console.log(resFee.data.data.leadTimeData);
+            setLeadTime(resFee.data.data.leadTimeData);
+            const feeData = JSON.parse(resFee.data.data.feeData);
             console.log(feeData.data);
                 alert('Choose Ship Service Success');
                 setFee(feeData.data.total);

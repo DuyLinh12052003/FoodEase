@@ -25,6 +25,7 @@ import TableReservation from './Component/View/Home/TableReservation/TableReserv
 import ReservationList from './Component/View/Admin/Reservation/ReservationList';
 import ReservationCancelledList from './Component/View/Admin/Reservation/ReservationCancelledList';
 import ReservationAcceptedList from './Component/View/Admin/Reservation/ReservationAcceptedList';
+import OrderStatus from './Component/View/Home/MyOrder/OrderStatus';
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
             <Route path='claimCoupon' element={<ClaimCouponPage />} />
             <Route path='orderHistory/order/:userName' element={<OrderHistoryPage />} />
             <Route path="table-reservation" element={<TableReservation />} />
+            <Route path='/myOrder' element={<OrderStatus/>} />
           </Route>
 
           <Route path="/admin" element={<AdminLayOut />}>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form"; // Import useForm từ react-hook-form
-import "./TableReservation.css";
 import axiosConfig from "../../../Config/AxiosConfig";
+import "./TableReservation.css";
 
 const TableReservation = () => {
     const { register, handleSubmit, setValue } = useForm(); // Khởi tạo useForm
