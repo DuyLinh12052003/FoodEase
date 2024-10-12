@@ -11,10 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import poly.foodease.Model.Entity.Toppings;
 import poly.foodease.Service.ToppingService;
 
-
-@RestController
 @CrossOrigin("*")
-@RequestMapping("/user")
+@RestController
+@RequestMapping("api/user/topping")
 public class ToppingApi {
 @Autowired
 ToppingService toppingService;

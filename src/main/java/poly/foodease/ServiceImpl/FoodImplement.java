@@ -1,10 +1,14 @@
 package poly.foodease.ServiceImpl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import poly.foodease.Mapper.FoodMapper;
 import poly.foodease.Model.Entity.Foods;
+import poly.foodease.Model.Response.FoodResponse;
 import poly.foodease.Repository.FoodsDao;
 import poly.foodease.Service.FoodsService;
 
@@ -14,21 +18,17 @@ public class FoodImplement implements FoodsService {
 	
 	@Autowired
 	FoodsDao foodsDao;
+	
+	@Autowired FoodMapper foodMapper;
 	@Override
-	public List<Foods> findAll() {
-		
-		return foodsDao.findAll();
+	public List<FoodResponse> findAll() {
+		List<Foods> list=foodsDao.findAll();
+		return list.stream()
+				.map(foodMapper :: converEntoResponse)
+				.collect(Collectors.toList());
 	}
-	@Override
-	public List<Foods> findByCategoryMainDishes() {
-		// TODO Auto-generated method stub
-		return foodsDao.findByCategoryMainDishes();
-	}
-	@Override
-	public List<Foods> findByCategoryDrink() {
-		// TODO Auto-generated method stub
-		return foodsDao.findByCategoryDrink();
-	}
+	
+	
 
 	
 

@@ -8,24 +8,22 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import poly.foodease.Model.Entity.FoodVariations;
+import poly.foodease.Model.Response.FoodResponse;
 import poly.foodease.Service.FoodCategoryService;
 import poly.foodease.Service.FoodsService;
 
-
+@CrossOrigin("*")
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping("/user")
+@RequestMapping("/api/user/food")
 public class FoodsApi {
 	@Autowired
 	FoodsService foodService;
 	@Autowired
 	FoodCategoryService foodCategoryService;
-//	@GetMapping("/findByCategoryMainDishes")
-//	public ResponseEntity<List<Foods>> findByCategoryMainDishes()
-//	{
-//		List<Foods> findByCategoryMainDishes =foodService.findByCategoryMainDishes();
-//		return ResponseEntity.ok(findByCategoryMainDishes);
-//	}
+	
+
 //	@GetMapping("/findByCategoryDrink")
 //	public ResponseEntity<List<Foods>> findByCategoryDrink ()
 //	{
@@ -33,5 +31,12 @@ public class FoodsApi {
 //		return ResponseEntity.ok(findByCategoryDrink);
 //	}
 //	
+	
+	@GetMapping("/findMain")
+	public ResponseEntity<List<FoodResponse>> findAll()
+	{
+		List<FoodResponse> list = foodService.findAll();
+		return ResponseEntity.ok(list);
+	}
 
 }

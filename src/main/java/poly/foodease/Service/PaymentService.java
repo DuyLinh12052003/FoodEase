@@ -1,5 +1,6 @@
 package poly.foodease.Service;
 
+import com.google.zxing.WriterException;
 import org.springframework.stereotype.Service;
 import poly.foodease.Model.Response.OrderDetailsResponse;
 import poly.foodease.Model.Response.OrderResponse;
@@ -15,5 +16,5 @@ public interface PaymentService {
     List<OrderDetailsResponse> createOrderDetails(Integer orderId, Integer cartId);
     void updateCouponStorageAndUsedCount(String username,String couponId);
     List<OrderDetailsResponse> createOrderDetail(String OrderInfo, Integer orderId);
-    void sendEmail (String username , OrderResponse orderResponse, List<OrderDetailsResponse> orderDetailResponses ) throws IOException;
+    void sendEmail (String username , OrderResponse orderResponse, List<OrderDetailsResponse> orderDetailResponses ) throws IOException, WriterException;
 }

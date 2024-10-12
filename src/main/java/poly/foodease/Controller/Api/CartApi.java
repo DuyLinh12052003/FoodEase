@@ -1,23 +1,26 @@
 package poly.foodease.Controller.Api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import poly.foodease.Service.CartService;
+import poly.foodease.ServiceImpl.GHNServiceImpl;
 
 import java.util.HashMap;
 import java.util.Map;
-
-@CrossOrigin
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/cart")
 public class CartApi {
 
     @Autowired
     CartService cartService;
+    @Autowired
+    GHNServiceImpl ghnService;
 // ghi log ứng dụng
     @GetMapping("/{cartId}")
-    public ResponseEntity<Object> getCartByCartId(@PathVariable("cartId") Integer cartId){
+    public ResponseEntity<Object> getCartByCartId(@PathVariable("cartId") Integer cartId) throws JsonProcessingException {
         Map<String,Object> result = new HashMap<>();
         try {
             result.put("success",true);

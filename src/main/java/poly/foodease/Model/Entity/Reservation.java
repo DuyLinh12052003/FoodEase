@@ -62,4 +62,3 @@ public class Reservation {
         return restaurantTable != null ? restaurantTable.getTableName() : null;
     }
 }
-

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import poly.foodease.Mapper.ReservationMapper;
@@ -24,7 +25,9 @@ import poly.foodease.Service.ReservationService;
 
 @RestController
 @RequestMapping("/api/reservations")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", methods = { RequestMethod.PATCH,
+        RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.DELETE }, allowCredentials = "true")
+
 public class ReservationApi {
 
     @Autowired
@@ -50,11 +53,12 @@ public class ReservationApi {
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<Reservation> updateReservationStatus(@PathVariable Integer id,
+    public ResponseEntity<ReservationResponse> updateReservationStatus(@PathVariable Integer id,
             @RequestBody Map<String, String> statusUpdate) {
         String status = statusUpdate.get("status");
         Reservation updatedReservation = reservationService.updateReservationStatus(id, status);
-        return ResponseEntity.ok(updatedReservation);
+        ReservationResponse response = reservationMapper.toResponse(updatedReservation);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/accept/{id}")
