@@ -5,7 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @AllArgsConstructor
@@ -13,9 +15,13 @@ import java.time.LocalDateTime;
 @Builder
 public class ReservationRequest {
 
-    private Long tableId;
-    private Long userId;
-    private int numberOfGuests;
-    private LocalDateTime reservationTime;
+    private String name;
+    private String email;
+    private String phone;
+    private LocalDate reservationDate;
+    private LocalTime reservationTime;
+    private Integer guests;
+    private Integer tableId; // ID của bàn được đặt
+    private String tableName;
 
 }

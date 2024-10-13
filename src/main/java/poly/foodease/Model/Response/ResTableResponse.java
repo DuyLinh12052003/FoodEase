@@ -6,16 +6,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class FoodResponse {
-    private String foodName;
-    private String description;
-    private double basePrice;
-    private Date createDate;
+public class ResTableResponse {
+
+    private Integer tableId;
+    private String tableName;
+    private Integer capacity;
+    private Boolean isAvailable; // true nếu bàn còn trống
+
 }

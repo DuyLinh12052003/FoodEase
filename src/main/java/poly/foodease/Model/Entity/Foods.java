@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -19,6 +18,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,8 +36,13 @@ public class Foods implements Serializable{
 	private String description;
 	private double basePrice;
 	private String imageUrl;
+
+	@CreationTimestamp
 	private Date createdAt;
+
+	@CreationTimestamp
 	private Date updatedAt;
+
 	private int discount;
 	private int categoryId;
 

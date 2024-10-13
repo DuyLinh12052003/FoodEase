@@ -11,18 +11,28 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Entity
 @Table(name = "restables")
+@Builder
 // Bảng các bàn có trong nhà hàng
 public class ResTable implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "table_id")
+    private int tableId;
 
-    private int tableNumber;
-    private int capacity;
-    private boolean isAvailable;
+    @Column(name = "table_name")
+    private String tableName;
+
+    @Column(name = "capacity")
+    private Integer capacity;
+
+    @Column(name = "is_available")
+    private Boolean isAvailable;
+
+    public ResTable(Integer tableId) {
+        this.tableId = tableId;
+    }
 
 }

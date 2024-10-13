@@ -17,10 +17,6 @@ public interface FoodsService {
 	List<Foods> findByCategoryDrink();
 	FoodResponse createFood(FoodRequest foodRequest);
 
-	List<FoodResponse> getAllFoods();
-
-	Optional<FoodResponse> getFoodById(int foodId);
-
 	FoodResponse updateFood(int foodId, FoodRequest foodRequest);
 
 	void deleteFood(int foodId);

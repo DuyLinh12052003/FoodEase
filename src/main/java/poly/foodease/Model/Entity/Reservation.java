@@ -8,31 +8,52 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
-@Table(name = "reservations")
-@Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Data
-// Bảng đặt bàn
+@Table(name = "reservations")
+@Builder
 public class Reservation implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "reservation_id")
+    private Integer reservationId;
+
+    @Column(name = "status")
+    private String status;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "phone")
+    private String phone;
+
+    @Column(name = "reservation_date")
+    private LocalDate reservationDate;
+
+    @Column(name = "reservation_time")
+    private LocalTime reservationTime;
+
+    @Column(name = "guests")
+    private Integer guests;
 
     @ManyToOne
-    @JoinColumn(name = "table_id", nullable = false)
-    private ResTable resTable;
+    @JoinColumn(name = "table_id")
+    private ResTable restaurantTable;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Transient
+    private String tableName;
 
-    private String customerName;
-    private int numberOfGuests;
-    private LocalDateTime reservationTime;
-
+    public String getTableName() {
+        return restaurantTable != null ? restaurantTable.getTableName() : null;
+    }
 }

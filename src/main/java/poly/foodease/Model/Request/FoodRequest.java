@@ -16,7 +16,7 @@ public class FoodRequest {
     private String foodName;
     private String description;
     private double basePrice;
-    private List<String> imageUrl;
+    private String image;
     private int discount;
     private int categoryId;
 }
