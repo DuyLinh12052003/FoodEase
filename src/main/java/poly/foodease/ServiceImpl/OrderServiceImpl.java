@@ -3,17 +3,20 @@ package poly.foodease.ServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import poly.foodease.Mapper.OrderMapper;
 import poly.foodease.Model.Entity.Order;
 import poly.foodease.Model.Request.OrderRequest;
 import poly.foodease.Model.Response.OrderResponse;
 import poly.foodease.Repository.OrderRepo;
+import poly.foodease.Repository.OrderStatusRepo;
 import poly.foodease.Service.OrderService;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,6 +25,8 @@ public class OrderServiceImpl implements OrderService {
     private  OrderRepo orderRepo;
     @Autowired
     private OrderMapper orderMapper;
+    @Autowired
+    private OrderStatusRepo orderStatusRepo;
 
 
     @Override
@@ -51,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Optional<OrderResponse> updateOrderResponse(Integer orderId, OrderRequest orderRequest) {
+    public Optional<OrderResponse> updateOrder(Integer orderId, OrderRequest orderRequest) {
         return Optional.of(orderRepo.findById(orderId).map(orderExists -> {
             Order order = orderMapper.convertReqToEn(orderRequest);
             order.setOrderId(orderExists.getOrderId());
@@ -70,5 +75,68 @@ public class OrderServiceImpl implements OrderService {
                 .map(orderMapper :: convertEnToRes)
                 .collect(Collectors.toList());
         return new PageImpl<>(orders,pageable,orderPage.getTotalElements());
+    }
+
+    @Override
+    public Page<OrderResponse> getOrderByStatusId(String userName, Integer orderStatusId,Integer pageCurrent, Integer pageSize, String sortOrder, String sortBy) {
+        Sort sort = Sort.by(new Sort.Order(Objects.equals(sortOrder, "asc") ? Sort.Direction.ASC : Sort.Direction.DESC , sortBy));
+        Pageable pageable = PageRequest.of(pageCurrent,pageSize,sort);
+        Page<Order> orderPage = orderRepo.getOrderByStatusId(userName, orderStatusId, pageable);
+        List<OrderResponse> orders = orderPage.getContent().stream()
+                .map(orderMapper :: convertEnToRes)
+                .collect(Collectors.toList());
+        return new PageImpl<>(orders,pageable , orderPage.getTotalElements());
+    }
+
+    @Override
+    public OrderResponse changeOrderStatus(Integer orderId,Integer orderStatusId){
+        Order order = orderRepo.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("Not found order"));
+        order.setOrderStatus(orderStatusRepo.findById(orderStatusId)
+                .orElseThrow(() -> new EntityNotFoundException("Not found OrderStatus By Id")));
+        return orderMapper.convertEnToRes(orderRepo.save(order));
+    }
+
+    // Hàm này giúp tự động cập nhật trạng thái đơn hàng
+    @Override
+    @Scheduled(fixedRate = 60000)
+    @Transactional
+    public List<OrderResponse> changeOrderStatusToDelived(){
+        List<Integer> orderStatusIds= Arrays.asList(2,3,4);
+        LocalDateTime now = LocalDateTime.now();
+        List<Order> orders = orderRepo.getOrdersToUpdate(orderStatusIds);
+        System.out.println("Total Order Update " +orders.size());
+        orders.forEach(order -> {
+            if(order.getOrderStatus().getOrderStatusId() == 2){
+                LocalDateTime paymentDateTime = order.getPaymentDatetime();
+                if(paymentDateTime.plusMinutes(3).isBefore(now)){
+                    System.out.println("The Order Status is change to Shipping");
+                    order.setOrderStatus(orderStatusRepo.findById(3).orElseThrow());
+                }
+            }else if(order.getOrderStatus().getOrderStatusId() == 3){
+                LocalDateTime estimatedDateTime = order.getEstimatedDeliveryDateTime();
+                if(estimatedDateTime.isBefore(now)){
+                    System.out.println("The Order Status is change to Delivered");
+                    order.setOrderStatus(orderStatusRepo.findById(4).orElseThrow());
+                }
+            }else if(order.getOrderStatus().getOrderStatusId() == 4){
+                LocalDateTime estimatedDateTime = order.getEstimatedDeliveryDateTime();
+                if(estimatedDateTime.plusDays(15).isBefore(now)){
+                    System.out.println("The Order is Complete");
+                    order.setOrderStatus(orderStatusRepo.findById(6).orElseThrow());
+                }
+            }
+        });
+        return orderRepo.saveAll(orders).stream()
+                .map(orderMapper :: convertEnToRes)
+                .toList();
+    }
+
+    // Ngọc
+    @Override
+    public List<OrderResponse> findAll() {
+        List<Order> list=orderRepo.findAll();
+        return list.stream().map(orderMapper :: convertEnToRes)
+                .collect(Collectors.toList());
     }
 }

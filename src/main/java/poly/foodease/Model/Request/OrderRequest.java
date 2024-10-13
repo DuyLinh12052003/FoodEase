@@ -18,8 +18,12 @@ public class OrderRequest {
     private Double totalPrice;
     private Integer totalQuantity;
     private String deliveryAddress;
-    private LocalDate paymentDate;
-    private LocalTime paymentTime;
+    private LocalDate orderDate;
+    private LocalTime orderTime;
+    private LocalDateTime paymentDateTime;
+    private LocalDateTime estimatedDeliveryDateTime;
+    private Integer shipFee;
+    private Integer leadTime;
     private Integer couponId;
     private Integer paymentMethodId;
     private Integer shipMethodId;

@@ -46,7 +46,7 @@ public class StripeService {
 //        return PaymentIntent.create(params);
 //    }
 
-    public String createCheckoutSession(String orderInfo, Integer totalPrice, String baseReturnUrl , List<Map<String,Object>> cartItems) throws StripeException {
+    public String createCheckoutSession(Integer orderInfo, Integer totalPrice, String baseReturnUrl , List<Map<String,Object>> cartItems) throws StripeException {
         System.out.println("Create Check Out Stripe");
         cartItems.forEach(cartItem -> {
             String idPrice = (String) cartItem.get("idPrice");
@@ -91,7 +91,7 @@ public class StripeService {
                             .build()
             );
         });
-        paramsBuilder.putMetadata("orderInfo", orderInfo)
+        paramsBuilder.putMetadata("orderInfo", String.valueOf(orderInfo))
                 .putMetadata("totalPrice", String.valueOf(totalPrice))
                 .putMetadata("dateTime", dateTimeString);
         SessionCreateParams params = paramsBuilder.build();

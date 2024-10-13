@@ -17,12 +17,10 @@ public class JwtUtils {
     private final String secretKey  = "huongphamhuongphamhuongphamhuongphamhuongphamhuongpham";
     public String extractUsername(String token){
         Claims claims = extractAllClaims(token);
-        System.out.println("Extracting username from token: " + token);
         return claims.getSubject();
     }
     public Date extractExpiration(String token){
         Claims claims = extractAllClaims(token);
-        System.out.println("extract Expiration from token: " + token);
         return claims.getExpiration();
 
     }

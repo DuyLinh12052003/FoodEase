@@ -34,7 +34,7 @@ public class MomoServiceImpl {
     @Autowired
     private CartService cartService;
 
-    public String createUrlPaymentMomo( String orderInfo,long totalPrice, String baseUrlReturn,String username){
+    public String createUrlPaymentMomo( Integer orderInfo,long totalPrice, String baseUrlReturn,String username){
         String urlPayment = momoService.createPaymentRequest( orderInfo, totalPrice, baseUrlReturn,username);
         return urlPayment;
     }
@@ -80,8 +80,6 @@ public class MomoServiceImpl {
             // Trong request momo trả về có 1 trường result code là trạng thái thanh toán ==0 là thanh toán thành công
             if(inpData.get("resultCode").equals("0")){
                 paymentStatus =1;
-                OrderResponse orderResponse = paymentService.createOrder(Integer.valueOf(orderInfo), couponId, 1, 1);
-                List<OrderDetailsResponse> orderDetailResponses = paymentService.createOrderDetails(Integer.valueOf(orderInfo), orderResponse.getOrderId());
 //                paymentService.sendEmail(username, orderResponse, orderDetailResponses);
 //                paymentService.updateCouponStorageAndUsedCount(username, couponId);
                 cartService.removeCart(Integer.valueOf(orderInfo));

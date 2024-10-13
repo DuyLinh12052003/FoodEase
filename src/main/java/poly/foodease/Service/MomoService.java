@@ -37,7 +37,7 @@ public class MomoService{
     public static final String PAYMENT_METHOD = "payWithATM" ;
     // public static final String PAYMENT_METHOD = "captureWallet" ;
 
-    public String createPaymentRequest(String orderInfo, long amount, String baseUrlReturn,String username) {
+    public String createPaymentRequest(Integer orderInfo, long amount, String baseUrlReturn,String username) {
         // Tạo chuỗi ngẫu nhiễn làm orderId
         String orderId ="MOMO" + UUID.randomUUID().toString().substring(0, 5);
         try {
@@ -48,7 +48,7 @@ public class MomoService{
             requestBody.put("requestId", orderId);
             requestBody.put("amount", String.valueOf(amount));
             requestBody.put("orderId", orderId);
-            requestBody.put("orderInfo", orderInfo);
+            requestBody.put("orderInfo", String.valueOf(orderInfo));
             requestBody.put("redirectUrl", baseUrlReturn + URL_RETURN);
             requestBody.put("ipnUrl", ipnUrl);  // Đường dẫn public mà momo sẽ trả về
             requestBody.put("requestType", PAYMENT_METHOD);

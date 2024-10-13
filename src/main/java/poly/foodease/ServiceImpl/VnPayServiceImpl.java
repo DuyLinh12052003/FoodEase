@@ -2,15 +2,19 @@ package poly.foodease.ServiceImpl;
 
 
 import com.google.zxing.WriterException;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import poly.foodease.Model.Entity.User;
 import poly.foodease.Model.Response.OrderDetailsResponse;
 import poly.foodease.Model.Response.OrderResponse;
 import poly.foodease.Model.Response.PaymentInfo;
-import poly.foodease.Service.CartService;
-import poly.foodease.Service.PaymentService;
-import poly.foodease.Service.VnPayService;
+import poly.foodease.Model.Response.UserResponse;
+import poly.foodease.Repository.UserRepo;
+import poly.foodease.Service.*;
+import poly.foodease.Utils.JwtUtils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -28,6 +32,14 @@ public class VnPayServiceImpl {
     private PaymentService paymentService;
     @Autowired
     private CartService cartService;
+    @Autowired
+    private OrderService orderService;
+    @Autowired
+    private OrderDetailsService orderDetailsService;
+    @Autowired
+    private JwtUtils jwtUtils;
+    @Autowired
+    private UserService userService;
 
     // Tạo giao dịch bằng và trả về đường dẫn giúp dẫn tới trang thanh toán của VnPay
     public String createPaymentUrl(int totalPrice, String orderInfo, String returnUrl ) throws UnsupportedEncodingException {
@@ -44,47 +56,31 @@ public class VnPayServiceImpl {
         // tao dto paymentInfo de lay du lieu payment cho font-end ;
         request.setCharacterEncoding("UTF-8");
         String totalPrice =request.getParameter("vnp_Amount");
-        System.out.println("Total Price Vn Pay : "+ totalPrice);
         String vnp_PayDate = request.getParameter("vnp_PayDate");
         String vnp_OrderInfo= request.getParameter("vnp_OrderInfo");
         String vnp_TransactionId = request.getParameter("vnp_TransactionId");
         // OrderInfo do nguoi dung tu dinh nghia, o day dinh nghia la cardId == key trong Map<CartId,Cart> MapStore
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-        LocalDateTime dateTime = LocalDateTime.parse(vnp_PayDate, formatter);
-
-        System.out.println("OrderInfo " + vnp_OrderInfo);
-        String couponId = "null";
-        String orderInfo= null;
-        if (vnp_OrderInfo != null && vnp_OrderInfo.contains("|couponId:")) {
-            // Tách chuỗi ban đầu theo "|couponId:"
-            String[] parts = vnp_OrderInfo.split("\\|couponId:");
-            // Phần đầu là orderInfo
-            orderInfo = parts[0].trim();
-            // Phần thứ hai là couponId
-            if (parts.length > 1) {
-                couponId= parts[1].trim();
-            }
-        }
-//        String jwtToken = request.getHeader("Authorization").substring(7);
-//        String username = jwtUtils.extractUsername(jwtToken);
-
+       // LocalDateTime dateTime = LocalDateTime.parse(vnp_PayDate, formatter);
+        String jwtToken = request.getHeader("Authorization").substring(7);
+        UserResponse user= userService.getUserByUsername(jwtUtils.extractUsername(jwtToken))
+                .orElseThrow(() -> new EntityNotFoundException("not found User"));
+        Integer orderId = Integer.valueOf(vnp_OrderInfo);
         if(paymentStatus ==1 ){
             System.out.println("Payment Success");
-            paymentInfo = paymentService.createPaymentInfo(orderInfo, paymentStatus, vnp_PayDate, totalPrice, vnp_TransactionId);
-            // Tạo hóa đơn
-            OrderResponse orderResponse = paymentService.createOrder(Integer.valueOf(orderInfo), couponId, 1, 1);
-            // Dùng orderId vừa tạo để tạo hóa đơn chi tiết
-            List<OrderDetailsResponse> orderDetailResponse = paymentService.createOrderDetails(orderResponse.getOrderId(),Integer.valueOf(orderInfo));
+            paymentInfo = paymentService.createPaymentInfo(vnp_OrderInfo, paymentStatus, vnp_PayDate, totalPrice, vnp_TransactionId);
             // Xử lý Coupon usedCount và CouponStorage
 //           paymentService.updateCouponStorageAndUsedCount(username,couponId);
-//            // Gửi Email
-            paymentService.sendEmail("huongpham",orderResponse ,orderDetailResponse );
-            System.out.println("Payment Success1");
-            cartService.removeCart(Integer.valueOf(orderInfo));
+            // Nếu thanh toán thành công chuyển trạng thái thành Shipping
+            OrderResponse orderResponse = paymentService.updatePaymentSuccess(orderId);
+            List<OrderDetailsResponse> orderDetailsResponses = orderDetailsService.getOrderDetailsByOrderId(orderId);
+            paymentService.sendEmail(user.getUserName(),orderResponse ,orderDetailsResponses );
+            System.out.println("Payment Success");
         }else{
             System.out.println("Payment Failed");
             paymentInfo.setPaymentStatus(0);
         }
+        cartService.removeCart(user.getUserId());
         System.out.println(paymentInfo + "Payment Info Return");
         return paymentInfo;
     }

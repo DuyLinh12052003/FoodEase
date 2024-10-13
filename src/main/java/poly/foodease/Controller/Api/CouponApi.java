@@ -67,9 +67,6 @@ public class CouponApi {
             @RequestPart("couponRequest")CouponRequest couponRequest,
             @RequestPart(value = "couponImage",required = false)MultipartFile[] files) throws IOException {
         Map<String,Object> result = new HashMap<>();
-        System.out.println(couponRequest);
-        System.out.println(files);
-
         couponRequest.setImageUrl("123");
         if(files != null){
 

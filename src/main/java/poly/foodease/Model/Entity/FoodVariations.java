@@ -45,4 +45,13 @@ public class FoodVariations implements Serializable{
 	@JsonIgnore
 	private List<FoodVariationToppings> foodVariationToppings;
 
+	@OneToMany(mappedBy = "foodVariations")
+	@JsonIgnore
+	private List<OrderReturn> orderReturns;
+
+	@OneToMany(mappedBy = "foodVariations")
+	@JsonIgnore
+	private List<OrderDetails> orderDetails;
+
+
 }

@@ -2,6 +2,7 @@ package poly.foodease.ServiceImpl;
 
 import com.google.zxing.WriterException;
 import jakarta.mail.MessagingException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import poly.foodease.Mapper.OrderMapper;
@@ -13,6 +14,9 @@ import poly.foodease.Service.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,24 +41,38 @@ public class PaymentServiceImpl implements PaymentService {
         System.out.println( "Payment Info " + paymentInfo);
         return paymentInfo;
     }
-    public OrderResponse createOrder(Integer cartId, String couponId , Integer paymentMethodId, Integer shipMethodId){
-        System.out.println("Payment Service Impl ");
-        System.out.println(cartId);
-        System.out.println(paymentMethodId);
-        System.out.println(shipMethodId);
+    // Lưu thông tin hóa đơn trước khi thực hiện thanh toán với status là processing
+    public OrderResponse createOrder(Integer cartId, Integer couponId , Integer paymentMethodId, Integer shipMethodId ,Integer leadTime,Integer shipFee, String deliveryAddress){
         OrderRequest orderRequest = new OrderRequest();
         orderRequest.setUserId(1);
         orderRequest.setTotalPrice(cartService.getTotalPrice(cartId));
         orderRequest.setTotalQuantity(cartService.getTotalQuantity(cartId) );
-        orderRequest.setOrderStatusId(2);
+        // Lưu thông tin thanh toán với trạng thái Processing
+        orderRequest.setOrderStatusId(1);
         orderRequest.setPaymentMethodId(paymentMethodId);
         orderRequest.setShipMethodId(shipMethodId);
-        orderRequest.setDeliveryAddress("You Address");
-        if(!couponId.equals("null") ){
-            orderRequest.setCouponId(Integer.valueOf(couponId));
+        orderRequest.setOrderDate(LocalDate.now());
+        orderRequest.setOrderTime(LocalTime.now());
+        orderRequest.setLeadTime(leadTime);
+        orderRequest.setShipFee(shipFee);
+        orderRequest.setDeliveryAddress(deliveryAddress);
+        // Bổ sung leadTime, paymentDateTime và estimatedDeliveryDateTime
+        if(couponId != null ){
+            orderRequest.setCouponId(couponId);
         }
        // System.out.println( orderRequest);
         return orderService.createOrder(orderRequest);
+    }
+
+    // Cập nhật thông tin sau khi thanh toán thành công
+    public OrderResponse updatePaymentSuccess(Integer orderId){
+        OrderResponse orderResponse = orderService.getOrderByOrderId(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("Not found Order"));
+        OrderRequest orderRequest= orderMapper.convertResToReq(orderResponse);
+        orderRequest.setPaymentDateTime(LocalDateTime.now());
+        orderRequest.setOrderStatusId(2);
+        orderRequest.setEstimatedDeliveryDateTime(LocalDateTime.now().plusHours(orderRequest.getLeadTime()));
+        return orderService.updateOrder(orderId, orderRequest).get();
     }
     public List<OrderDetailsResponse> createOrderDetails(Integer orderId, Integer cartId){
         OrderDetailsRequest orderDetailsRequest = new OrderDetailsRequest();

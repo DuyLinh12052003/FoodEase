@@ -5,6 +5,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import poly.foodease.Model.Response.OrderDetailsResponse;
+import poly.foodease.Model.Response.OrderResponse;
+import poly.foodease.Service.PaymentService;
 import poly.foodease.ServiceImpl.MomoServiceImpl;
 import poly.foodease.ServiceImpl.PayPalServiceImpl;
 import poly.foodease.ServiceImpl.StripeServiceImpl;
@@ -26,23 +29,28 @@ public class PaymentApi {
     StripeServiceImpl stripeService;
     @Autowired
     MomoServiceImpl momoService;
+    @Autowired
+    PaymentService paymentService;
 
 
-    @PostMapping("/byVnpay/{totalPrice}/{orderInfo}")
+    @PostMapping("/byVnpay/{totalPrice}/{cartId}")
     public ResponseEntity<Object> paymentVnPay(
             @PathVariable("totalPrice") int totalPrice,
-            @PathVariable("orderInfo") String orderInfo,
+            @PathVariable("cartId") Integer cartId,
             @RequestParam(value = "couponId",required = false) Integer couponId,
+            @RequestParam(value = "leadTime" ) Integer leadTime,
+            @RequestParam(value = "shipFee") Integer shipFee,
+            @RequestParam(value = "deliveryAddress" ) String deliveryAddress,
             @RequestParam("baseReturnUrl") String baseReturnUrl
     ){
-        orderInfo = orderInfo + "|couponId:" + couponId;
         Map<String,Object> result = new HashMap<>();
-        System.out.println(orderInfo);
-        System.out.println(totalPrice);
+        // Tạo hóa đơn với trạng thái processing
+        OrderResponse orderResponse=paymentService.createOrder(cartId, couponId, 1, 1,leadTime,shipFee,deliveryAddress);
+        List<OrderDetailsResponse> orderDetailsResponses = paymentService.createOrderDetails(orderResponse.getOrderId(), cartId);
         try {
             result.put("success",true);
             result.put("message","Create Url Payment With VnPay");
-            result.put("data",vnPayService.createPaymentUrl(totalPrice, orderInfo, baseReturnUrl));
+            result.put("data",vnPayService.createPaymentUrl(totalPrice, String.valueOf(orderResponse.getOrderId()), baseReturnUrl));
         }catch (Exception e){
             result.put("success",false);
             result.put("message",e.getMessage());
@@ -51,19 +59,24 @@ public class PaymentApi {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/byPaypal/{totalPrice}/{orderInfo}")
+    @PostMapping("/byPaypal/{totalPrice}/{cartId}")
     public ResponseEntity<Object> paymentByPayPal(
             @PathVariable("totalPrice") Integer totalPrice,
-            @PathVariable("orderInfo") String orderInfo,
+            @PathVariable("cartId") Integer cartId,
             @RequestParam(value = "couponId",required = false) Integer couponId,
+            @RequestParam("leadTime") Integer leadTime,
+            @RequestParam("shipFee") Integer shipFee,
+            @RequestParam("deliveryAddress") String deliveryAddress,
             @RequestParam("baseReturnUrl") String baseReturnUrl
     ){
-        orderInfo = orderInfo + "|couponId:" + couponId;
+        System.out.println("Pay by PayPal");
+        OrderResponse orderResponse= paymentService.createOrder(cartId, couponId, 2, 1, leadTime, shipFee, deliveryAddress);
+        List<OrderDetailsResponse> orderDetailsResponses = paymentService.createOrderDetails(orderResponse.getOrderId(), cartId);
         Map<String,Object> result = new HashMap<>();
         try {
             result.put("success",true);
             result.put("message","Create Url Payment with PayPal");
-            result.put("data",payPalService.createPaymentUrl(totalPrice, orderInfo, baseReturnUrl, baseReturnUrl));
+            result.put("data",payPalService.createPaymentUrl(totalPrice, orderResponse.getOrderId(), baseReturnUrl, baseReturnUrl));
         }catch (Exception e){
             result.put("success",false);
             result.put("message",e.getMessage());
@@ -72,21 +85,25 @@ public class PaymentApi {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/byStripe/{totalPrice}/{orderInfo}")
+    @PostMapping("/byStripe/{totalPrice}/{cartId}")
     public ResponseEntity<Object> createPaymentWithStripe(
             @PathVariable("totalPrice") Integer totalPrice,
-            @PathVariable("orderInfo") String orderInfo,
+            @PathVariable("cartId") Integer cartId,
             @RequestParam(value = "couponId",required = false) Integer couponId,
+            @RequestParam("leadTime") Integer leadTime,
+            @RequestParam("shipFee") Integer shipFee,
+            @RequestParam("deliveryAddress") String deliveryAddress,
             @RequestParam("baseReturnUrl") String baseReturnUrl,
             @RequestBody List<Map<String,Object>> cartItems
     ) throws StripeException {
-        orderInfo= orderInfo + "|couponId:" + couponId;
         System.out.println("Stripe " + cartItems);
+        OrderResponse orderResponse= paymentService.createOrder(cartId, couponId, 2, 1, leadTime, shipFee, deliveryAddress);
+        List<OrderDetailsResponse> orderDetailsResponses = paymentService.createOrderDetails(orderResponse.getOrderId(), cartId);
         Map<String,Object> result = new HashMap<>();
         try {
             result.put("success",true);
             result.put("message","Create Payment Url with Stripe");
-            result.put("data",stripeService.createPaymentUrlByStripe(orderInfo, totalPrice, baseReturnUrl, cartItems));
+            result.put("data",stripeService.createPaymentUrlByStripe(orderResponse.getOrderId(), totalPrice, baseReturnUrl, cartItems));
         }catch (Exception e){
             result.put("success",false);
             result.put("message",e.getMessage());
@@ -96,21 +113,25 @@ public class PaymentApi {
     }
 
 
-    @PostMapping("/byMomo/{totalPrice}/{orderInfo}/{username}")
+    @PostMapping("/byMomo/{totalPrice}/{cartId}/{username}")
     public ResponseEntity<Object> createPaymentByMomo(
             @PathVariable("totalPrice") long totalPrice,
-            @PathVariable("orderInfo") String orderInfo,
+            @PathVariable("cartId") Integer cartId,
             @PathVariable("username") String username,
             @RequestParam(value = "couponId",required = false) Integer couponId,
+            @RequestParam("leadTime") Integer leadTime,
+            @RequestParam("shipFee") Integer shipFee,
+            @RequestParam("deliveryAddress") String deliveryAddress,
             @RequestParam("baseReturnUrl") String baseReturnUrl
     ){
         System.out.println("payment Momo");
-        orderInfo= orderInfo + "|couponId:" + couponId;
+        OrderResponse orderResponse= paymentService.createOrder(cartId, couponId, 2, 1, leadTime, shipFee, deliveryAddress);
+        List<OrderDetailsResponse> orderDetailsResponses = paymentService.createOrderDetails(orderResponse.getOrderId(), cartId);
         Map<String,Object> result = new HashMap<>();
         try {
             result.put("success",true);
             result.put("message","Create Payment With Momo");
-            result.put("data",momoService.createUrlPaymentMomo(orderInfo,totalPrice,baseReturnUrl,username));
+            result.put("data",momoService.createUrlPaymentMomo(cartId,totalPrice,baseReturnUrl,username));
         }catch (Exception e){
             result.put("success",false);
             result.put("message",e.getMessage());

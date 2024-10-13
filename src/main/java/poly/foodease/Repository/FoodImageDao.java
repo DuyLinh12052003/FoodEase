@@ -10,6 +10,7 @@ public interface FoodImageDao extends JpaRepository<FoodImage, Integer>{
 
 	@Query("SELECT fi FROM FoodImage fi where fi.foodId= ?1")
 	List<FoodImage> findFoodImageByFoodId(Integer id);
-	
+
+	void deleteByFoodId(int foodId);
 	
 }

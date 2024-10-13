@@ -12,7 +12,8 @@ import java.util.List;
 @Service
 public interface PaymentService {
     PaymentInfo createPaymentInfo(String orderInfo, Integer paymentStatus, String totalPrice, String paymentDateTime, String transactionId);
-    OrderResponse createOrder(Integer cartId, String couponId , Integer paymentMethodId, Integer shipMethodId);
+    OrderResponse createOrder(Integer cartId, Integer couponId , Integer paymentMethodId, Integer shipMethodId , Integer leadTime, Integer shipFee, String deliveryAddress);
+    OrderResponse updatePaymentSuccess(Integer orderId);
     List<OrderDetailsResponse> createOrderDetails(Integer orderId, Integer cartId);
     void updateCouponStorageAndUsedCount(String username,String couponId);
     List<OrderDetailsResponse> createOrderDetail(String OrderInfo, Integer orderId);

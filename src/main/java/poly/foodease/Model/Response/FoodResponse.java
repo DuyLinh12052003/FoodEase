@@ -25,6 +25,7 @@ public class FoodResponse {
 	private Date createdAt;
 	private Date updatedAt;
 	private int discount;
+	private String priceId;
 	private int categoryId;
 	private List<FoodVariations> foodVariations;
 	private	FoodImage foodImage;

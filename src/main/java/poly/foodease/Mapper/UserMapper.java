@@ -28,6 +28,7 @@ public abstract class UserMapper {
                 .gender(user.getGender())
                 .birthday(user.getBirthday())
                 .status(user.getStatus())
+                .email(user.getEmail())
                 .imageUrl(user.getImageUrl())
                 .password(user.getPassword())
                 .roles(user.getRoles() != null ? user.getRoles().stream()

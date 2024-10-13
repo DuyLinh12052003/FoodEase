@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import poly.foodease.Service.CartService;
-import poly.foodease.ServiceImpl.GHNServiceImpl;
+import poly.foodease.ServiceImpl.ShipServiceImpl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +17,7 @@ public class CartApi {
     @Autowired
     CartService cartService;
     @Autowired
-    GHNServiceImpl ghnService;
+    ShipServiceImpl ghnService;
 // ghi log ứng dụng
     @GetMapping("/{cartId}")
     public ResponseEntity<Object> getCartByCartId(@PathVariable("cartId") Integer cartId) throws JsonProcessingException {
@@ -55,7 +55,6 @@ public class CartApi {
     @GetMapping("/{cartId}/totalQuantity")
     public ResponseEntity<Object> getToTalQuantityByCartId(@PathVariable("cartId") Integer cartId){
         Map<String,Object> result = new HashMap<>();
-        System.out.println("ToTal Quantity : " + cartService.getTotalQuantity(cartId));
         try {
             result.put("success",true);
             result.put("message", "Get Total Quantity By CartId");
@@ -70,7 +69,6 @@ public class CartApi {
     @GetMapping("/{cartId}/totalPrice")
     public ResponseEntity<Object> getToTalPriceByCartId(@PathVariable("cartId") Integer cartId){
         Map<String,Object> result = new HashMap<>();
-        System.out.println("ToTal Price : " + cartService.getTotalPrice(cartId));
         try {
             result.put("success",true);
             result.put("message", "Get TotalPrice By CartId ");

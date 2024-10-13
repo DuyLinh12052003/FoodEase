@@ -32,7 +32,7 @@ public class PayPalService {
     // Hàm giúp tạo giao dịch PayPal, người dùng đăng nhập và thanh toán
     public Payment createPayment(
             Double total,
-            String orderInfo,
+            Integer orderInfo,
             String cancelUrl,
             String successUrl) throws PayPalRESTException {
 
@@ -44,7 +44,7 @@ public class PayPalService {
         amount.setTotal(String.format("%.2f", total));
 
         Transaction transaction = new Transaction();
-        transaction.setDescription(orderInfo);
+        transaction.setDescription(String.valueOf(orderInfo));
         transaction.setAmount(amount);
 
         List<Transaction> transactions = new ArrayList<>();

@@ -42,6 +42,19 @@ public class Order {
     @Column(name="total_quantity")
     private Integer totalQuantity;
 
+    @Column(name="ship_fee")
+    private Integer shipFee;
+
+    @Column(name="lead_time")
+    private Integer leadTime;
+
+    @Column(name="payment_date_time")
+    private LocalDateTime paymentDatetime;
+
+    @Column(name="estimated_delivery_date_time")
+    private LocalDateTime estimatedDeliveryDateTime;
+
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name="ship_id")

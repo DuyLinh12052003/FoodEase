@@ -31,16 +31,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         final String authorizationHeader = request.getHeader("Authorization");
         String username = null;
         String jwtToken = null;
-        System.out.println(authorizationHeader);
-        System.out.println(request.getRequestURL());
         // Kiểm tra token có tồn tại và bắt đầu bằng "Bearer "
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             jwtToken = authorizationHeader.substring(7);
-            System.out.println("Extracted JWT Token: " + jwtToken);
             // Lấy username từ JWT token
             try {
                 username = jwtUtils.extractUsername(jwtToken);
-                System.out.println("Extracted Username: " + username);
             } catch (Exception e) {
                 System.out.println("Error extracting username from JWT: " + e.getMessage());
             }
@@ -55,7 +51,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
                     // Đặt thông tin xác thực vào SecurityContext
                     SecurityContextHolder.getContext().setAuthentication(authentication);
-                    System.out.println("Authenticated user: " + username);
                 } else {
                     System.out.println("Invalid JWT Token");
                 }

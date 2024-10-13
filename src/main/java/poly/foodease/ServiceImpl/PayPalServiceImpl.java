@@ -1,19 +1,22 @@
 package poly.foodease.ServiceImpl;
 
 
+import com.google.zxing.WriterException;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.api.payments.Transaction;
 import com.paypal.base.rest.PayPalRESTException;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import poly.foodease.Model.Response.OrderDetailsResponse;
 import poly.foodease.Model.Response.OrderResponse;
 import poly.foodease.Model.Response.PaymentInfo;
-import poly.foodease.Service.CartService;
-import poly.foodease.Service.PayPalService;
-import poly.foodease.Service.PaymentService;
+import poly.foodease.Model.Response.UserResponse;
+import poly.foodease.Service.*;
+import poly.foodease.Utils.JwtUtils;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -31,8 +34,16 @@ public class PayPalServiceImpl {
     private PaymentService paymentService;
     @Autowired
     private CartService cartService;
+    @Autowired
+    private JwtUtils jwtUtils;
+    @Autowired
+    private OrderService orderService;
+    @Autowired
+    private OrderDetailsService orderDetailsService;
+    @Autowired
+    private UserService userService;
 
-    public String createPaymentUrl(Integer totalPrice,String orderInfo,String cancelUrl,String successUrl) throws PayPalRESTException {
+    public String createPaymentUrl(Integer totalPrice,Integer orderInfo,String cancelUrl,String successUrl) throws PayPalRESTException {
         String urlPayment = "";
         Payment payment = paypalService.createPayment(
                 Double.valueOf(totalPrice),orderInfo,
@@ -45,8 +56,7 @@ public class PayPalServiceImpl {
         return urlPayment;
     }
 
-    public PaymentInfo returnPayment(HttpServletRequest request) throws PayPalRESTException, IOException {
-        PaymentInfo paymentInfo = new PaymentInfo() ;
+    public PaymentInfo returnPayment(HttpServletRequest request) throws PayPalRESTException, IOException, WriterException {
         // Tạo ra đối tượng payment đại diện cho gia dịch
         Payment payment = paypalService.executePayment(request);
         // System.out.println(payment.toJSON());
@@ -56,51 +66,34 @@ public class PayPalServiceImpl {
         String totalPrice = "";
         String transactionId = "";
         Integer paymentStatus ;
-        String couponId = "null";
-        String orderInfo= null;
         // Parse dayTime từ request sang LocalDateTime
         //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         LocalDateTime dateTime = LocalDateTime.parse(datetime_parameter, DateTimeFormatter.ISO_DATE_TIME).plusHours(7);
         // Lấy jwtToken từ request và lấy ra user;
-//        String jwtToken = request.getHeader("Authorization").substring(7);
-//        String username = jwtUtils.extractUsername(jwtToken);
-
+        String jwtToken = request.getHeader("Authorization").substring(7);
+        String username = jwtUtils.extractUsername(jwtToken);
+        UserResponse userResponse = userService.getUserByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("Not found User"));
         for (Transaction transaction : payment.getTransactions()){
             transactionId = transaction.getRelatedResources().get(0).getSale().getId();
             totalPrice = transaction.getAmount().getTotal();
             orderInfo_parameter = transaction.getDescription();
         }
-        // Xử lý tách orderId và couponId từ request
-        if (orderInfo_parameter != null && orderInfo_parameter.contains("|couponId:")) {
-            // Tách chuỗi ban đầu theo "|couponId:"
-            String[] parts = orderInfo_parameter.split("\\|couponId:");
-            // Phần đầu là orderInfo
-            orderInfo = parts[0].trim();
-            // Phần thứ hai là couponId
-            if (parts.length > 1) {
-                couponId= parts[1].trim();
-            }
-        }
         // Lấy ra State của payment , nếu approved thì xử lý nghiệp vụ và hóa đơn
         if(payment.getState().equals("approved")){
             paymentStatus= 1;
-            // Tạo hóa đơn
             System.out.println("Payment By Paypal Success");
-            OrderResponse orderResponse = paymentService.createOrder(Integer.valueOf(orderInfo), couponId, 1, 1);
-            // Tạo hóa đơn chi tiết
-            List<OrderDetailsResponse> orderDetailResponses = paymentService.createOrderDetails(orderResponse.getOrderId() , Integer.valueOf(orderInfo));
+            OrderResponse orderResponse = paymentService.updatePaymentSuccess(Integer.valueOf(orderInfo_parameter));
+            List<OrderDetailsResponse> orderDetailsResponses = orderDetailsService.getOrderDetailsByOrderId(Integer.valueOf(orderInfo_parameter));
             // Xử lý nghiệp vụ CouponCout và CouponStorage
 //            paymentService.updateCouponStorageAndUsedCount(username, couponId);
-//            // Gửi email, tạo qr
-//            paymentService.sendEmail(username, orderResponse, orderDetailResponses);
-            // Xóa thông tin giỏ hàng trong Map sau khi hoàn tất
-            cartService.removeCart(Integer.valueOf(orderInfo));
+            paymentService.sendEmail(username, orderResponse, orderDetailsResponses);
         }else{
-            System.out.println("Thaat Baii");
+            System.out.println("Thất Bại");
             paymentStatus = 0;
         }
-        paymentInfo = paymentService.createPaymentInfo(orderInfo,paymentStatus,datetime_parameter,totalPrice,transactionId);
-        return paymentInfo;
+        cartService.removeCart(userResponse.getUserId());
+        return paymentService.createPaymentInfo(orderInfo_parameter,paymentStatus,datetime_parameter,totalPrice,transactionId);
     }
 
 }
