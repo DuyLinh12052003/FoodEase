@@ -65,6 +65,12 @@ const Header = () => {
                   Products
                 </NavLink>
               </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/admin/table">
+                  <i class="fa-solid fa-table"></i>
+                  Table
+                </NavLink>
+              </li>
 
               <li className="nav-item">
                 <Link className="nav-link" to="/admin/users">

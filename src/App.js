@@ -22,6 +22,7 @@ import HomeLayOut from "./Component/View/Home/HomeLayOut";
 import FoodIndex from "./Component/View/Home/Index/FoodIndex";
 import TableReservation from "./Component/View/Home/TableReservation/TableReservation";
 import Thanks from "./Component/View/Home/Thank/Thanks";
+import TablePage from "./Component/View/Admin/Table/TablePage";
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
             <Route path="user/create" element={<UserFormPage />} />
             <Route path="user/update/:userId" element={<UserFormPage />} />
             <Route path="foods" element={<FoodPage />} />
+            <Route path="table" element={<TablePage />} />
             <Route path="coupons" element={<CouponPage />} />
             <Route path="coupon/create" element={<CouponFormPage />} />
             <Route
