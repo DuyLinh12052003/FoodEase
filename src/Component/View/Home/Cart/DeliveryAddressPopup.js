@@ -2,7 +2,7 @@ import React from 'react';
 import './DeliveryAddress.css';
 
 const DeliveryAddressPopup = ({ isOpenDelivery, handleDeliveryAddress, provinceData, handleChooseDistrictByProvinceId, 
-    districtData, handleChooseWardByDistrictId, wardData, services , handleChooseShipService , handleCalculateFee , fee , handleChooseWardId }) => {
+    districtData, handleChooseWardByDistrictId, wardData, services , handleChooseShipService , handleCalculateFee , fee , handleChooseWardId,setDeliveryAdress }) => {
     return (
         <>
             {isOpenDelivery && (
@@ -26,7 +26,6 @@ const DeliveryAddressPopup = ({ isOpenDelivery, handleDeliveryAddress, provinceD
                                 <div className="col-sm-8">
                                     <div className="new-address">
                                         <h4>Choose new Delivery Address</h4>
-                                        <input type="text" placeholder="Address Title" className="address-title" />
                                         <select className="country-region">
                                             <option value="" disabled>Country/Region</option>
                                             <option value="Poland" selected>Viet Nam</option>
@@ -37,8 +36,8 @@ const DeliveryAddressPopup = ({ isOpenDelivery, handleDeliveryAddress, provinceD
                                             <select className="province" onClick={(e) => handleChooseDistrictByProvinceId(e.target.value)}>
                                                 <option disabled selected>Province</option>
                                                 {provinceData.map((item, index) => (
-                                                    <option key={index} value={item.id}>
-                                                        {item.name}
+                                                    <option key={index} value={item.provinceId}>
+                                                        {item.provinceName}
                                                     </option>
                                                 ))}
                                             </select>
@@ -54,7 +53,14 @@ const DeliveryAddressPopup = ({ isOpenDelivery, handleDeliveryAddress, provinceD
                                                     <option key={index} value={item.wardId}>{item.wardName}</option>
                                                 ))}
                                             </select>
-                                        </div>
+                                        </div> 
+                                        <br></br>
+                                        <input type="text" 
+                                        placeholder="Address Title"
+                                        className="address-title" 
+                                        onChange={(e) => setDeliveryAdress(e.target.value)}
+                                         />
+                                         <button >Choose</button>
                                         <div className="service-section">
                                             <h4>Choose Delivery Service</h4>
                                             <select className="service-select" onClick={(e) => handleChooseShipService(e.target.value)}>

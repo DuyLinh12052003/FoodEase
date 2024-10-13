@@ -48,7 +48,7 @@
   align-items: center; /* Đảm bảo label và input căn cùng dòng */
 }
 
-.form-group {
+.form-group-reservation {
   display: flex;
   align-items: center; /* Căn giữa label và input theo chiều dọc */
   flex: 1;
@@ -61,7 +61,7 @@
   margin-right: 0; /* Loại bỏ khoảng cách cho phần tử cuối */
 }
 
-.reservation-container .form-group label {
+.reservation-container .form-group-reservation label {
   width: 150px; /* Đặt chiều rộng cố định cho label */
   margin-right: -15px; /* Khoảng cách giữa label và input */
   font-weight: bold;
@@ -73,11 +73,19 @@
 .reservation-wrapper
   .reservation-container
   .form-row
-  .form-group
+  .form-group-reservation
   input[type="text"],
+  .reservation-wrapper
+  .reservation-container
+  .form-row
+  .form-group-reservation
 input[type="email"],
-input[type="tel"],
-select {
+.reservation-wrapper
+  .reservation-container
+  .form-row
+  .form-group-reservation
+input[type="tel"]
+ {
   width: 80%;
   padding: 10px;
   border: 1px solid #ccc;
@@ -90,8 +98,12 @@ select {
 .reservation-wrapper
   .reservation-container
   .form-row
-  .form-group
+  .form-group-reservation
   input[type="date"],
+  .reservation-wrapper
+  .reservation-container
+  .form-row
+  .form-group-reservation
 select {
   width: 72%;
   padding: 10px;
@@ -150,7 +162,7 @@ select:focus {
     align-items: flex-start;
   }
 
-  .form-group {
+  .form-group-reservation {
     margin-right: 0;
     margin-bottom: 10px;
     flex-direction: column; /* Đổi thành cột trên màn hình nhỏ */

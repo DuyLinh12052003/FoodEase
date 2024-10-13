@@ -1,8 +1,7 @@
 import React from 'react';
 import './Payment.css';
 
-const PaymentPopup = ({isOpenPayment,handlePaymentPopup,totalPrice,hanldePayment}) => {
-    console.log(totalPrice);
+const PaymentPopup = ({isOpenPayment,handlePaymentPopup,totalPrice,hanldePayment,user, deliveryAddress}) => {
     return (
         <>
         {
@@ -21,11 +20,20 @@ const PaymentPopup = ({isOpenPayment,handlePaymentPopup,totalPrice,hanldePayment
                                                     <div className="card rounded-0 border-0 card2" id="paypage">
                                                         <div className="form-card">
                                                             <label className="pay">Your Name</label>
-                                                            <input type="text" name="holdername" value="yourName" />
+                                                            <div className="row">
+                                                                <div className="col-8 col-md-6">
+                                                                    <label className="pay">FullName </label>
+                                                                    <input type="text" name="holdername" value={user.fullName} />
+                                                                </div>
+                                                                <div className="col-4 col-md-6">
+                                                                    <label className="pay">PhoneNumber</label>
+                                                                    <input  className="placeicon" value={user.phoneNumber}  readOnly/>
+                                                                </div>
+                                                            </div>
                                                             <div className="row">
                                                                 <div className="col-8 col-md-6">
                                                                     <label className="pay">Email </label>
-                                                                    <input type="text" name="cardno" value="test@gmail.com" />
+                                                                    <input type="text" name="cardno" value={user.email} />
                                                                 </div>
                                                                 <div className="col-4 col-md-6">
                                                                     <label className="pay">TotalPrice (VNĐ)</label>
@@ -37,16 +45,16 @@ const PaymentPopup = ({isOpenPayment,handlePaymentPopup,totalPrice,hanldePayment
                                                                     <label className="pay" >Address</label>
                                                                 </div>
                                                                 <div className="col-md-12">
-                                                                    <input type="text" value="Your Address"/>
+                                                                    <input type="text" value={deliveryAddress}/>
                                                                 </div>
                                                             </div>
                                                             <label  className="pay">Payment Method</label>
                                                             <div className="radio-group">
-                                                                <div className='radio' onClick={() => hanldePayment(totalPrice,"vnpay")}><img src="/assets/images/vnpay.png" width="200px" height="70px"/></div>
-                                                                <div className='radio' onClick={() => hanldePayment(totalPrice,"paypal")}><img src="https://i.imgur.com/5QFsx7K.jpg" width="200px" height="70px"/></div>
+                                                                <div className='radio' onClick={() => hanldePayment(totalPrice,"vnpay",deliveryAddress)}><img src="/assets/images/vnpay.png" width="200px" height="70px"/></div>
+                                                                <div className='radio' onClick={() => hanldePayment(totalPrice,"paypal",deliveryAddress)}><img src="https://i.imgur.com/5QFsx7K.jpg" width="200px" height="70px"/></div>
                                                                 <br/>
-                                                                <div className='radio' onClick={() => hanldePayment(totalPrice,"stripe")}><img src="/assets/images/stripe.png" width="200px" height="70px"/></div>
-                                                                <div className='radio' onClick={() => hanldePayment(totalPrice,"momo")}><img src="/assets/images/momo.png" width="200px" height="70px"/></div>
+                                                                <div className='radio' onClick={() => hanldePayment(totalPrice,"stripe",deliveryAddress)}><img src="/assets/images/stripe.png" width="200px" height="70px"/></div>
+                                                                <div className='radio' onClick={() => hanldePayment(totalPrice,"momo",deliveryAddress)}><img src="/assets/images/momo.png" width="200px" height="70px"/></div>
                                                                 <br/>
                                                             </div> 
                                                             <div className="row">

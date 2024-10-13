@@ -107,7 +107,7 @@ const TableReservation = () => {
                 <h1>Book a table</h1>
                 <form onSubmit={handleSubmit(onSubmit)} className="reservation-form">
                     <div className="form-row">
-                        <div className="form-group">
+                        <div className="form-group-reservation">
                             <label>Name:</label>
                             <input
                                 type="text"
@@ -115,14 +115,14 @@ const TableReservation = () => {
                                 
                             />
                         </div>
-                        <div className="form-group">
+                        <div className="form-group-reservation">
                             <label>Email:</label>
                             <input
                                 type="email"
                                 {...register("email", { required: true })} // Đăng ký trường email
                             />
                         </div>
-                        <div className="form-group">
+                        <div className="form-group-reservation">
                             <label>Phone:</label>
                             <input
                                 type="tel"
@@ -131,14 +131,14 @@ const TableReservation = () => {
                         </div>
                     </div>
                     <div className="form-row">
-                        <div className="form-group">
+                        <div className="form-group-reservation">
                             <label>Date:</label>
                             <input
                                 type="date"
                                 {...register("date", { required: true })} // Đăng ký trường date
                             />
                         </div>
-                        <div className="form-group">
+                        <div className="form-group-reservation">
                             <label>Time:</label>
                             <select {...register("time", { required: true })}>
                                 <option value="">Select time</option>
@@ -152,7 +152,7 @@ const TableReservation = () => {
                                 })}
                             </select>
                         </div>
-                        <div className="form-group">
+                        <div className="form-group-reservation">
                             <label>Person:</label>
                             <select
                                 {...register("guests", { required: true })}
@@ -171,7 +171,7 @@ const TableReservation = () => {
                             </select>
                         </div>
 
-                        <div className="form-group">
+                        <div className="form-group-reservation">
                             <label>Table:</label>
                             <select {...register("tableId", { required: true })}>
                                 <option value="">Select a table</option>
