@@ -24,10 +24,6 @@ public class FoodReviewImplement implements FoodReviewService {
 			return foodReviewDao.save(foodReview);
 		}
 
-	@Override
-	public List<FoodReview> findByFilter(Integer rating, Integer month, Integer year) {
-		return  foodReviewDao.findByFilter(rating, month, year);
-	}
 
 
 }
