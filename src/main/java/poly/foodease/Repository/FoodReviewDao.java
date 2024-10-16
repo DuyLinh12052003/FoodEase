@@ -9,10 +9,10 @@ import java.util.List;
 
 
 public interface FoodReviewDao extends JpaRepository<FoodReview, Integer>{
-@Query("SELECT fr FROM FoodReview fr where fr.foodId = ?1")
-List<FoodReview> findFoodReviewByFoodId(Integer id);
+    @Query("SELECT fr FROM FoodReview fr where fr.foodId = ?1")
+    List<FoodReview> findFoodReviewByFoodId(Integer id);
 
-    @Query("SELECT o FROM FoodReview o WHERE (:rating IS NULL OR o.rating = :rating) AND (FUNCTION('MONTH', o.reviewDate) = :month) AND (FUNCTION('YEAR', o.reviewDate) = :year)")
+    @Query("SELECT o FROM FoodReview o  WHERE (:rating IS NULL OR o.rating = :rating) AND (FUNCTION('MONTH', o.reviewDate) = :month) AND (FUNCTION('YEAR', o.reviewDate) = :year)")
     List<FoodReview> findByFilter(@Param("rating") Integer rating, @Param("month") Integer month, @Param("year") Integer year);
 
 }

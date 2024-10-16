@@ -15,7 +15,7 @@ public interface OrderRepo extends JpaRepository<Order ,Integer> {
     @Query("SELECT o FROM Order o JOIN o.user u WHERE u.userName LIKE  :userName")
     Page<Order> getOrdersByUserName(@Param("userName") String userName, Pageable pageable);
 
-    @Query("SELECT o FROM Order o WHERE MONTH(o.orderDate) = :month AND YEAR(o.orderDate) = :year")
+    @Query("SELECT o FROM Order o  WHERE MONTH(o.orderDate) = :month AND YEAR(o.orderDate) = :year")
     List<Order> findByDate(@Param("month") Integer month, @Param("year") Integer year);
 
 }

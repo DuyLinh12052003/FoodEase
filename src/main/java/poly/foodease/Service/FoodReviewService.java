@@ -9,5 +9,5 @@ import java.util.List;
 public interface FoodReviewService {
 	List<FoodReview> findFoodReviewByFoodId(Integer id);
 	FoodReview save(FoodReview foodReview);
-	List<FoodReview> findByFilter(Integer rating, Integer month, Integer year );
+	List<FoodReview>  findByFilter(Integer rating,Integer month,Integer year );
 }
