@@ -12,6 +12,7 @@ public abstract class CouponMapper {
     public CouponResponse convertEnToResponse(Coupon coupon){
         return CouponResponse.builder()
                 .couponId(coupon.getCouponId())
+                
                 .code(coupon.getCode())
                 .startDate(coupon.getStartDate())
                 .endDate(coupon.getEndDate())
