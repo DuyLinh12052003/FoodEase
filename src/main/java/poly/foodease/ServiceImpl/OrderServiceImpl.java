@@ -71,4 +71,9 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
         return new PageImpl<>(orders,pageable,orderPage.getTotalElements());
     }
+
+    @Override
+    public List<OrderResponse> findDate(Integer month, Integer year) {
+        return orderRepo.findByDate(month,year).stream().map(orderMapper::convertEnToRes).toList();
+    }
 }
