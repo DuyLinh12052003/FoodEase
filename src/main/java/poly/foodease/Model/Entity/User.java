@@ -79,5 +79,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<CouponStorage> couponStorages;
 
-
+    @OneToMany(mappedBy = "user")
+    private List<WishList> WishLists; // Một User có nhiều Wish List
 }
