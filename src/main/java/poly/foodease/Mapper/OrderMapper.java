@@ -47,7 +47,6 @@ public abstract class OrderMapper {
             return OrderResponse.builder()
                     .orderId(order.getOrderId())
                     .orderDate(order.getOrderDate())
-                    .totalPrice(order.getTotalPrice())
                     .orderTime(order.getOrderTime())
                     .coupon(order.getCoupon() != null ? couponMapper.convertEnToResponse(order.getCoupon()) : null)
                     .orderStatus(orderStatusMapper.convertEnToRes(order.getOrderStatus()))
