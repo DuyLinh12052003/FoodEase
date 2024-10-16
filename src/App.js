@@ -24,6 +24,7 @@ import Login from './Component/View/Home/Login/Login';
 import OrderHistoryPage from './Component/View/Home/OrderHistory/OrderHistoryPage';
 import TableReservation from './Component/View/Home/TableReservation/TableReservation';
 import Thanks from './Component/View/Home/Thank/Thanks';
+import WishList from "./Component/View/Home/WishList/WishList";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
             <Route path='/thanks/:paymentmethod' element={<Thanks />} />
             <Route path='chat' element={<BoxChatPage/>} />
             <Route path='couponStorage' element={<CouponStoragePage />} />
+            <Route path='WishList' element={<WishList />} />
             <Route path='claimCoupon' element={<ClaimCouponPage />} />
             <Route path='orderHistory/order/:userName' element={<OrderHistoryPage />} />
             <Route path="table-reservation" element={<TableReservation />} />

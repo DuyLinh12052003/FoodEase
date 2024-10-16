@@ -22,7 +22,7 @@ const CartList = ({handlePaymentPopup,handleCouponPopup, cartItem, totalQuantity
                                             <h6 className="mb-0 text-muted">{totalQuantity} {customTranslate("items")}</h6>
                                         </div>
                                         <hr className="my-4" />
-                                         {cartItem.map((item) => (
+                                            {cartItem.map((item) => (
                                             <div key={item.id}>
                                             <div className="row mb-4 d-flex justify-content-between align-items-center">
                                             <div className="col-md-2 col-lg-2 col-xl-2">

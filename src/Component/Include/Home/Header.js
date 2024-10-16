@@ -49,6 +49,12 @@ const Header = () => {
                 </NavLink>
               </li>
               <li>
+                <NavLink to="/WishList">
+                  <i className="fa-solid fa-heart"></i>{" "}
+                  {customTranslate("Wish List")}
+                </NavLink>
+              </li>
+              <li>
                 <NavLink to={`/orderHistory/order/${userName}`}>
                   <i className="fa-solid fa-clock-rotate-left"></i>
                   {customTranslate("Order History")}
