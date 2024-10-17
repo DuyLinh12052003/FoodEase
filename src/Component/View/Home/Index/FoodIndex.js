@@ -4,6 +4,7 @@ import { customTranslate } from '../../../../i18n';
 import Drink from './Drink';
 import FoodMenu from './FoodMenu';
 import Search from './Search';
+import Propose from './Propose';
 const FoodIndex =()=>{
     const { t } = useTranslation(); // Khai báo useTranslation
     return (
@@ -110,6 +111,11 @@ const FoodIndex =()=>{
                     <h2>{customTranslate("Drinks")}</h2>
                     <hr></hr>
                 <Drink />
+                </section>
+                <section>
+                    <h2>Propose</h2>
+                    <hr></hr>
+                <Propose />
                 </section>
 
      {/* <section id="book-table">

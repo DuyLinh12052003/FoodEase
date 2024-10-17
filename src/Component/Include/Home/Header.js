@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next"; // Nhập useTranslation
 import { Link, NavLink } from "react-router-dom";
 import i18n, { customTranslate } from "../../../i18n";
+import axiosConfig from "../../Config/AxiosConfig";
 import "./Header.css";
 
 const Header = () => {
   const [userName, setUserName] = useState(null);
+  const [user,setUser] = useState([]);
   const { t } = useTranslation(); // Khai báo useTranslation
   const [isOpen, setIsOpen] = useState(false); // Quản lý trạng thái mở/đóng dropdown
 
@@ -14,16 +16,19 @@ const Header = () => {
     setIsOpen(false); // Đóng dropdown sau khi chọn ngôn ngữ
   };
 
-  const fetchData = async () => {
-    const usernameLogin = localStorage.getItem("userNameLogin");
-    setUserName(usernameLogin);
-    console.log(usernameLogin);
-  };
-
   useEffect(() => {
     fetchData();
-  }, []);
+  },[])
 
+  const fetchData = async () => {
+    const usernameLogin = localStorage.getItem('userNameLogin');
+    try {
+      const resUser= await axiosConfig.get(`/user/${usernameLogin}`);
+    setUser(resUser.data.data);
+    } catch (error) {
+      console.error('error in fetch Data',error);
+    }
+    }
   return (
     <header className="header">
       <h1 className="logo">Victory</h1>
@@ -35,6 +40,7 @@ const Header = () => {
           <li>
             <NavLink to="/menu">{customTranslate("Our Menus")}</NavLink>
           </li>
+          <li><NavLink to="/myOrder">My Order</NavLink></li>
           <li>
             <NavLink to="/blog">{customTranslate("Blog Entries")}</NavLink>
           </li>
@@ -85,6 +91,7 @@ const Header = () => {
               <i className="fa-solid fa-right-to-bracket fa-xl"></i>
             </NavLink>
           </li>
+          <li><NavLink to={`/notification`}><i class="fa-solid fa-bell fa-lg"></i></NavLink></li>
           {userName && <div>{userName}</div>}
           <li >
               <i className="fa-xl fas fa-globe" onClick={() => setIsOpen(!isOpen)} style={{ cursor: "pointer" }}></i> 

@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import { customTranslate } from '../../../../i18n';
 
-
-const CartList = ({handlePaymentPopup,handleCouponPopup, cartItem, totalQuantity,totalPrice , handleAddCartItem ,checkCoupon , discountAmount, handleDeliveryAddress}) => {
-    const { t } = useTranslation();
+  
+const CartList = ({handlePaymentPopup,handleCouponPopup, cartItem, totalQuantity,totalPrice , handleAddCartItem
+     ,checkCoupon , discountAmount, handleDeliveryAddress,shipFee,points,handleUsePoint,isUsePoint}) => {
+        const { t } = useTranslation();
     return (
         <div >
              <section className="h-100 h-custom" style={{ backgroundColor: '#d2c9ff' }}>
@@ -91,9 +92,19 @@ const CartList = ({handlePaymentPopup,handleCouponPopup, cartItem, totalQuantity
                                                 <option value="1">Standard-Delivery- đ5.00</option>
                                                 <option value="2">Two</option>
                                                 <option value="3">Three</option>
-                                                <option value="4">Four</option>
                                             </select>
                                             <button onClick={handleDeliveryAddress} > {customTranslate("Choose Delivery Address")}</button>
+                                        </div>
+                                        <div className="d-flex justify-content-between mb-4">
+                                        <h5 className="text-uppercase mb-1">Your Point : {points.availablePoint} <i class="fa-solid fa-coins"></i></h5>
+                                        <label className="switch" style={{marginLeft : '53px'}} >
+                                        <input className="toggle" type="checkbox" 
+                                                onChange={() => handleUsePoint(points.availablePoint)} 
+                                            />
+
+                                                <span className="slider"></span>
+                                                <span className="card-side"></span>
+                                            </label>
                                         </div>
 
                                         <h5 className="text-uppercase mb-3">{customTranslate("Give code")}</h5>
@@ -114,25 +125,37 @@ const CartList = ({handlePaymentPopup,handleCouponPopup, cartItem, totalQuantity
                                         </div>
                                         <hr className="my-4" />
                                         <div className="d-flex justify-content-between mb-5">
-                                        <h5 style={{ padding: '15px', fontSize: '18px', borderBottom: '1px solid #ccc' }}>
-                                         {checkCoupon === null ? (
+                                        <h5 style={{ padding: '15px', fontSize: '18px', borderBottom: '2px solid #ccc' }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                             <span>{customTranslate("Total Price")}: </span>
                                             <span style={{ fontWeight: 'bold' }}>{totalPrice?.toLocaleString('vi-VN')} đ</span>
                                             </div>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                            <span>ShipFee : </span>
+                                            <span style={{ fontWeight: 'bold' }}> + {shipFee?.toLocaleString('vi-VN')} đ</span>
+                                            </div>
+                                            {isUsePoint && (
+                                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                            <span>Point  : </span>
+                                            <span style={{ fontWeight: 'bold' }}> - {points.availablePoint?.toLocaleString('vi-VN')} đ</span>
+                                            </div>
+                                            )}
+                                         {checkCoupon === null ? (
+                                            <>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                            <span>FinalPrice: </span>
+                                            <span style={{ fontWeight: 'bold' }}>{(totalPrice+shipFee)?.toLocaleString('vi-VN')} đ</span>
+                                            </div>
+                                            </>
                                         ) : (
                                             <div >
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                <span>Total Price:</span>
-                                                <span style={{ fontWeight: 'bold' }} >{totalPrice.toLocaleString('vi-VN')} đ</span>
+                                            <span>{customTranslate("Discount")} :</span>
+                                                <span style={{ fontWeight: 'bold' }}> - {(discountAmount).toLocaleString('vi-VN')} đ</span>
                                             </div>
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                <span>{customTranslate("Discount")} :</span>
-                                                <span style={{ fontWeight: 'bold' }}> {  (discountAmount).toLocaleString('vi-VN')} đ</span>
-                                            </div>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                <span>{customTranslate("Final Price")}:</span>
-                                                <span style={{ fontWeight: 'bold' }} >{(totalPrice-discountAmount).toLocaleString('vi-VN')} đ</span>
+                                            <span>{customTranslate("Final Price")}:</span>
+                                                <span style={{ fontWeight: 'bold' }} >{(totalPrice-discountAmount+shipFee)?.toLocaleString('vi-VN')} đ</span>
                                             </div>
                                             </div>
                                         )} 

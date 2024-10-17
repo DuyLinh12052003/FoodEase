@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { customTranslate } from "../../../../i18n";
+import CustomAlert from "../../../Config/CustomAlert";
 import "./Login.css";
 
 const Login = () => {
@@ -10,39 +11,41 @@ const Login = () => {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [remember, setRemember] = useState(false);
-  const navigate = useNavigate();
+  const [alert, setAlert] = useState(null); 
+    const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const resToken = await axios.post(
-        "http://localhost:8080/api/authenticate",
-        { username, password }
-      );
-      console.log(resToken.data.data);
-      if (resToken) {
-        localStorage.setItem("jwtToken", resToken.data.data.jwtToken);
-        localStorage.setItem("userIdLogin", resToken.data.data.userId);
-        const userId = resToken.data.data.userId; // Lấy userId từ phản hồi
-        localStorage.setItem("userId", userId);
-        localStorage.setItem("userNameLogin", resToken.data.data.username);
-        localStorage.setItem(
-          "rolesLogin",
-          JSON.stringify(resToken.data.data.roles)
-        );
-        alert("Login Successs !");
-        navigate("/");
-        window.location.reload();
-      }
-    } catch (error) {
-      alert("Login Failed");
-      window.location.reload();
-      console.error(error, "Error in login");
-    }
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const resToken = await axios.post('http://localhost:8080/api/authenticate', { username, password });
+            console.log(resToken.data.data);
+            if (resToken) {
+                localStorage.setItem('jwtToken', resToken.data.data.jwtToken);
+                localStorage.setItem('userIdLogin', resToken.data.data.userId);
+                localStorage.setItem('userNameLogin', resToken.data.data.username);
+                localStorage.setItem('rolesLogin', JSON.stringify(resToken.data.data.roles));
+                setAlert({ type: 'success', message: 'Login Success!' });
+                setTimeout(() => {
+                    navigate("/");
+                    window.location.reload();
+                }, 3000); 
+    
+            }
+        } catch (error) {
+            setAlert({ type: 'error', message: 'Login Failed!' });
+            console.error('Error in login', error);
+        }
+    };
 
   return (
     <div id="body">
+                 {alert && (
+                <CustomAlert 
+                    type={alert.type} 
+                    message={alert.message} 
+                    onClose={() => setAlert(null)} 
+                />
+            )}
       <div className="templatemo-bg-image-1">
         <div className="container">
           <div className="col-md-12">

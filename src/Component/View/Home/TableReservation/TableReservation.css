@@ -1,4 +1,4 @@
-/* Áp dụng cho phần tử bao quanh TableReservation */
+Áp dụng cho phần tử bao quanh TableReservation
 .reservation-wrapper {
   display: flex;
   justify-content: center;
@@ -22,7 +22,6 @@
   text-align: center;
   color: #c0392b;
   margin: 0 auto;
-
   margin-bottom: 25px;
   font-size: 50px;
   width: 30%;

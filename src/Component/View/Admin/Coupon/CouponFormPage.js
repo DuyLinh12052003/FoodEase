@@ -24,10 +24,12 @@ const CouponFormPage = () => {
             console.log(resCouponByCouponId.data.data);
             setCouponById(resCouponByCouponId.data.data);
             const couponById = resCouponByCouponId.data.data;
+            setImageCoupon(couponById.imageUrl);
             reset({
                 couponId : couponId , 
                 code : couponById.code , 
                 description : couponById.description , 
+                imageUrl :couponById.imageUrl,
                 startDate : couponById.startDate , 
                 endDate : couponById.endDate , 
                 useLimit : couponById.useLimit , 
@@ -35,9 +37,9 @@ const CouponFormPage = () => {
                 discountPercent: couponById?.discountPercent ? couponById.discountPercent * 100 : 0 ,
                 maxDiscountAmount : couponById.maxDiscountAmount
             })
-            const copponData = resCouponByCouponId.data.data;
-            const resImage = await axiosConfig.get(`/files/coupon/${copponData.imageUrl}`,{responseType : 'blob'});
-            setImageCoupon(URL.createObjectURL(resImage.data));
+            // const copponData = resCouponByCouponId.data.data;
+            // const resImage = await axiosConfig.get(`/files/coupon/${copponData.imageUrl}`,{responseType : 'blob'});
+            // setImageCoupon(URL.createObjectURL(resImage.data));
 
         } catch (error) {
             console.error('error in Coupons')

@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Pagination from '../Common/Pagination/Pagination';
 
-const CouponList = ({coupons,handleSortBy,handleSortOrder, handlePageCurrent,handlePageSize , pageCurrent, totalPage, imageCoupons}) => {
+const CouponList = ({coupons,handleSortBy,handleSortOrder, handlePageCurrent,handlePageSize , pageCurrent, totalPage}) => {
     return (
         <>
             <div className="body" >
@@ -59,7 +59,13 @@ const CouponList = ({coupons,handleSortBy,handleSortOrder, handlePageCurrent,han
                       <tr>
                       <th key={index} scope="row"><b>#{item.couponId}</b></th>
                       <td><b>{item.code}</b></td>
-                      <td><img src={imageCoupons[item.couponId]} alt='userphoto' style={{width :'70px',height:'70px'}}/></td>
+                      <td>
+                      <img 
+                        src={item.imageUrl} 
+                        alt='coupon_image' 
+                        style={{width: '70px', height: '70px'}} 
+                      />
+                    </td>
                       <td><b>{item.description}</b></td>
                       <td><b>{item.discountPercent * 100}%</b></td>
                       <td>{item.maxDiscountAmount.toLocaleString('vi-VN')} đ</td>
@@ -68,7 +74,7 @@ const CouponList = ({coupons,handleSortBy,handleSortOrder, handlePageCurrent,han
                       <td>{item.usedCount}</td>
                       <td>{item.useLimit}</td>
                       <td><NavLink to={`/admin/coupon/update/${item.couponId}`}><i class="fa-solid fa-gear fa-lg"></i></NavLink></td>
-                      <td><i class="fa-solid fa-trash fa-lg"></i></td>
+                      <td><i class="fa-solid fa-tr ash fa-lg"></i></td>
                     </tr>
                       </>
                     ))
