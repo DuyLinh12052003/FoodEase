@@ -11,13 +11,49 @@ const Header = () => {
             </NavLink>
             <div className="collapse navbar-collapse">
                 <ul className="navbar-nav mx-auto h-100">
-                    <li className="nav-item">
-                        <NavLink className="nav-link active" to="/admin">
-                            <i className="fas fa-tachometer-alt"></i>
+                   
+                    
+                    <li className="nav-item dropdown">
+                <a
+                  className="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i className="fas fa-tachometer-alt"></i>
+                  <span>
+                    Order <i className="fas fa-angle-down"></i>
+                  </span>
+                </a>
+                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li>
+                  <NavLink className="nav-link active" to="/admin">
+                          
                             Orders 
                             <span className="sr-only">(current)</span>
                         </NavLink>
-                    </li>
+                  </li>
+                  <li>
+                    <NavLink
+                      className="dropdown-item"
+                      to="/admin/UserOrder"
+                    >
+                      User buy
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      className="dropdown-item"
+                      to="/admin/reservation-cancelled-list"
+                    >
+                      Reservation Cancelled List
+                    </NavLink>
+                  </li>
+                </ul>
+              </li>
+
                     <li className="nav-item dropdown">
                 <a
                   className="nav-link dropdown-toggle"
@@ -73,7 +109,7 @@ const Header = () => {
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="/admin/report/inventory">
+                        <Link className="nav-link" to="/admin/inventory">
                            <i class="fa-solid fa-warehouse"></i>
                             Inventory
                         </Link>
@@ -85,17 +121,17 @@ const Header = () => {
                         </Link>
                     </li>
                      <li className="nav-item dropdown">
-                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <Link to="/admin/revenue" className="nav-link dropdown-toggle"  >
                         <i className="far fa-file-alt"></i>
                         <span>
-                            Reports Revenue <i className="fas fa-angle-down"></i>
+                            Reports Revenue 
                         </span>
-                    </a>
-                    <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                    </Link>
+                    {/* <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><NavLink className="dropdown-item" to="/admin/report/revenue/day">Daily Report</NavLink></li>
                         <li><NavLink className="dropdown-item" to="/admin/report/revenue/month">Monthly Report</NavLink></li>
                         <li><NavLink className="dropdown-item" to="/admin/report/revenue/year">Yearly Report</NavLink></li>
-                    </ul>
+                    </ul> */}
                 </li>
                 </ul>
             </div>

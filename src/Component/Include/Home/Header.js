@@ -13,8 +13,9 @@ const Header = () => {
   const fetchData = async () => {
     const usernameLogin = localStorage.getItem('userNameLogin');
     try {
-      const resUser= await axiosConfig.get(`/user/${usernameLogin}`);
+      const resUser= await axiosConfig.get(`/user/getByUserName/${usernameLogin}`);
     setUser(resUser.data.data);
+    console.log(resUser.data.data);
     } catch (error) {
       console.error('error in fetch Data',error);
     }

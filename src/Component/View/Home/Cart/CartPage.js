@@ -49,7 +49,7 @@ const CartPage = () => {
     const fecthGetCartByCartId = async () => {
       try {
         const userName = localStorage.getItem('userNameLogin');
-        const resUser = await axiosConfig.get(`/user/${userName}`);
+        const resUser = await axiosConfig.get(`/user/getByUserName/${userName}`);
         setUser(resUser.data.data);
         const resCartByCartId = await axiosConfig.get(`/cart/${cartId}`);
         const resToTalQuantity = await axiosConfig.get(`/cart/${cartId}/totalQuantity`);

@@ -2,6 +2,7 @@ import React from 'react';
 import FoodMenu from './FoodMenu';
 import Drink from './Drink';
 import Search from './Search';
+import Propose from './Propose';
 const FoodIndex =()=>{
     
     return (
@@ -108,6 +109,11 @@ const FoodIndex =()=>{
                     <h2>Drinks</h2>
                     <hr></hr>
                 <Drink />
+                </section>
+                <section>
+                    <h2>Propose</h2>
+                    <hr></hr>
+                <Propose />
                 </section>
 
      <section id="book-table">
