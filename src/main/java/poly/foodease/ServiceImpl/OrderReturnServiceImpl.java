@@ -6,17 +6,21 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import poly.foodease.Mapper.OrderMapper;
 import poly.foodease.Mapper.OrderReturnMapper;
+import poly.foodease.Model.Entity.Order;
 import poly.foodease.Model.Entity.OrderDetails;
 import poly.foodease.Model.Entity.OrderReturn;
+import poly.foodease.Model.Entity.UserPoint;
 import poly.foodease.Model.Request.OrderRequest;
 import poly.foodease.Model.Request.OrderReturnRequest;
 import poly.foodease.Model.Response.OrderResponse;
 import poly.foodease.Model.Response.OrderReturnResponse;
 import poly.foodease.Repository.OrderDetailsRepo;
+import poly.foodease.Repository.OrderRepo;
 import poly.foodease.Repository.OrderReturnRepo;
 import poly.foodease.Service.OrderDetailsService;
 import poly.foodease.Service.OrderReturnService;
 import poly.foodease.Service.OrderService;
+import poly.foodease.Service.UserPointService;
 
 import java.util.List;
 import java.util.Objects;
@@ -37,7 +41,10 @@ public class OrderReturnServiceImpl implements OrderReturnService {
     private OrderMapper orderMapper;
     @Autowired
     private OrderDetailsRepo orderDetailsRepo;
-
+    @Autowired
+    private OrderRepo orderRepo;
+    @Autowired
+    private UserPointService userPointService;
     @Override
     public Page<OrderReturnResponse> getAllOrderReturn(Integer pageCurrent, Integer pageSize, String orderBy, String sortBy) {
         Sort sort = Sort.by(new Sort.Order(Objects.equals(orderBy, "asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy));
@@ -60,26 +67,6 @@ public class OrderReturnServiceImpl implements OrderReturnService {
     @Override
     public List<OrderReturnResponse> createOrderReturn(OrderReturnRequest orderReturnRequest) {
         Integer orderId = orderReturnRequest.getOrderId();
-//
-//         List<OrderReturnResponse> orderReturnResponse = orderDetailsService.getOrderDetailsByOrderId(orderId).stream().map(orderDetail -> {
-//            // Lấy ra list orderDetails từ orderId , sau đó tạo orderReturn theo từng productVariation
-//            Integer foodVaId = orderDetail.getFoodVariations().getFoodVariationId();
-//            orderReturnRequest.setFoodVaId(foodVaId);
-//            OrderReturn orderReturn = orderReturnMapper.convertReqToEn(orderReturnRequest);
-//                    System.out.println("Count");
-//            OrderReturn orderReturnCreated = orderReturnRepo.save(orderReturn);
-//            // Sau khi tạo bảng cho orderReturn , tiến hành cập nhật thông tin của bảng order và OrderDetail
-//            return orderReturnMapper.convertEnToRes(orderReturnCreated);
-//            })
-//                .collect(Collectors.toList());
-//
-//        OrderResponse orderResponse = orderService.getOrderByOrderId(orderId)
-//                .orElseThrow(()-> new EntityNotFoundException("Not found Order"));
-//        OrderRequest orderRequest = orderMapper.convertResToReq(orderResponse);
-//        // Sau khi lấy được order , thay đổi status thành số 4 -> Return Request
-//        orderRequest.setOrderStatusId(5);
-//        System.out.println("orderRequest" + orderRequest);
-//        orderService.updateOrder(orderId, orderRequest);
         List<OrderReturnResponse> orderReturnResponse = orderDetailsRepo.getOrderDetailsByOrderId(orderId).stream().map(orderDetail -> {
                 Integer foodVaId = orderDetail.getFoodVariations().getFoodVariationId();
                 orderReturnRequest.setFoodVaId(foodVaId);
@@ -88,6 +75,8 @@ public class OrderReturnServiceImpl implements OrderReturnService {
                 return  orderReturnMapper.convertEnToRes(orderReturnCreated);
                 })
                 .collect(Collectors.toList());
+        orderService.changeOrderStatus(orderId, 5);
+        System.out.println("Success");
         return orderReturnResponse;
     }
 
@@ -96,30 +85,23 @@ public class OrderReturnServiceImpl implements OrderReturnService {
         // Hàm xử lý khi admin phê duyệt Return
         // Nếu approve = true, cập nhật đơn hàng thành Returned, chuyển trạng thái orderReturn thành refund
         // Nếu approve = flase , chuyển đơn hàng về trạng thái Success! , chuyển trạng thái của orderReturn từ pending thành cancel
-        OrderResponse orderResponse = orderService.getOrderByOrderId(orderId)
-                .orElseThrow(()-> new EntityNotFoundException("Not found Order"));
-        OrderRequest orderRequest = orderMapper.convertResToReq(orderResponse);
-        // Lấy ra list orderReturn, tùy theo approve thay đổi status và update
-        List<OrderReturnResponse> orderReturnResponse = this.getOrderReturnByOrderId(orderId).stream().map(orderReturn -> {
-            if(approve){
-                orderReturn.setStatus("Refunded");
-            }else{
-                orderReturn.setStatus("Refuse");
-            }
-            OrderReturnRequest orderReturnRequest = orderReturnMapper.convertResToReq(orderReturn);
-                    System.out.println("OrderReturnRequest" + orderReturnRequest);
-            OrderReturnResponse orderReturnUpdated = this.updateOrderReturn(orderReturn.getOrderReturnId(), orderReturnRequest)
-                    .orElseThrow(() -> new EntityNotFoundException("Not found Order"));
-            return orderReturnUpdated;
-        })
-                .collect(Collectors.toList());
-        if(approve ){
-            orderRequest.setOrderStatusId(7);
-        }else{
-            orderRequest.setOrderStatusId(6);
-        }
-        orderService.updateOrder(orderId, orderRequest);
-        return orderReturnResponse;
+        Order order = orderRepo.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("Not Found Order"));
+        List<OrderReturn>  orderReturns = orderReturnRepo.getOrderReturnByOrderId(orderId);
+        return orderReturns.stream().map(orderReturn -> {
+                if(approve){
+                    orderReturn.setStatus("Refund");
+                    orderService.changeOrderStatus(orderId,7 );
+                    // Hoàn tiền thành point
+                    userPointService.updatePointByUserName(order.getUser().getUserName(), order.getTotalPrice(), false);
+                }else{
+                    orderReturn.setStatus("Cancel");
+                    orderService.changeOrderStatus(orderId,6 );
+                }
+                OrderReturn orderReturnUpdate= orderReturnRepo.save(orderReturn);
+                return orderReturnMapper.convertEnToRes(orderReturnUpdate);
+            })
+                    .collect(Collectors.toList());
     }
 
     @Override

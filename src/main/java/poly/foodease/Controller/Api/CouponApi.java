@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import poly.foodease.Model.Request.CouponRequest;
 import poly.foodease.Model.Response.CouponResponse;
 import poly.foodease.Repository.CouponRepo;
+import poly.foodease.Service.CloudinaryService;
 import poly.foodease.Service.CouponService;
 import poly.foodease.Utils.FileManageUtils;
 
@@ -21,9 +22,7 @@ public class CouponApi {
     @Autowired
     CouponService couponService;
     @Autowired
-    private CouponRepo couponRepo;
-    @Autowired
-    private FileManageUtils fileManageUtils;
+    private CloudinaryService cloudinaryService;
 
     @GetMapping
     public ResponseEntity<Object> getAllCoupon(
@@ -69,8 +68,8 @@ public class CouponApi {
         Map<String,Object> result = new HashMap<>();
         couponRequest.setImageUrl("123");
         if(files != null){
-
-           couponRequest.setImageUrl(fileManageUtils.save(folder,files).get(0));
+            couponRequest.setImageUrl(cloudinaryService.uploadFile(files, folder).get(0));
+//           couponRequest.setImageUrl(fileManageUtils.save(folder,files).get(0));
         }else{
             System.out.println("file null");
             couponRequest.setImageUrl(" ");
@@ -102,7 +101,7 @@ public class CouponApi {
                     .orElseThrow(() -> new EntityNotFoundException("Not Found Coupon"));
             couponRequest.setImageUrl(couponResponse.getImageUrl());
         }else{
-            couponRequest.setImageUrl(fileManageUtils.save(folder, files).get(0));
+            couponRequest.setImageUrl(cloudinaryService.uploadFile(files, folder).get(0));
         }
         System.out.println(couponRequest);
         try {

@@ -106,6 +106,7 @@ public class ShipServiceImpl implements ShipService {
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("service_type_id", serviceId);
         requestBody.put("from_district_id",FROM_DISTRICT_ID );
+        requestBody.put("from_ward_code",FROM_WARD_CODE);
         requestBody.put("to_district_id", toDistrictId);
         requestBody.put("to_ward_code", toWardId);
         requestBody.put("height", 10);

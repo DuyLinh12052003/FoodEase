@@ -21,7 +21,6 @@ public class UserApi {
             @PathVariable("userName") String userName
     ) throws JsonProcessingException {
         Map<String,Object> result = new HashMap<>();
-        System.out.println("123");
         try {
             result.put("success",true);
             result.put("message","get User By UserName");

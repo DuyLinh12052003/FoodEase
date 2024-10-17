@@ -1,12 +1,19 @@
 package poly.foodease.Controller.Controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Controller
 public class WebSocketController {
+
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
+
+
     // MessageMapping là endpoint để client kết nối và gửi tin nhắn ("/app/messages")
     // SendTo sẽ gửi tin nhắn từ hàm sendMessage về tất ca client đã đăng ký với đường dẫn /topic/message
     @MessageMapping("/messages")
@@ -24,5 +31,9 @@ public class WebSocketController {
             return orderHisMess;
         }
         return introduceMess;
+    }
+
+    public void sendOrderUpdateMessage(String message){
+        simpMessagingTemplate.convertAndSend("/topic/orderUpdates",message);
     }
 }

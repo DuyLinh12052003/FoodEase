@@ -6,6 +6,7 @@ import org.springframework.data.domain.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import poly.foodease.Controller.Controller.WebSocketController;
 import poly.foodease.Mapper.OrderMapper;
 import poly.foodease.Model.Entity.Order;
 import poly.foodease.Model.Request.OrderRequest;
@@ -27,7 +28,8 @@ public class OrderServiceImpl implements OrderService {
     private OrderMapper orderMapper;
     @Autowired
     private OrderStatusRepo orderStatusRepo;
-
+    @Autowired
+    private WebSocketController webSocketController;
 
     @Override
     public Page<OrderResponse> getAllOrder(Integer pageCurrent, Integer pageSize, String sortOrder, String sortBy) {
@@ -106,24 +108,32 @@ public class OrderServiceImpl implements OrderService {
         LocalDateTime now = LocalDateTime.now();
         List<Order> orders = orderRepo.getOrdersToUpdate(orderStatusIds);
         System.out.println("Total Order Update " +orders.size());
+        webSocketController.sendOrderUpdateMessage("Time : " + LocalDateTime.now());
+        webSocketController.sendOrderUpdateMessage("Total Order Need  Update  : " +orders.size() );
         orders.forEach(order -> {
             if(order.getOrderStatus().getOrderStatusId() == 2){
                 LocalDateTime paymentDateTime = order.getPaymentDatetime();
                 if(paymentDateTime.plusMinutes(3).isBefore(now)){
                     System.out.println("The Order Status is change to Shipping");
                     order.setOrderStatus(orderStatusRepo.findById(3).orElseThrow());
+                    webSocketController.sendOrderUpdateMessage("Time : " + LocalDateTime.now());
+                    webSocketController.sendOrderUpdateMessage("The Order " + order.getOrderId() + " is now Shipping." );
                 }
             }else if(order.getOrderStatus().getOrderStatusId() == 3){
                 LocalDateTime estimatedDateTime = order.getEstimatedDeliveryDateTime();
                 if(estimatedDateTime.isBefore(now)){
                     System.out.println("The Order Status is change to Delivered");
                     order.setOrderStatus(orderStatusRepo.findById(4).orElseThrow());
+                    webSocketController.sendOrderUpdateMessage("Time : " + LocalDateTime.now());
+                    webSocketController.sendOrderUpdateMessage("The Order " + order.getOrderId() + " is now Delivered." );
                 }
             }else if(order.getOrderStatus().getOrderStatusId() == 4){
                 LocalDateTime estimatedDateTime = order.getEstimatedDeliveryDateTime();
                 if(estimatedDateTime.plusDays(15).isBefore(now)){
                     System.out.println("The Order is Complete");
                     order.setOrderStatus(orderStatusRepo.findById(6).orElseThrow());
+                    webSocketController.sendOrderUpdateMessage("Time : " + LocalDateTime.now());
+                    webSocketController.sendOrderUpdateMessage("The Order " + order.getOrderId() + " is now Complete." );
                 }
             }
         });

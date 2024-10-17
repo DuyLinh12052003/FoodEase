@@ -69,5 +69,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<CouponStorage> couponStorages;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<UserPoint> userPoints;
 
 }

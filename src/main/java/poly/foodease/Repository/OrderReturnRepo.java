@@ -10,6 +10,6 @@ import java.util.List;
 public interface OrderReturnRepo extends JpaRepository<OrderReturn, Integer> {
 
     @Query("SELECT ore FROM OrderReturn ore JOIN ore.order o " +
-            " WHERE o.id= :orderId")
+            " WHERE o.orderId= :orderId")
     List<OrderReturn> getOrderReturnByOrderId(@Param("orderId") Integer orderId );
 }

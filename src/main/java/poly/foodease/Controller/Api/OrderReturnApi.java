@@ -38,7 +38,6 @@ public class OrderReturnApi {
     @GetMapping("/byOrderId/{orderId}")
     public ResponseEntity<Object> getOrderReturnByOrderId(@PathVariable("orderId") Integer orderId){
         Map<String,Object> result = new HashMap<>();
-        System.out.println(orderReturnService.getOrderReturnByOrderId(orderId));
         try {
             result.put("success",true);
             result.put("message","Get Order Return By OrderId");

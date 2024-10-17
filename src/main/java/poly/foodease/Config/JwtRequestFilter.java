@@ -43,7 +43,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             // Xác thực token nếu username không null và chưa có authentication
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-
                 // Xác minh token hợp lệ
                 if (jwtUtils.validateToken(jwtToken, userDetails)) {
                     UsernamePasswordAuthenticationToken authentication =
@@ -58,7 +57,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         } else {
             System.out.println("Authorization header is missing or doesn't start with Bearer.");
         }
-
         // Tiếp tục chuỗi filter
         chain.doFilter(request, response);
     }

@@ -27,9 +27,5 @@ public class FoodImplement implements FoodsService {
 				.map(foodMapper :: converEntoResponse)
 				.collect(Collectors.toList());
 	}
-	
-	
-
-	
 
 }
