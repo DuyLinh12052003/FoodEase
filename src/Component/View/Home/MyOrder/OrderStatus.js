@@ -3,6 +3,7 @@ import './OrderStatus.css';
 import axiosConfig from '../../../Config/AxiosConfig';
 import CustomAlert from '../../../Config/CustomAlert';
 import { useForm } from 'react-hook-form';
+import OrderReturnFormPopUp from './ReturnRequestFormPopup';
 
 
 const OrderStatus = () => {
@@ -14,7 +15,9 @@ const OrderStatus = () => {
     const [sortOrder, setSortOrder] = useState("desc");
     const [sortBy, setSortBy] = useState("orderId");
     const [alert,setAlert] = useState(null);
+    const [isOpenReturnForm,setIsOpentReturnForm] = useState(null);
     const {register, handleSubmit, reset , formState : {errors}} = useForm();
+    const [orderIdChoose,setOrderIdChoose] = useState();
 
     const userName = localStorage.getItem('userNameLogin');
 
@@ -65,7 +68,7 @@ const OrderStatus = () => {
             ],
             4: [
                 { label: "Complete Order", onClick: () => handleCompleteOrder(order,orderStatus.find(item => item.orderStatusName === "Completed")) },
-                { label: "Return Request", onClick: () => handleReturnRequestOrder(order,orderStatus.find(item => item.orderStatusName === "Return Requested")) },
+                { label: "Return Request", onClick: () => openOrderReturnForm(order) },
             ],
             5: [
                 { label: "Cancel Return Request", onClick: () => handleCancelReturnRequest(order,orderStatus.find(item => item.orderStatusName === "Completed")) },
@@ -116,15 +119,24 @@ const OrderStatus = () => {
         }
     };
 
-    const handleReturnRequestOrder = async (order,orderStatus) => {
+    const handleReturnRequestOrder = async (data) => {
+      const formData = new FormData();
+      const payload = {
+        ...data,
+        orderId : orderIdChoose
+      }
+      console.log(payload);
+      formData.append("orderReturnRequest", new Blob([JSON.stringify(payload)],{type : 'application/json'}));
         try {
-            const resReturnRequestOrder = await axiosConfig.get(`/order/changeOrderStatus/${order.orderId}/${orderStatus.orderStatusId}`);
+            const resReturnRequestOrder = await axiosConfig.post(`/orderReturn`,formData);
             console.log(resReturnRequestOrder.data);
-            setAlert({type : 'success' , message : `Return Request Order order: ${order.orderId}`});
-            fetchOrder();
+            if(resReturnRequestOrder.data.data !== null ){
+              setAlert({type : 'success' , message : `Return Request Order order: ${orderIdChoose}`});
+            }
         } catch (error) {
-            setAlert({type : 'error' , message : `Return Request Order order: ${order.orderId} Failed`});
+            setAlert({type : 'error' , message : `Return Request Order order: ${orderIdChoose} Failed`});
         }
+        setIsOpentReturnForm(!isOpenReturnForm);
     };
 
     const handleCancelReturnRequest = async (order,orderStatus) => {
@@ -145,7 +157,11 @@ const OrderStatus = () => {
             console.error('Error reviewing order:', error);
         }
     };
-
+    
+    const openOrderReturnForm = async (order)  => {
+      setOrderIdChoose(order?.orderId);
+        setIsOpentReturnForm(!isOpenReturnForm);
+    }
     useEffect(() => {
         fetchOrder();
         fetchOrderStatus();
@@ -161,7 +177,7 @@ const OrderStatus = () => {
               onClose={() => setAlert(null)}
             />
           )}
-      
+    
           <header>
             <h1>Order Status</h1>
             <ul className="order-status-bar">
@@ -184,55 +200,64 @@ const OrderStatus = () => {
               ))}
             </ul>
           </header>
-      
-          {orders.map((order, index) => (
-            <div key={index} className="order-status">
-              <div className="order-status-shop-info">
-                <div className="food-name">Order Info: {order.orderId}</div>
-                <div>Order Date: {order.orderTime} {order.orderDate}</div>
-                <div>Status: {order.orderStatus.orderStatusName}</div>
-              </div>
-      
-              {order.orderDetails.map((item) => (
-                <div key={item.orderDetailsId} className="order-status-details">
-                  <img
-                    src={`/assets/images/${item.foodVariations.food.imageUrl}`}
-                    alt="Product"
-                    className="order-status-product-img"
-                  />
-                  <div className="order-status-product-info">
-                    <p className="order-status-food-name">{item.foodVariations.food.foodName}</p>
-                    <p className="order-status-category-name">Category: {item.foodVariations.food.category.cartegoryName}</p>
-                    <p>
-                      {(
-                        item.foodVariations.food.basePrice + item.foodVariations.foodSize.price
-                      ).toLocaleString('en-US')} $ x {item.quantity} items
-                    </p>
-                    <div className="order-status-actions">
-                      {getOrderActions(order.orderStatus.orderStatusId, order).map((action, index) => (
-                        <button
-                          key={index}
-                          className="order-status-return"
-                          onClick={action.onClick}
-                        >
-                          {action.label}
-                        </button>
-                      ))}
+    
+          {/* Check if orders are null or empty */}
+          {orders && orders.length > 0 ? (
+            orders.map((order, index) => (
+              <div key={index} className="order-status">
+                <div className="order-status-shop-info">
+                  <div className='price'>Order Info: <span>{order.orderId}</span></div>
+                  <div className='price'>Order Date: <span>{order.orderTime} {order.orderDate}</span></div>
+                  <div className='price'>Status: <span>{order.orderStatus.orderStatusName}</span></div>
+                </div>
+    
+                {order.orderDetails.map((item) => (
+                  <div key={item.orderDetailsId} className="order-status-details">
+                    <img
+                      src={`/assets/images/${item.foodVariations.food.imageUrl}`}
+                      alt="Product"
+                      className="order-status-product-img"
+                    />
+                    <div className="order-status-product-info">
+                      <p className="order-status-food-name">{item.foodVariations.food.foodName}</p>
+                      <p className="order-status-category-name">Category: {item.foodVariations.food.category.cartegoryName}</p>
+                      <p className='price-display'>
+                        {(
+                          item.foodVariations.food.basePrice + item.foodVariations.foodSize.price
+                        ).toLocaleString('vi-VN')}đ x {item.quantity} items
+                      </p>
+                      <div className="order-status-actions">
+                        {getOrderActions(order.orderStatus.orderStatusId, order).map((action, index) => (
+                          <button
+                            key={index}
+                            className="order-status-return"
+                            onClick={action.onClick}
+                          >
+                            {action.label}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-              <p className="price">Total Price: <span>{order.totalPrice.toLocaleString()}₫</span></p>
-            </div>
-          ))}
+                ))}
+                <p className="price">Total Price: <span>{order.totalPrice.toLocaleString()}₫</span></p>
+              </div>
+            ))
+          ) : (
+            <p style={{fontSize : '18px' ,color: 'red'}}>Not found Order <span><i class="fa-solid fa-face-sad-cry fa-xl" style={{color: '#63E6BE'}}></i> </span> </p>
+            
+          )}
         </div>
-
-        <div>
-          
-        </div>
-        </>
-      );
-      
+    
+        <OrderReturnFormPopUp
+          openOrderReturnForm={openOrderReturnForm}
+          isOpenReturnForm={isOpenReturnForm}
+          register={register}
+          handleSubmit={handleSubmit}
+          handleReturnRequestOrder={handleReturnRequestOrder}
+        />
+      </>
+    );
 };
 
 export default OrderStatus;

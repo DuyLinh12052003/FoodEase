@@ -2,7 +2,8 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 
-const CartList = ({handlePaymentPopup,handleCouponPopup, cartItem, totalQuantity,totalPrice , handleAddCartItem ,checkCoupon , discountAmount, handleDeliveryAddress}) => {
+const CartList = ({handlePaymentPopup,handleCouponPopup, cartItem, totalQuantity,totalPrice , handleAddCartItem
+     ,checkCoupon , discountAmount, handleDeliveryAddress,shipFee,points,handleUsePoint,isUsePoint}) => {
     return (
         <div >
              <section className="h-100 h-custom" style={{ backgroundColor: '#d2c9ff' }}>
@@ -80,17 +81,25 @@ const CartList = ({handlePaymentPopup,handleCouponPopup, cartItem, totalQuantity
                                             <h5 className="text-uppercase">items : {totalQuantity}</h5>
                                             <h5> {totalPrice?.toLocaleString('vi-VN')} đ</h5>
                                         </div>
-
                                         <h5 className="text-uppercase mb-3">Shipping</h5>
-
                                         <div className="mb-4 pb-2">
                                             <select>
                                                 <option value="1">Standard-Delivery- đ5.00</option>
                                                 <option value="2">Two</option>
                                                 <option value="3">Three</option>
-                                                <option value="4">Four</option>
                                             </select>
                                             <button onClick={handleDeliveryAddress} > Choose DeliveryAddress</button>
+                                        </div>
+                                        <div className="d-flex justify-content-between mb-4">
+                                        <h5 className="text-uppercase mb-1">Your Point : {points.availablePoint} <i class="fa-solid fa-coins"></i></h5>
+                                        <label className="switch" style={{marginLeft : '53px'}} >
+                                        <input className="toggle" type="checkbox" 
+                                                onChange={() => handleUsePoint(points.availablePoint)} 
+                                            />
+
+                                                <span className="slider"></span>
+                                                <span className="card-side"></span>
+                                            </label>
                                         </div>
 
                                         <h5 className="text-uppercase mb-3">Give code</h5>
@@ -111,25 +120,37 @@ const CartList = ({handlePaymentPopup,handleCouponPopup, cartItem, totalQuantity
                                         </div>
                                         <hr className="my-4" />
                                         <div className="d-flex justify-content-between mb-5">
-                                        <h5 style={{ padding: '15px', fontSize: '18px', borderBottom: '1px solid #ccc' }}>
-                                         {checkCoupon === null ? (
+                                        <h5 style={{ padding: '15px', fontSize: '18px', borderBottom: '2px solid #ccc' }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                             <span>TotalPrice: </span>
                                             <span style={{ fontWeight: 'bold' }}>{totalPrice?.toLocaleString('vi-VN')} đ</span>
                                             </div>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                            <span>ShipFee : </span>
+                                            <span style={{ fontWeight: 'bold' }}> + {shipFee?.toLocaleString('vi-VN')} đ</span>
+                                            </div>
+                                            {isUsePoint && (
+                                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                            <span>Point  : </span>
+                                            <span style={{ fontWeight: 'bold' }}> - {points.availablePoint?.toLocaleString('vi-VN')} đ</span>
+                                            </div>
+                                            )}
+                                         {checkCoupon === null ? (
+                                            <>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                            <span>FinalPrice: </span>
+                                            <span style={{ fontWeight: 'bold' }}>{(totalPrice+shipFee)?.toLocaleString('vi-VN')} đ</span>
+                                            </div>
+                                            </>
                                         ) : (
                                             <div >
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                <span>TotalPrice:</span>
-                                                <span style={{ fontWeight: 'bold' }} >{totalPrice.toLocaleString('vi-VN')} đ</span>
-                                            </div>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                 <span>Discount :</span>
-                                                <span style={{ fontWeight: 'bold' }}> {  (discountAmount).toLocaleString('vi-VN')} đ</span>
+                                                <span style={{ fontWeight: 'bold' }}> - {(discountAmount).toLocaleString('vi-VN')} đ</span>
                                             </div>
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                 <span>Final Price:</span>
-                                                <span style={{ fontWeight: 'bold' }} >{(totalPrice-discountAmount).toLocaleString('vi-VN')} đ</span>
+                                                <span style={{ fontWeight: 'bold' }} >{(totalPrice-discountAmount+shipFee)?.toLocaleString('vi-VN')} đ</span>
                                             </div>
                                             </div>
                                         )} 

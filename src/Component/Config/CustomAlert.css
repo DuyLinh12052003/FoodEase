@@ -59,7 +59,7 @@
     height: 4px;
     width: 100%;
     background-color: #f1f1f1;
-    animation: progressBar 4s linear forwards; /* Cập nhật thời gian thanh progress bar chạy */
+    animation: progressBar 3s linear forwards; 
 }
 
 @keyframes progressBar {

@@ -115,12 +115,20 @@
   }
   
   .price {
-    font-size: 1.2em;
+    font-size:12px;
     font-weight: bold;
-    margin-top: 10px;
+    margin-top: 5px;
   }
   
   .price span {
     color: #34c759;
   }
+
+  .price-display {
+    font-weight: bold;
+    color: #ff5733;    
+    font-size: 16px;  
+    margin: 10px 0;    
+  }
+  
   

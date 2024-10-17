@@ -26,6 +26,7 @@ import ReservationList from './Component/View/Admin/Reservation/ReservationList'
 import ReservationCancelledList from './Component/View/Admin/Reservation/ReservationCancelledList';
 import ReservationAcceptedList from './Component/View/Admin/Reservation/ReservationAcceptedList';
 import OrderStatus from './Component/View/Home/MyOrder/OrderStatus';
+import Notification from './Component/View/Admin/Notification/Notification';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="/" element={<HomeLayOut />}>
             <Route index element={<FoodIndex />} />
             <Route path='login' element={<Login />} />
+            <Route path='notification' element={<Notification/>}/>
             <Route path="foodDetailsPopup" element={<Order />} />
             <Route path='foodDetails/:id' element={<FoodDetails />} />
             <Route path='cart/:cartId' element={<CartPage/>} />

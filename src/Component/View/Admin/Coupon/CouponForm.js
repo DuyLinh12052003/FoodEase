@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const CouponForm = ({register, handleSubmit,handleImage, fileInputRef , reset , submitCoupon ,couponId , errors , imageCoupon }) => {
-    return (
+  const [selectedImage, setSelectedImage] = useState(null);
+
+    // Hàm xử lý khi người dùng chọn một ảnh mới
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const imageUrl = URL.createObjectURL(file); 
+            setSelectedImage(imageUrl); 
+        }
+    }; 
+  return (
         <>
          <div className="body">
             <div className="container mt-5">
@@ -26,12 +36,12 @@ const CouponForm = ({register, handleSubmit,handleImage, fileInputRef , reset , 
               <h2 className="tm-block-title">Change Image</h2>
               <div className="tm-avatar-container">
                 <img
-                  src={imageCoupon}
+                  src={selectedImage ? selectedImage : imageCoupon}
                   alt="Avatar"
                   className="tm-avatar img-fluid mb-4"
                 />
               </div>
-              <input type="file" ref={fileInputRef}/>
+              <input type="file" ref={fileInputRef} onChange={handleImageChange}/>
             </div>
           </div>
           <div className="tm-block-col tm-col-account-settings">

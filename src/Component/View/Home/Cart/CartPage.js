@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import CartList from './CartList';
 import PaymentPopup from './PaymentPopup';
 import './Payment.css';
+import './Cart.css';
 import CouponPopup from './CouponPopup';
 import { useParams } from 'react-router-dom';
 import axiosConfig from '../../../Config/AxiosConfig';
@@ -29,12 +30,14 @@ const CartPage = () => {
     const [services,setServices] = useState([]);
     const [serviceId,setServiceId] = useState([]);
     const [districtChoose,setDistrictChoose] = useState([]);
-    const [shipFee,setShipFee] = useState([]);
+    const [shipFee,setShipFee] = useState(0);
     const [wardChoose,setWardChoose] = useState([]);
     const [leadTime,setLeadTime] = useState();
     const [user,setUser] = useState();
     const [deliveryAddress,setDeliveryAdress] = useState("");
     const [provinceChoose,setProvinceChoose] = useState([]);
+    const [points,setPoints] = useState([]);
+    const [isUsePoint,setIsUsePoint] = useState(false);
 
     const baseReturnUrl = window.location.origin;
 
@@ -51,15 +54,13 @@ const CartPage = () => {
         const resCartByCartId = await axiosConfig.get(`/cart/${cartId}`);
         const resToTalQuantity = await axiosConfig.get(`/cart/${cartId}/totalQuantity`);
         const resToTalPrice = await axiosConfig.get(`/cart/${cartId}/totalPrice`);
-
         const cartItem = Object.values(resCartByCartId.data.data.items);
+        const resUserPoint = await axiosConfig.get(`/userPoint/${userName}`);
         setCartItem(cartItem);
         setTotalQuantity(resToTalQuantity.data.data);
         setTotalPrice(resToTalPrice.data.data);
-        const foodVaData = cartItem.map(item => item.foodVariation);
-        // const imagePromise = foodVaData.map(foodVa => {
-        //     return foodVa.image
-        // })
+        console.log(resUserPoint.data.data);
+        setPoints(resUserPoint.data.data);
       } catch (error) {
         console.log('error in fectGetCartByCartId',error);
       }
@@ -306,6 +307,26 @@ const CartPage = () => {
             console.error('error in handleCalculateFee', error);
         }
     };
+    const handleUsePoint = (point) => {
+        const pointValue = Number(point); // Chuyển đổi điểm thành số
+        setIsUsePoint((prevIsUsePoint) => {
+            const isUse = !prevIsUsePoint;
+    
+            // Tính toán giá trị mới của totalPrice dựa trên isUse
+            setTotalPrice((prevTotalPrice) => {
+                if (isUse) {
+                    // Nếu sử dụng điểm, trừ điểm từ totalPrice
+                    return prevTotalPrice - pointValue;
+                } else {
+                    // Nếu không sử dụng điểm, cộng lại điểm vào totalPrice
+                    return prevTotalPrice + pointValue;
+                }
+            });
+    
+            return isUse;
+        });
+    };
+    
     
     return (
         <div>
@@ -320,12 +341,16 @@ const CartPage = () => {
             handleUseCoupon = {handleUseCoupon}
             discountAmount = {discountAmount}
             handleDeliveryAddress = {handleDeliveryAddress}
+            shipFee = {shipFee}
+            points = {points}
+            handleUsePoint = {handleUsePoint}
+            isUsePoint = {isUsePoint}
              />
 
             <PaymentPopup
             isOpenPayment={isOpenPayment}
             handlePaymentPopup={handlePaymentPopup}
-            totalPrice = {finalToTalPrice > 0 ? finalToTalPrice : totalPrice}
+            totalPrice = {finalToTalPrice > 0 ? finalToTalPrice+shipFee : totalPrice+shipFee }
             hanldePayment={hanldePayment}
             user = {user}
             deliveryAddress ={deliveryAddress !== "" ? deliveryAddress : user?.address}

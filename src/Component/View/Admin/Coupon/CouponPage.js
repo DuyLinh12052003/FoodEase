@@ -11,7 +11,6 @@ const CouponPage = () => {
     const [sortBy,setSortBy] = useState("couponId");
     const [coupons,setCoupons] = useState([]);
     const [totalPage,setTotalPage] = useState(0);
-    const [imageCoupons,setImageCoupons] = useState({});
 
     useEffect(()  => {
         fetchCoupons();
@@ -34,17 +33,6 @@ const CouponPage = () => {
           
             const couponData = resCouponse.data.data.content;
             console.log(couponData);
-            const imagePromises = couponData.map(async coupon => {
-               try {
-                   const { data } = await axiosConfig.get(`/files/coupon/${coupon.imageUrl}`, { responseType: 'blob' });
-                   return { [coupon.couponId]: URL.createObjectURL(data) };
-               } catch (error) {
-                   return { [coupon.couponId]: null };
-               }
-           }); 
-           const images = Object.assign({}, ...(await Promise.all(imagePromises)));
-           console.log(images);
-           setImageCoupons(images);
         } catch (error) {
             console.error('error in fetchCoupons',error);
         }
@@ -72,7 +60,6 @@ const CouponPage = () => {
             handlePageSize = {handlePageSize}
             pageCurrent={pageCurrent}
             totalPage={totalPage}
-            imageCoupons = {imageCoupons}
              />
         </div>
     );

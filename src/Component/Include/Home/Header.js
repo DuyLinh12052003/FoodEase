@@ -15,7 +15,6 @@ const Header = () => {
     try {
       const resUser= await axiosConfig.get(`/user/${usernameLogin}`);
     setUser(resUser.data.data);
-    console.log(resUser.data.data);
     } catch (error) {
       console.error('error in fetch Data',error);
     }
@@ -41,6 +40,7 @@ const Header = () => {
           <li><NavLink to={`/admin`}><i className="fa-solid fa-user-gear fa-xl"></i></NavLink></li>
           <li><NavLink to={`/chat`}><i className="fa-solid fa-comments fa-lg"></i></NavLink></li>
           <li><NavLink to={`/login`}><i class="fa-solid fa-right-to-bracket fa-xl"></i></NavLink></li>
+          <li><NavLink to={`/notification`}><i class="fa-solid fa-bell fa-lg"></i></NavLink></li>
           {
             user && (
               <div>{user?.userName}</div>
