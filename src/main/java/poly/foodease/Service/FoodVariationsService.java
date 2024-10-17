@@ -20,4 +20,6 @@ public interface FoodVariationsService {
 	FoodVariationResponse findFoodVariationBySize(Integer id,String Size);
 	List<FoodVariationResponse> findFoodVariationByFoodName (String foodName);
 	List<FoodVariationResponse> findFoodVariationByCategoryId(Integer id);
+	List<FoodVariationResponse> findFoodVariationByUserId(Integer id);
+	Page<FoodVariationResponse> findAll(Pageable pageple);
 }

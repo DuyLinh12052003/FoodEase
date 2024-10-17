@@ -71,4 +71,19 @@ public class FoodVariationsApi {
 		List<FoodVariationResponse> findFoodVariationByCategoryId = foodVariationsService.findFoodVariationByCategoryId(id);
 		return ResponseEntity.ok(findFoodVariationByCategoryId);
 	}
+
+	 // Ngoc
+	 @GetMapping("/findFoodVariationByUserId/{userId}")
+	 public ResponseEntity<List<FoodVariationResponse>> findFoodVariationByUserId(@PathVariable("userId") Integer userId){
+
+		 List<FoodVariationResponse> list=foodVariationsService.findFoodVariationByUserId(userId);
+		 return ResponseEntity.ok(list);
+	 }
+	@GetMapping("/findAll")
+	public ResponseEntity<Page<FoodVariationResponse>> findAll(@RequestParam("page") Optional<Integer>  page)
+	{
+		Pageable pageable = PageRequest.of(page.orElse(0), 5);
+		Page<FoodVariationResponse> list=foodVariationsService.findAll(pageable);
+		return ResponseEntity.ok(list);
+	}
 }

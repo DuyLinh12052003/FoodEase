@@ -24,4 +24,7 @@ public interface FoodVariationsDao extends JpaRepository<FoodVariations, Integer
     List<FoodVariations> findFoodVariationByFoodName(String FoodName);
     @Query("SELECT fv FROM FoodVariations fv where fv.food.categoryId = ?1 and fv.foodSizeId=1")
     List<FoodVariations> findFoodVariationByCategoryId(Integer id);
+
+    @Query("SELECT ord.foodVariations FROM OrderDetails ord where ord.order.user.userId = ?1")
+    List<FoodVariations> findFoodVariationByUserId(Integer id);
 }

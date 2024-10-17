@@ -3,15 +3,20 @@ package poly.foodease.Controller.Api;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import poly.foodease.Model.Response.OrderResponse;
+import poly.foodease.Report.ReportOrder;
+import poly.foodease.Report.ReportRevenueByMonth;
+import poly.foodease.Report.ReportRevenueByYear;
+import poly.foodease.Report.ReportUserBuy;
 import poly.foodease.Service.OrderService;
 
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/order")
@@ -98,5 +103,58 @@ public class OrderApi {
     {
         List<OrderResponse> list=orderService.findAll();
         return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/findTotalPriceAndQuantityByOrderDate")
+    public ResponseEntity<List<ReportOrder>> findTotalPriceAndQuantityByOrderDate()
+    {
+        try {
+            List<ReportOrder> list=orderService.findTotalPriceAndQuantityByOrderDate();
+            return ResponseEntity.ok(list);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+    @GetMapping("/ReportRevenueByMonth")
+    public ResponseEntity<List<ReportRevenueByMonth>> ReportRevenueByMonth()
+    {
+        try {
+            List<ReportRevenueByMonth> list=orderService.getRevenueByMonth();
+            return ResponseEntity.ok(list);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+    @GetMapping("/ReportRevenueByYear")
+    public ResponseEntity<List<ReportRevenueByYear>> ReportRevenueByYear(){
+        try {
+            List<ReportRevenueByYear> list=orderService.ReportRevenueByYear();
+            return ResponseEntity.ok(list);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            return null;
+        }
+
+
+    }
+    @GetMapping("/ReportUserBuy")
+    public ResponseEntity<Page<ReportUserBuy>> ReportUserBuy(@RequestParam("page") Optional<Integer> page){
+        try {
+            Pageable pageable = PageRequest.of(page.orElse(0), 3);
+            Page<ReportUserBuy> list=orderService.findReportUserBuy(pageable);
+            return ResponseEntity.ok(list);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            return null;
+        }
+
     }
 }

@@ -11,6 +11,9 @@ import poly.foodease.Mapper.OrderMapper;
 import poly.foodease.Model.Entity.Order;
 import poly.foodease.Model.Request.OrderRequest;
 import poly.foodease.Model.Response.OrderResponse;
+import poly.foodease.Report.ReportOrder;
+import poly.foodease.Report.ReportRevenueByMonth;
+import poly.foodease.Report.ReportUserBuy;
 import poly.foodease.Repository.OrderRepo;
 import poly.foodease.Repository.OrderStatusRepo;
 import poly.foodease.Service.OrderService;
@@ -148,5 +151,29 @@ public class OrderServiceImpl implements OrderService {
         List<Order> list=orderRepo.findAll();
         return list.stream().map(orderMapper :: convertEnToRes)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ReportOrder> findTotalPriceAndQuantityByOrderDate() {
+        // TODO Auto-generated method stub
+        return orderRepo.findTotalPriceAndQuantityByOrderDate();
+    }
+
+    @Override
+    public List<ReportRevenueByMonth> getRevenueByMonth() {
+        // TODO Auto-generated method stub
+        return orderRepo.getRevenueByMonth();
+    }
+
+    @Override
+    public List<poly.foodease.Report.ReportRevenueByYear> ReportRevenueByYear() {
+        // TODO Auto-generated method stub
+        return orderRepo.ReportRevenueByYear();
+    }
+
+    @Override
+    public Page<ReportUserBuy> findReportUserBuy(Pageable page) {
+        // TODO Auto-generated method stub
+        return orderRepo.findReportUserBuy(page);
     }
 }

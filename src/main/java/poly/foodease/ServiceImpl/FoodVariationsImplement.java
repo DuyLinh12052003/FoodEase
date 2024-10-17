@@ -81,8 +81,23 @@ FoodVariationsDao foodVariationsDao;
 				.map(foodVariationMapper :: converEnToReponse)
 				.collect(Collectors.toList());
 	}
-	
-	
+
+	@Override
+	public List<FoodVariationResponse> findFoodVariationByUserId(Integer id) {
+		// TODO Auto-generated method stub
+		List<FoodVariations> list=foodVariationsDao.findFoodVariationByUserId(id);
+		return list.stream()
+				.map(foodVariationMapper :: converEnToReponse)
+				.collect(Collectors.toList());
+	}
+
+
+	@Override
+	public Page<FoodVariationResponse> findAll(Pageable pageple) {
+		// TODO Auto-generated method stub
+		Page<FoodVariations> list =foodVariationsDao.findAll(pageple);
+		return list.map(foodVariationMapper:: converEnToReponse);
+	}
 
 
 

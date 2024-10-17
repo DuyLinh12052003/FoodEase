@@ -7,6 +7,10 @@ import org.springframework.stereotype.Service;
 import poly.foodease.Model.Entity.Order;
 import poly.foodease.Model.Request.OrderRequest;
 import poly.foodease.Model.Response.OrderResponse;
+import poly.foodease.Report.ReportOrder;
+import poly.foodease.Report.ReportRevenueByMonth;
+import poly.foodease.Report.ReportRevenueByYear;
+import poly.foodease.Report.ReportUserBuy;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,5 +25,12 @@ public interface OrderService {
     Page<OrderResponse> getOrderByStatusId(String userName, Integer orderStatusId ,Integer pageCurrent, Integer pageSize, String sortOrder, String sortBy);
     OrderResponse changeOrderStatus(Integer orderId, Integer orderStatusId);
     List<OrderResponse> changeOrderStatusToDelived();
+
+    // Ngoc
     List<OrderResponse> findAll();
+    List<ReportOrder> findTotalPriceAndQuantityByOrderDate();
+    List<ReportRevenueByMonth> getRevenueByMonth();
+    List<ReportRevenueByYear> ReportRevenueByYear();
+    Page<ReportUserBuy> findReportUserBuy(Pageable page);
+
 }
