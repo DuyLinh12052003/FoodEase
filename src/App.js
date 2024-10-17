@@ -27,6 +27,9 @@ import ReservationCancelledList from './Component/View/Admin/Reservation/Reserva
 import ReservationAcceptedList from './Component/View/Admin/Reservation/ReservationAcceptedList';
 import OrderStatus from './Component/View/Home/MyOrder/OrderStatus';
 import Notification from './Component/View/Admin/Notification/Notification';
+import Revenue from './Component/View/Admin/Revenue/Revenue';
+import UserOrder from './Component/View/Admin/UserBuy/UserOrder';
+import Inventory from './Component/View/Admin/Inventory/Inventory.js';
 
 function App() {
   return (
@@ -68,6 +71,9 @@ function App() {
               path="reservation-accepted-list"
               element={<ReservationAcceptedList />}
             />
+            <Route path="revenue" element={<Revenue />} />
+          <Route path="inventory" element={<Inventory />} />
+          <Route path="UserOrder" element={<UserOrder />} />
           </Route>
         </Routes>
         <Footer />
