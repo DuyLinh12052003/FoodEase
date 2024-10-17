@@ -20,7 +20,7 @@ public class UserApi {
     @Autowired
     UserService userService;
 
-    @GetMapping("{userName}")
+    @GetMapping("/getByUserName/{userName}")
     public ResponseEntity<Object> getUserByUserName(
             @PathVariable("userName") String userName
     ) throws JsonProcessingException {
