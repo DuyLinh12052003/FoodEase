@@ -23,7 +23,7 @@ public class ResTableServiceImpl implements ResTableService {
 
     @Override
     public List<ResTable> getAvailableTables() {
-        return restaurantTableRepository.findByIsAvailableTrue(); // Giả sử bạn có phương thức này trong repository
+        return restaurantTableRepository.findByIsAvailableTrue(); 
     }
 
     @Override

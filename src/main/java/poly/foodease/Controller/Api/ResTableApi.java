@@ -20,7 +20,7 @@ import poly.foodease.Service.ResTableService;
 
 @RestController
 @RequestMapping("/api/tables")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin("*")
 public class ResTableApi {
 
     @Autowired

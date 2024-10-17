@@ -1,4 +1,3 @@
-
 package poly.foodease.Model.Entity;
 
 import java.time.LocalDate;

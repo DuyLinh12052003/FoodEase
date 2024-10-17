@@ -43,4 +43,16 @@ public FoodResponse converEntoResponse(Foods foods) {
 //
 //	// Ánh xạ FoodRequestDTO sang Foods
 //	Foods toEntity(FoodRequest foodRequestDTO);
+
+	public FoodResponse toResponse(Foods food) {
+		FoodResponse response = new FoodResponse();
+		response.setFoodId(food.getFoodId());
+		response.setFoodName(food.getFoodName());
+		response.setDescription(food.getDescription());
+		response.setBasePrice(food.getBasePrice());
+		response.setDiscount(food.getDiscount());
+		response.setFoodVariations(food.getFoodVariations());
+		response.setImageUrl(food.getImageUrl());
+		return response;
+	}
 }

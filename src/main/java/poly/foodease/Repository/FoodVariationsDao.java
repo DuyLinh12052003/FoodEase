@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+
 import poly.foodease.Model.Entity.FoodVariations;
 
 
@@ -27,4 +27,5 @@ public interface FoodVariationsDao extends JpaRepository<FoodVariations, Integer
 
     @Query("SELECT ord.foodVariations FROM OrderDetails ord where ord.order.user.userId = ?1")
     List<FoodVariations> findFoodVariationByUserId(Integer id);
+
 }

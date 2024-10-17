@@ -36,3 +36,4 @@ public class ResTable {
         this.tableId = tableId;
     }
 }
+

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import poly.foodease.Model.Entity.Reservation;
 import poly.foodease.Repository.ReservationRepo;
-import poly.foodease.Service.MailService;
+import poly.foodease.Service.EmailService;
 import poly.foodease.Service.ReservationService;
 
 @Service
@@ -23,7 +23,7 @@ public class ReservationServiceImpl implements ReservationService {
     private JavaMailSender mailSender;
 
     @Autowired
-    private MailService mailService;
+    private EmailService emailService;
 
     @Override
     public Reservation createReservation(Reservation reservation) {
@@ -85,7 +85,7 @@ public class ReservationServiceImpl implements ReservationService {
                 + "Date: " + existingReservation.getReservationDate() + "\n"
                 + "Time: " + existingReservation.getReservationTime() + "\n"
                 + "Guests: " + existingReservation.getGuests() + "\n\nThank you!";
-      //  mailService.sendEmail(existingReservation.getEmail(), subject, body);
+        emailService.sendEmail(existingReservation.getEmail(), subject, body);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class ReservationServiceImpl implements ReservationService {
         String subject = "Reservation Cancelled";
         String body = "Dear " + existingReservation.getName() + ",\n\nYour reservation has been cancelled.\n"
                 + "If you have any questions, feel free to contact us.\n\nThank you!";
-      //  emailService.sendEmail(existingReservation.getEmail(), subject, body);
+        emailService.sendEmail(existingReservation.getEmail(), subject, body);
     }
 
     @Override

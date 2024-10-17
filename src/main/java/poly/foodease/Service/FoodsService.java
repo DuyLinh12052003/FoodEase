@@ -1,9 +1,8 @@
 package poly.foodease.Service;
 
-import poly.foodease.Model.Entity.Foods;
-import poly.foodease.Model.Response.FoodResponse;
-
 import java.util.List;
+
+import poly.foodease.Model.Response.FoodResponse;
 
 
 

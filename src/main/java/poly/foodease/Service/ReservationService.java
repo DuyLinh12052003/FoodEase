@@ -2,10 +2,8 @@ package poly.foodease.Service;
 
 import java.util.List;
 
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.stereotype.Service;
 import poly.foodease.Model.Entity.Reservation;
-@Service
+
 public interface ReservationService {
     Reservation createReservation(Reservation reservation);
 
