@@ -13,6 +13,6 @@ public interface ResTableRepo extends JpaRepository<ResTable, Integer> {
 
     List<ResTable> findByCapacityBetween(int minCapacity, int maxCapacity);
 
-    
+    Boolean existsByTableName(String name);
 
 }

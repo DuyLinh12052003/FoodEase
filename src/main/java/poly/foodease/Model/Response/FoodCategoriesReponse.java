@@ -1,17 +1,17 @@
 package poly.foodease.Model.Response;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Builder
-public class ResTableResponse {
-    private Integer tableId;
-    private String tableName;
-    private Integer capacity;
-    private Boolean isAvailable; // true nếu bàn còn trống
+public class FoodCategoriesReponse {
+    private Integer foodCategoriesID;
+    private String foodCategoriesName;
+
 }

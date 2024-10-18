@@ -27,5 +27,20 @@ public class FoodImplement implements FoodsService {
 				.map(foodMapper :: converEntoResponse)
 				.collect(Collectors.toList());
 	}
+	@Override
+	public List<Foods> findByCategoryMainDishes() {
+		return null;
+	}
+
+	@Override
+	public List<Foods> findByCategoryDrink() {
+		return null;
+	}
+
+	@Override
+	public void deleteFood(int foodId) {
+		Foods food = foodsDao.findById(foodId).get();
+		foodsDao.deleteById(food.getFoodId());
+	}
 
 }

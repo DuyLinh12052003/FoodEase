@@ -3,14 +3,9 @@ package poly.foodease.Controller.Api;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import poly.foodease.Mapper.ResTableMapper;
 import poly.foodease.Model.Entity.ResTable;
@@ -29,12 +24,22 @@ public class ResTableApi {
     @Autowired
     private ResTableMapper restaurantTableMapper;
 
+    @GetMapping
+    public List<ResTable> getAllTable(){
+        return restaurantTableService.findAll();
+    }
+
     @PostMapping
-    public ResponseEntity<ResTableResponse> createTable(@RequestBody ResTableRequest tableRequest) {
-        ResTable table = restaurantTableMapper.toEntity(tableRequest);
-        ResTable savedTable = restaurantTableService.createTable(table);
-        ResTableResponse response = restaurantTableMapper.toResponse(savedTable);
-        return ResponseEntity.ok(response);
+    public ResTableResponse createTable(@RequestBody ResTableRequest tableRequest) {
+        return restaurantTableService.createTable(tableRequest);
+    }
+
+    @PutMapping("/{tableId}") // Đường dẫn cho phương thức update
+    @ResponseStatus(HttpStatus.OK) // Mã trạng thái trả về
+    public ResTableResponse updateTable(
+            @PathVariable int tableId, // Lấy ID từ đường dẫn
+            @RequestBody ResTableRequest resTableRequest) { // Lấy dữ liệu từ thân yêu cầu
+        return restaurantTableService.updateTable(tableId, resTableRequest);
     }
 
     @GetMapping("/available/{guests}")

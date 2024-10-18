@@ -18,7 +18,11 @@ public class FoodCategoryIplement implements FoodCategoryService {
 		// TODO Auto-generated method stub
 		return foodCategoryDao.findAll();
 	}
-
+	@Override
+	public void deleteCategories(Integer id) {
+		FoodCategories foodCategories = foodCategoryDao.findById(id).get();
+		foodCategoryDao.deleteById(foodCategories.getCategoryId());
+	}
 
 
 }
