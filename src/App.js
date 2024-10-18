@@ -5,7 +5,6 @@ import OrderPage from './Component/View/Admin/Order/OrderPage';
 import HomeLayOut from './Component/View/Home/HomeLayOut';
 import UserPage from './Component/View/Admin/User/UserPage';
 import Header from './Component/Include/Home/Header';
-import UserFormPage from './Component/View/Admin/User/UserFormPage';
 import FoodPage from './Component/View/Admin/Product/FoodPage';
 import FoodIndex from './Component/View/Home/Index/FoodIndex';
 import Order from './Component/View/Home/Details/Order';
@@ -30,6 +29,8 @@ import Notification from './Component/View/Admin/Notification/Notification';
 import Revenue from './Component/View/Admin/Revenue/Revenue';
 import Inventory from './Component/View/Admin/Inventory/Inventory.js';
 import UserOrder from './Component/View/Admin/UserBuy/UserOrder.js'
+import UserFormPage from './Component/View/Admin/User/UserFormPage.js';
+import WishList from './Component/View/Home/WishList/WishList.js';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
             <Route path='/thanks/:paymentmethod' element={<Thanks />} />
             <Route path='chat' element={<BoxChatPage/>} />
             <Route path='couponStorage' element={<CouponStoragePage />} />
+            <Route path="WishList" element={<WishList />} />
             <Route path='claimCoupon' element={<ClaimCouponPage />} />
             <Route path='orderHistory/order/:userName' element={<OrderHistoryPage />} />
             <Route path="table-reservation" element={<TableReservation />} />
@@ -57,7 +59,7 @@ function App() {
             <Route index element={<OrderPage />} />
             <Route path="users" element ={<UserPage />} />
             <Route path="user/create" element={<UserFormPage />} />
-            <Route path="user/update/:userId" element={<UserFormPage />} />
+            <Route path="user/edit/:userId" element={<UserFormPage />} />
             <Route path="foods" element={<FoodPage />} />
             <Route path="coupons" element={<CouponPage />} />
             <Route path="coupon/create" element={<CouponFormPage />} />

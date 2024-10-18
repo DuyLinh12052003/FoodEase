@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "./ReservationList.css";
 import axiosConfig from "../../../Config/AxiosConfig";
+import "./ReservationList.css";
 
 const ReservationAcceptedList = () => {
   const [reservations, setReservations] = useState([]);

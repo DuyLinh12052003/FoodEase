@@ -3,8 +3,11 @@ import './Login.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import CustomAlert from '../../../Config/CustomAlert';
+import { useTranslation } from "react-i18next";
+import { customTranslate } from "../../../../i18n";
 
 const Login = () => {
+    const { t } = useTranslation();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [remember, setRemember] = useState(false);
@@ -49,16 +52,20 @@ const Login = () => {
                         <form className="form-horizontal templatemo-login-form-2" onSubmit={handleSubmit}>
                             <div className="row">
                                 <div className="col-md-12">
-                                    <h1>Login Form</h1>
+                                <h1>{customTranslate("Login Form")}</h1>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="templatemo-one-signin col-md-6">
                                     <div className="form-group">
                                         <div className="col-md-12">
-                                            <label className="control-label">
-                                                <span><i className="fa-solid fa-user"></i></span> Username
-                                            </label>
+                                        <label className="control-label">
+                                            {" "}
+                                            <span>
+                                            <i className="fa-solid fa-user"></i>
+                                            </span>{" "}
+                                            {customTranslate("Username")}
+                                        </label>
                                             <div className="templatemo-input-icon-container">
                                                 <input type="text" className="form-control" value={username} onChange={(e) => setUsername(e.target.value)} />
                                             </div>
@@ -66,9 +73,13 @@ const Login = () => {
                                     </div>
                                     <div className="form-group">
                                         <div className="col-md-12">
-                                            <label className="control-label">
-                                                <span><i className="fa-solid fa-lock"></i></span> Password
-                                            </label>
+                                        <label className="control-label"> 
+                                            {" "}
+                                            <span>
+                                            <i className="fa-solid fa-lock"></i>
+                                            </span>{" "}
+                                            {customTranslate("Password")}
+                                        </label>
                                             <div className="templatemo-input-icon-container">
                                                 <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} />
                                             </div>
@@ -83,9 +94,7 @@ const Login = () => {
                                                 checked={remember}
                                                 onChange={(e) => setRemember(e.target.checked)}
                                             />
-                                            <label>
-                                                Remember me
-                                            </label>
+                                             <label>{customTranslate("Remember me")}</label>
                                         </div>
                                     </div>
                                     <div className="form-group">
@@ -99,6 +108,33 @@ const Login = () => {
                                         </div>
                                     </div>
                                 </div>
+                                <div className="templatemo-other-signin col-md-6">
+                                    <label className="margin-bottom-15">
+                                        One-click sign in using other services. Credit goes to{" "}
+                                        <a
+                                        rel="nofollow"
+                                        href="http://lipis.github.io/bootstrap-social/"
+                                        >
+                                        Bootstrap Social
+                                        </a>{" "}
+                                        for social sign in buttons.
+                                    </label>
+                                    <a
+                                        className="btn btn-block btn-social btn-facebook margin-bottom-15"
+                                        to="@{/oauth2/authorization/facebook}"
+                                    />
+                                    <i className="fa-brands fa-facebook"></i>{" "}
+                                    {customTranslate("Sign in with Facebook")}
+                                    <a className="btn btn-block btn-social btn-twitter margin-bottom-15" />
+                                    <i className="fa-brands fa-twitter"></i>{" "}
+                                    {customTranslate("Sign in with Twitter")}
+                                    <a
+                                        className="btn btn-block btn-social btn-google-plus"
+                                        to="@{/oauth2/authorization/google}"
+                                    />
+                                    <i className="fa-brands fa-google"></i>{" "}
+                                    {customTranslate("Sign in with Google")}
+                                    </div>
                             </div>
                         </form>
                     </div>

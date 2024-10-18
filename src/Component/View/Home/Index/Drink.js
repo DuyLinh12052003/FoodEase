@@ -65,9 +65,9 @@ const FoodMenu = () => {
               <button  onClick={() => openModal(item)} className="col-sm-4 me-3" disabled={!item.quantityStock}>
                 {item.quantityStock ? "Order" : "Out of stock"}
               </button>
-              <button className="col-sm-4 ">
+              {/* <button className="col-sm-4 ">
               Add to cart
-              </button>
+              </button> */}
               </div>
               
             </div>
